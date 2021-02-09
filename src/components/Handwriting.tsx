@@ -7,7 +7,7 @@ const Handwriting = ({ children, ...rest }: TypographyProps) => {
         {children}
       </span>
     </Typography>
-  )
+  );
 };
 
 export default Handwriting;

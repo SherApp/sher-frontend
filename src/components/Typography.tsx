@@ -1,11 +1,30 @@
 import React from 'react';
 import clsx from 'clsx';
 
-type TypographyVariants = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body' | 'caption';
+type TypographyVariants =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'body'
+  | 'caption';
 
-export interface TypographyProps extends React.ComponentPropsWithoutRef<'span'> {
-  variant? : TypographyVariants;
-  component? : 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'p' | 'span' | string;
+export interface TypographyProps
+  extends React.ComponentPropsWithoutRef<'span'> {
+  variant?: TypographyVariants;
+  component?:
+    | 'h1'
+    | 'h2'
+    | 'h3'
+    | 'h4'
+    | 'h5'
+    | 'h6'
+    | 'div'
+    | 'p'
+    | 'span'
+    | string;
 }
 
 type VariantClassesMap = { [key in TypographyVariants]: string };
@@ -21,9 +40,19 @@ export const typographyVariantsClasses: VariantClassesMap = {
   caption: 'uppercase tracking-widest'
 };
 
-const Typography = ({ variant = 'body', component = 'span', className, children, ...rest }: TypographyProps) => {
+const Typography = ({
+  variant = 'body',
+  component = 'span',
+  className,
+  children,
+  ...rest
+}: TypographyProps) => {
   const classes = clsx(typographyVariantsClasses[variant], className);
-  return React.createElement(component, { children, className: classes, ...rest });
+  return React.createElement(component, {
+    children,
+    className: classes,
+    ...rest
+  });
 };
 
 export default Typography;

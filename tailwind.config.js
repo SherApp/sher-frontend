@@ -8,25 +8,22 @@ module.exports = {
         pink: '#EC38BC'
       },
       boxShadow: {
-        'button': '0 5px 20px 0 #EC38BC94'
+        button: '0 5px 20px 0 #EC38BC94'
       },
       zIndex: {
-        '-10': '-10',
+        '-10': '-10'
       }
     },
     fontFamily: {
-      'handwriting': 'Sacramento',
-      'sans': 'Oswald'
+      handwriting: 'Sacramento',
+      sans: 'Oswald'
     },
-    linearGradientColors: theme => ({
+    linearGradientColors: (theme) => ({
       'purple-pink': [theme('colors.purple'), theme('colors.pink')]
     })
   },
   variants: {
-    extend: {},
+    extend: {}
   },
-  plugins: [
-    require('tailwindcss-gradients'),
-    require('tailwindcss-typography')
-  ],
-}
+  plugins: [require('tailwindcss-gradients'), require('tailwindcss-typography')]
+};
