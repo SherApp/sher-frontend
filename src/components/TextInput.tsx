@@ -2,11 +2,10 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import Typography from './Typography';
 
-interface TextInputProps extends React.HTMLProps<HTMLDivElement> {
+interface TextInputProps extends React.HTMLProps<HTMLInputElement> {
   fullWidth?: boolean;
   endAdornment?: JSX.Element;
   label?: string;
-  InputProps?: React.HTMLProps<HTMLInputElement>;
 }
 
 const TextInput = ({
@@ -14,7 +13,6 @@ const TextInput = ({
   className,
   endAdornment,
   label,
-  InputProps,
   ...rest
 }: TextInputProps) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -60,7 +58,7 @@ const TextInput = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
           className={inputClasses}
-          {...InputProps}
+          {...rest}
         />
       </label>
       {endAdornment}
