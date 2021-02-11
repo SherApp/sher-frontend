@@ -1,11 +1,14 @@
-import TextInput from '../../components/TextInput';
-import InputAdornment from '../../components/InputAdornment';
-import user from '../../img/user.svg';
-import password from '../../img/password.svg';
-import Button from '../../components/Button';
 import Handwriting from '../../components/Handwriting';
+import SignInForm from './SignInForm';
+import { useOktaAuth } from '@okta/okta-react';
+import { Redirect } from 'react-router-dom';
 
 const SignInRoute = () => {
+  const { authState } = useOktaAuth();
+  console.log(authState);
+  if (authState.isAuthenticated) {
+    return <Redirect to="/" />;
+  }
   return (
     <div className="flex flex-grow flex-col justify-center items-center">
       <Handwriting variant="h2" component="h1" className="py-4 mb-6">
@@ -17,29 +20,7 @@ const SignInRoute = () => {
           <Handwriting variant="h3" component="h2" className="py-4 mb-6">
             Sign in
           </Handwriting>
-          <form className="flex px-3 space-y-12 flex-col">
-            <TextInput
-              endAdornment={
-                <InputAdornment>
-                  <img src={user} alt="" />
-                </InputAdornment>
-              }
-              fullWidth
-              label="Email"
-              InputProps={{ type: 'email', placeholder: 'example@example.com' }}
-            />
-            <TextInput
-              endAdornment={
-                <InputAdornment>
-                  <img src={password} alt="" />
-                </InputAdornment>
-              }
-              fullWidth
-              label="Password"
-              InputProps={{ type: 'password' }}
-            />
-            <Button>Sign in</Button>
-          </form>
+          <SignInForm />
         </div>
       </div>
     </div>
