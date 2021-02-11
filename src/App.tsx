@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import UploadRoute from './features/upload/UploadRoute';
 import SignInRoute from './features/signIn/SignInRoute';
 import { LoginCallback, Security } from '@okta/okta-react';
 import { OktaAuth } from '@okta/okta-auth-js';
@@ -15,17 +16,17 @@ function App() {
 
   return (
     <div className="flex min-h-screen min-w-full">
-      <BrowserRouter>
-        <Security oktaAuth={oktaAuth}>
-          <Switch>
-            <Route exact path="/">
-              xyz
-            </Route>
-            <Route exact path="/signIn/callback" component={LoginCallback} />
-            <Route path="/signIn" component={SignInRoute} />
-          </Switch>
-        </Security>
-      </BrowserRouter>
+      <div className="flex flex-grow flex-col justify-center items-center">
+        <BrowserRouter>
+          <Security oktaAuth={oktaAuth}>
+            <Switch>
+              <Route exact path="/" component={UploadRoute} />
+              <Route exact path="/signIn/callback" component={LoginCallback} />
+              <Route path="/signIn" component={SignInRoute} />
+            </Switch>
+          </Security>
+        </BrowserRouter>
+      </div>
     </div>
   );
 }
