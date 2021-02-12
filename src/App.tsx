@@ -5,11 +5,12 @@ import UploadRoute from './features/upload/UploadRoute';
 import SignInRoute from './features/signIn/SignInRoute';
 import { LoginCallback, Security } from '@okta/okta-react';
 import { OktaAuth } from '@okta/okta-auth-js';
+import config from './utils/config';
 
 function App() {
   const oktaAuth = new OktaAuth({
-    issuer: `https://${process.env.REACT_APP_OKTA_DOMAIN}/oauth2/default`,
-    clientId: process.env.REACT_APP_OKTA_CLIENT_ID,
+    issuer: `https://${config.okta.domain}/oauth2/default`,
+    clientId: config.okta.clientId,
     redirectUri: window.location.origin + '/signIn/callback',
     pkce: true
   });
