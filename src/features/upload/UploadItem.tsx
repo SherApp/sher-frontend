@@ -1,5 +1,5 @@
 import tickIcon from '../../img/tick.svg';
-import Typography from '../../components/Typography';
+import Typography, { TypographyProps } from '../../components/Typography';
 import fileSize from 'filesize';
 import ProgressBar from '../../components/ProgressBar';
 
@@ -25,6 +25,14 @@ const srTexts = {
   failure: 'uploading failed'
 };
 
+const Text = (props: TypographyProps) => (
+  <Typography
+    component="p"
+    className="overflow-hidden overflow-ellipsis whitespace-nowrap"
+    {...props}
+  />
+);
+
 const UploadItem = ({
   status,
   name,
@@ -33,15 +41,15 @@ const UploadItem = ({
   link
 }: UploadItemProps) => {
   return (
-    <div className="grid grid-cols-1 grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 grid-cols-4 gap-4 border-b-2 pb-2">
       <div className="flex">
         <Typography variant="srOnly">{srTexts[status]}</Typography>
         <img className="mr-7" alt="" src={icons[status]} />
-        <Typography>{name}</Typography>
+        <Text>{name}</Text>
       </div>
-      <Typography>{fileSize(size)}</Typography>
+      <Text>{fileSize(size)}</Text>
       <ProgressBar progress={progress} fullWidth />
-      <Typography>{link}</Typography>
+      <Text>{link}</Text>
     </div>
   );
 };
