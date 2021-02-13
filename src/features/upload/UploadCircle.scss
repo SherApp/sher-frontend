@@ -4,6 +4,7 @@ $min-size: 20;
 .uploadCircle {
   height: $min-size + vw;
   width: $min-size + vw;
+  position: relative;
 
   @for $i from 1 through length($breakpoints) {
     $item: nth($breakpoints, $i);
@@ -12,5 +13,30 @@ $min-size: 20;
       height: $size;
       width: $size;
     }
+  }
+
+  &.pulse::after {
+    @apply rounded-full;
+    @apply bg-gray-200;
+
+    animation: pulse 2s infinite ease-out;
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+  }
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.4);
+    opacity: 0;
   }
 }

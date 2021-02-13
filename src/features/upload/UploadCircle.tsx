@@ -1,12 +1,16 @@
 import './UploadCircle.scss';
 import arrow from '../../img/arrow.svg';
 import Typography from '../../components/Typography';
+import { useState } from 'react';
+import clsx from 'clsx';
 
 interface UploadCircleProps {
   onFilesSelected?: (files: FileList) => void;
 }
 
 const UploadCircle = ({ onFilesSelected }: UploadCircleProps) => {
+  const [dragIn, setDragIn] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       onFilesSelected?.(e.target.files);
@@ -14,28 +18,53 @@ const UploadCircle = ({ onFilesSelected }: UploadCircleProps) => {
     }
   };
 
+  const handleDragEnter = () => {
+    setDragIn(true);
+  };
+
+  const handleDragExit = () => {
+    setDragIn(false);
+  };
+
   const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragIn(false);
     if (e.dataTransfer.files.length >= 0) {
       onFilesSelected?.(e.dataTransfer.files);
     }
   };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const text = dragIn ? 'Drop to begin uploading' : 'Drag your files here';
+  const circleClasses = clsx(
+    'uploadCircle rounded-full bg-gray-200 flex justify-center items-center',
+    [dragIn && 'pulse']
+  );
 
   return (
     <form>
       <label
         role="button"
         htmlFor="fileInput"
-        className="uploadCircle rounded-full bg-gray-200 w-10 flex justify-center flex-col items-center space-y-12 cursor-pointer"
+        className={circleClasses}
         onDrop={handleDrop}
+        onDragEnter={handleDragEnter}
+        onDragLeave={handleDragExit}
+        onDragOver={handleDragOver}
       >
-        <img className="max-h-full" src={arrow} alt="" />
-        <Typography className="text-center" variant="h5" component="p">
-          Drag your files here
-          <br />
-          <Typography className="text-gray-400">
-            or click to select a file
+        <div className="pointer-events-none">
+          <img src={arrow} alt="" className="mx-auto" />
+          <Typography className="text-center" variant="h5" component="p">
+            {text}
+            <br />
+            <Typography className="text-gray-400">
+              or click to select a file
+            </Typography>
           </Typography>
-        </Typography>
+        </div>
       </label>
       <input
         onChange={handleChange}
