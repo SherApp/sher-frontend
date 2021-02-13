@@ -17,7 +17,9 @@ const ProgressBar = ({ progress, fullWidth, className }: ProgressBarProps) => {
         className="bg-gradient-r-purple-pink h-full text-center transition-all"
         style={{ width: `${progress}%` }}
       >
-        <Typography className="text-white py-1 block">{progress}%</Typography>
+        <Typography className="text-white py-1 block">
+          {progress.toFixed()}%
+        </Typography>
       </div>
     </div>
   );
