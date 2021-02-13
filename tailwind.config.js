@@ -12,6 +12,21 @@ module.exports = {
       },
       zIndex: {
         '-10': '-10'
+      },
+      animation: {
+        slideInTop: 'slideInTop 0.5s forwards ease-in-out'
+      },
+      keyframes: {
+        slideInTop: {
+          '0%': {
+            transform: 'translateY(50px)',
+            opacity: 0
+          },
+          '100%': {
+            transform: 'translateY(0)',
+            opacity: 1
+          }
+        }
       }
     },
     fontFamily: {
