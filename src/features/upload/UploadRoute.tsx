@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { uploadFile } from './apiCalls';
 import { useOktaAuth } from '@okta/okta-react';
+import UploadItem from './UploadItem';
 
 interface Upload {
   id: string;
@@ -38,14 +39,20 @@ const UploadRoute = () => {
     }
   };
   return (
-    <div>
+    <>
       <UploadCircle onFilesSelected={handleFilesSelected} />
-      {uploads.map((u) => (
-        <p>
-          {u.id} - {u.name} - {u.progress ?? 0}
-        </p>
-      ))}
-    </div>
+      <div>
+        {uploads.map((u) => (
+          <UploadItem
+            status={u.progress !== 100 ? 'pending' : 'success'}
+            name={u.name}
+            size={u.size}
+            link={u.id}
+            progress={u.progress}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

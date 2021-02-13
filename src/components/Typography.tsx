@@ -9,7 +9,8 @@ type TypographyVariants =
   | 'h5'
   | 'h6'
   | 'body'
-  | 'caption';
+  | 'caption'
+  | 'srOnly';
 
 export interface TypographyProps
   extends React.ComponentPropsWithoutRef<'span'> {
@@ -37,7 +38,8 @@ export const typographyVariantsClasses: VariantClassesMap = {
   h5: 'text-xl font-medium',
   h6: 'text-xl',
   body: 'text-base',
-  caption: 'uppercase tracking-widest'
+  caption: 'uppercase tracking-widest',
+  srOnly: 'sr-only'
 };
 
 const Typography = ({

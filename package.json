@@ -17,6 +17,7 @@
     "autoprefixer": "^9",
     "axios": "^0.21.1",
     "clsx": "^1.1.1",
+    "filesize": "^6.1.0",
     "node-sass": "^5.0.0",
     "postcss": "^7",
     "prettier": "^2.2.1",
