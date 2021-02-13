@@ -41,7 +41,7 @@ const UploadItem = ({
   link
 }: UploadItemProps) => {
   return (
-    <div className="grid grid-cols-1 grid-cols-4 gap-4 border-b-2 pb-2">
+    <div className="grid grid-cols-1 grid-cols-4 gap-4 border-b-2 pb-2 text-center">
       <div className="flex">
         <Typography variant="srOnly">{srTexts[status]}</Typography>
         <img className="mr-7" alt="" src={icons[status]} />
