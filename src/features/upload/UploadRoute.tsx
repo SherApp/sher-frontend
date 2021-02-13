@@ -41,7 +41,7 @@ const UploadRoute = () => {
   return (
     <>
       <UploadCircle onFilesSelected={handleFilesSelected} />
-      <div className="flex flex-col my-8">
+      <div className="flex flex-col my-8 sm:w-full md:w-4/5 xl:w-3/5">
         {uploads.map((u) => (
           <UploadItem
             status={u.progress !== 100 ? 'pending' : 'success'}
