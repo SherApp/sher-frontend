@@ -29,7 +29,7 @@ const UploadCircle = ({ onFilesSelected }: UploadCircleProps) => {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setDragIn(false);
-    if (e.dataTransfer.files.length >= 0) {
+    if (e.dataTransfer.items.length > 0) {
       onFilesSelected?.(e.dataTransfer.files);
     }
   };
@@ -73,7 +73,7 @@ const UploadCircle = ({ onFilesSelected }: UploadCircleProps) => {
         id="fileInput"
         type="file"
         multiple
-        className="hidden"
+        className="hidden pointer-events-none"
       />
     </form>
   );
