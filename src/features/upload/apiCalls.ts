@@ -7,7 +7,7 @@ export const uploadFile = async (
   file: File,
   fileId: string,
   accessToken: string,
-  onProgress: ProgressCallback
+  onProgress?: ProgressCallback
 ) => {
   const formData = new FormData();
   formData.set('id', fileId);
@@ -20,8 +20,10 @@ export const uploadFile = async (
         Authorization: `Bearer ${accessToken}`
       },
       onUploadProgress: (progressEvent) => {
-        const progress = (progressEvent.loaded / progressEvent.total) * 100;
-        onProgress(progress);
+        if (onProgress) {
+          const progress = (progressEvent.loaded / progressEvent.total) * 100;
+          onProgress(progress);
+        }
       }
     }
   );
