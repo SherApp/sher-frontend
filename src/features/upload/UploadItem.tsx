@@ -1,4 +1,6 @@
 import tickIcon from '../../img/tick.svg';
+import uploadingIcon from '../../img/uploading.svg';
+import errorIcon from '../../img/error.svg';
 import Typography, { TypographyProps } from '../../components/Typography';
 import fileSize from 'filesize';
 import ProgressBar from '../../components/ProgressBar';
@@ -16,9 +18,9 @@ interface UploadItemProps {
 }
 
 const icons = {
-  pending: tickIcon,
+  pending: uploadingIcon,
   success: tickIcon,
-  failure: tickIcon
+  failure: errorIcon
 };
 
 const srTexts = {
