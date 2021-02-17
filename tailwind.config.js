@@ -38,12 +38,7 @@ module.exports = {
     })
   },
   variants: {
-    extend: {},
-    scrollbar: ['rounded']
+    extend: {}
   },
-  plugins: [
-    require('tailwindcss-gradients'),
-    require('tailwindcss-typography'),
-    require('tailwind-scrollbar')
-  ]
+  plugins: [require('tailwindcss-gradients'), require('tailwindcss-typography')]
 };
