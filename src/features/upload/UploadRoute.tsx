@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { uploadFile } from './apiCalls';
 import { useOktaAuth } from '@okta/okta-react';
 import UploadItem from './UploadItem';
+import config from '../../utils/config';
 
 interface Upload {
   id: string;
@@ -67,6 +68,9 @@ const UploadRoute = () => {
     return 'success';
   };
 
+  const getUploadLink = (upload: Upload) =>
+    encodeURI(`${config.uploads.url}${upload.id}/${upload.name}`);
+
   return (
     <>
       <UploadCircle onFilesSelected={handleFilesSelected} />
@@ -76,7 +80,7 @@ const UploadRoute = () => {
             status={getUploadStatus(u)}
             name={u.name}
             size={u.size}
-            link={u.id}
+            link={getUploadLink(u)}
             progress={u.progress}
           />
         ))}

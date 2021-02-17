@@ -8,6 +8,9 @@ const config = {
     endpoints: {
       fileUpload: 'file'
     }
+  },
+  uploads: {
+    url: process.env.REACT_APP_UPLOADS_URL ?? 'http://localhost:5000/u/'
   }
 };
 
