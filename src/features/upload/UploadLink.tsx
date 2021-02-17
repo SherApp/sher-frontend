@@ -8,11 +8,8 @@ interface UploadLinkProps {
 const UploadLink = ({ link }: UploadLinkProps) => {
   return (
     <div className="flex rounded-lg overflow-hidden">
-      <div className="flex-grow w-0 bg-gray-200 whitespace-nowrap flex items-center">
-        <Typography
-          className="px-2 py-1 overflow-hidden overflow-ellipsis"
-          component="p"
-        >
+      <div className="flex-grow w-0 bg-gray-200 whitespace-nowrap flex items-center scrollbar-thumb-rounded scrollbar-thin scrollbar-thumb-purple scrollbar-track-gray-300">
+        <Typography className="px-2 py-1" component="p">
           {link}
         </Typography>
       </div>
