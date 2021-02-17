@@ -40,3 +40,16 @@ $min-size: 20;
     opacity: 0;
   }
 }
+
+.fileInput {
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  width: 0.1px;
+  z-index: -1;
+}
+
+.fileInput:focus + .uploadCircle {
+  @apply border-2 border-dashed border-purple;
+}

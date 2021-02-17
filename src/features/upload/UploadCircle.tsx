@@ -48,6 +48,13 @@ const UploadCircle = ({ onFilesSelected }: UploadCircleProps) => {
 
   return (
     <form>
+      <input
+        onChange={handleChange}
+        id="fileInput"
+        type="file"
+        multiple
+        className="fileInput"
+      />
       <label
         role="button"
         htmlFor="fileInput"
@@ -68,13 +75,6 @@ const UploadCircle = ({ onFilesSelected }: UploadCircleProps) => {
           </Typography>
         </div>
       </label>
-      <input
-        onChange={handleChange}
-        id="fileInput"
-        type="file"
-        multiple
-        className="hidden pointer-events-none"
-      />
     </form>
   );
 };
