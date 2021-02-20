@@ -1,10 +1,11 @@
 import { LoginCallback, SecureRoute, Security } from '@okta/okta-react';
 import UploadRoute from '../features/upload/UploadRoute';
 import { Route, Switch, useHistory } from 'react-router-dom';
-import SignInRoute from '../features/signIn/SignInRoute';
+import SignInRoute from '../features/auth/SignInRoute';
 import React from 'react';
 import { OktaAuth } from '@okta/okta-auth-js';
 import config from '../utils/config';
+import AccountMenu from '../features/auth/AccountMenu';
 
 const SecureApp = () => {
   const history = useHistory();
@@ -22,6 +23,7 @@ const SecureApp = () => {
 
   return (
     <Security oktaAuth={oktaAuth} onAuthRequired={handleAuthRequired}>
+      <AccountMenu className="absolute right-12 top-10" />
       <Switch>
         <SecureRoute exact path="/" component={UploadRoute} />
         <Route exact path="/signIn/callback" component={LoginCallback} />
