@@ -1,0 +1,7 @@
+version: '3'
+services:
+  webapp:
+    container_name: sher-frontend
+    build: .
+    ports:
+      - "9092:80"
