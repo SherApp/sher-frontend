@@ -3,5 +3,10 @@ services:
   webapp:
     container_name: sher-frontend
     build: .
+    environment:
+      - REACT_APP_OKTA_CLIENT_ID
+      - REACT_APP_OKTA_DOMAIN
+      - REACT_APP_API_URL
+      - REACT_APP_UPLOADS_URL
     ports:
       - "9092:80"
