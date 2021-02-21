@@ -1,0 +1,27 @@
+name: CD
+
+on:
+  workflow_dispatch:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup SSH
+        uses: kielabokkie/ssh-key-and-known-hosts-action@v1.1.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-host: ${{ secrets.DEPLOY_TARGETS }}
+    
+      - name: Deploy
+        env:
+          DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
+          REACT_APP_OKTA_CLIENT_ID: ${{ secrets.OKTA_CLIENT_ID }}
+          REACT_APP_OKTA_DOMAIN: ${{ secrets.OKTA_DOMAIN }}
+          REACT_APP_API_URL: ${{ secrets.API_URL }}
+          REACT_APP_UPLOADS_URL: ${{ secrets.UPLOADS_URL }}
+        run: docker-compose -f docker-compose.yml up -d --build
