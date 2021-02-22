@@ -1,17 +1,19 @@
 $breakpoints: 'screens.2xl', 'screens.xl', 'screens.lg', 'screens.sm';
-$min-size: 20;
+$min-size: 25vw;
 
 .uploadCircle {
-  height: $min-size + vw;
-  width: $min-size + vw;
+  --size: #{$min-size};
+
+  height: var(--size);
+  margin-top: calc(100vh / 2 - var(--size) / 2);
   position: relative;
+  width: var(--size);
 
   @for $i from 1 through length($breakpoints) {
     $item: nth($breakpoints, $i);
-    $size: $min-size + ($i - 1) * 10 + vw;
+    $size: $min-size + ($i - 1) * 10;
     @media (max-width: theme($item)) {
-      height: $size;
-      width: $size;
+      --size: #{$size};
     }
   }
 

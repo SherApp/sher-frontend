@@ -9,7 +9,7 @@ const SignInRoute = () => {
     return <Redirect to="/" />;
   }
   return (
-    <>
+    <div className="w-full justify-center items-center flex flex-col flex-grow">
       <Handwriting variant="h2" component="h1" className="py-4 mb-6">
         sher.lol
       </Handwriting>
@@ -22,7 +22,7 @@ const SignInRoute = () => {
           <SignInForm />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
