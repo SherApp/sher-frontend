@@ -2,7 +2,7 @@ name: CD
 
 on:
   workflow_dispatch:
-    branches: [ main ]
+    branches: [ release ]
 
 jobs:
   deploy:
@@ -10,13 +10,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Setup SSH
         uses: kielabokkie/ssh-key-and-known-hosts-action@v1.1.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           ssh-host: ${{ secrets.DEPLOY_TARGETS }}
-    
+
       - name: Deploy
         env:
           DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
