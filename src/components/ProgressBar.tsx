@@ -8,9 +8,11 @@ interface ProgressBarProps {
 }
 
 const ProgressBar = ({ progress, fullWidth, className }: ProgressBarProps) => {
-  const classes = clsx('rounded-full overflow-hidden bg-gray-300', className, [
-    fullWidth && 'w-full'
-  ]);
+  const classes = clsx(
+    'rounded-full overflow-hidden bg-gray-300 dark:bg-gray-800',
+    className,
+    [fullWidth && 'w-full']
+  );
   return (
     <div className={classes}>
       <div

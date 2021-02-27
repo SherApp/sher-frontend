@@ -17,7 +17,7 @@ const UploadLink = ({ link }: UploadLinkProps) => {
     <div className="flex rounded-lg overflow-hidden">
       <input
         ref={linkRef}
-        className="flex-1 bg-gray-200 px-2 py-1 w-0 bg-transparent outline-none"
+        className="flex-1 bg-gray-200 dark:bg-gray-800 px-2 py-1 w-0 outline-none"
         readOnly
         value={link}
       />

@@ -33,15 +33,13 @@ const TextInput = ({
     {
       'w-full': fullWidth
     },
-    'py-1 tracking-widest outline-none',
+    'py-1 tracking-widest outline-none bg-transparent',
     className
   );
 
   const containerClasses = clsx(
-    {
-      'border-pink': isFocused
-    },
-    'px-2 flex border-b-2 transition-colors'
+    isFocused ? 'border-pink' : 'dark:border-gray-600',
+    'px-2 flex border-b-2  transition-colors'
   );
 
   return (

@@ -48,7 +48,7 @@ const UploadItem = ({
   link
 }: UploadItemProps) => {
   return (
-    <div className="animate-slideInTop grid grid-cols-1 grid-cols-4 lg:gap-8 md:gap-4 border-b-2 py-5 px-5 transition-colors hover:bg-gray-100 items-center">
+    <div className="animate-slideInTop grid grid-cols-1 grid-cols-4 lg:gap-8 md:gap-4 border-b-2 dark:border-gray-800 py-5 px-5 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 items-center">
       <div className="flex">
         <Typography variant="srOnly">{srTexts[status]}</Typography>
         <img className="mr-7" alt="" src={icons[status]} />

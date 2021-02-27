@@ -41,7 +41,7 @@ const UploadCircle = ({ onFilesSelected }: UploadCircleProps) => {
   const text = dragIn ? 'Drop to begin uploading' : 'Drag your files here';
 
   const circleClasses = clsx(
-    'uploadCircle rounded-full bg-gray-200 flex justify-center items-center',
+    'uploadCircle rounded-full bg-gray-200 dark:bg-gray-800 flex justify-center items-center',
     [dragIn && 'pulse']
   );
   const arrowClasses = clsx('mx-auto', [dragIn && 'animate-bounce']);

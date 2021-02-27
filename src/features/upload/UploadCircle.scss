@@ -19,7 +19,7 @@ $min-size: 20vw;
 
   &.pulse::after {
     @apply rounded-full;
-    @apply bg-gray-200;
+    @apply bg-gray-200 dark:bg-gray-800;
 
     animation: pulse 2s infinite ease-out;
     content: '';
