@@ -35,7 +35,17 @@ module.exports = {
     },
     linearGradientColors: (theme) => ({
       'purple-pink': [theme('colors.purple'), theme('colors.pink')]
-    })
+    }),
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '1rem',
+        sm: '2rem',
+        lg: '4rem',
+        xl: '8rem',
+        '2xl': '10rem'
+      }
+    }
   },
   variants: {
     extend: {}

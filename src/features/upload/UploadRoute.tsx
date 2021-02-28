@@ -3,17 +3,8 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { uploadFile } from './apiCalls';
 import { useOktaAuth } from '@okta/okta-react';
-import UploadItem from './UploadItem';
-import config from '../../utils/config';
-
-interface Upload {
-  id: string;
-  name: string;
-  size: number;
-  progress?: number;
-  error?: boolean;
-  success?: boolean;
-}
+import UploadsList from './UploadsList';
+import { Upload } from './types';
 
 const UploadRoute = () => {
   const { authState } = useOktaAuth();
@@ -33,7 +24,8 @@ const UploadRoute = () => {
       const upload: Upload = {
         id: uuidv4(),
         name: file.name,
-        size: file.size
+        size: file.size,
+        progress: 0
       };
       setUploads((p) => [...p, upload]);
       uploadFile(
@@ -59,32 +51,10 @@ const UploadRoute = () => {
     };
   };
 
-  const getUploadStatus = (upload: Upload) => {
-    if (upload.error) {
-      return 'failure';
-    } else if (!upload.success) {
-      return 'pending';
-    }
-    return 'success';
-  };
-
-  const getUploadLink = (upload: Upload) =>
-    encodeURI(`${config.uploads.url}${upload.id}/${upload.name}`);
-
   return (
     <>
       <UploadCircle onFilesSelected={handleFilesSelected} />
-      <div className="flex flex-col my-8 sm:w-full md:w-4/5 xl:w-3/5">
-        {uploads.map((u) => (
-          <UploadItem
-            status={getUploadStatus(u)}
-            name={u.name}
-            size={u.size}
-            link={getUploadLink(u)}
-            progress={u.progress}
-          />
-        ))}
-      </div>
+      <UploadsList uploads={uploads} />
     </>
   );
 };

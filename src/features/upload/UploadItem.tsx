@@ -1,33 +1,15 @@
-import tickIcon from '../../img/tick.svg';
-import uploadingIcon from '../../img/uploading.svg';
-import errorIcon from '../../img/error.svg';
 import Typography, { TypographyProps } from '../../components/Typography';
 import fileSize from 'filesize';
 import ProgressBar from '../../components/ProgressBar';
-import UploadLink from './UploadLink';
 import clsx from 'clsx';
 
-type UploadStatus = 'pending' | 'success' | 'failure';
-
 interface UploadItemProps {
-  status: UploadStatus;
+  icon?: JSX.Element;
   name: string;
   size: number;
   progress?: number;
-  link: string;
+  actions?: JSX.Element;
 }
-
-const icons = {
-  pending: uploadingIcon,
-  success: tickIcon,
-  failure: errorIcon
-};
-
-const srTexts = {
-  pending: 'uploading...',
-  success: 'uploaded successfully',
-  failure: 'uploading failed'
-};
 
 const Text = ({ className, ...rest }: TypographyProps) => (
   <Typography
@@ -41,22 +23,27 @@ const Text = ({ className, ...rest }: TypographyProps) => (
 );
 
 const UploadItem = ({
-  status,
+  icon,
   name,
   size,
-  progress = 0,
-  link
+  progress,
+  actions
 }: UploadItemProps) => {
+  const containerClasses = clsx(
+    'animate-slideInTop grid',
+    progress !== undefined ? 'grid-cols-4' : 'grid-cols-3',
+    'lg:gap-8 md:gap-4 border-b-2 dark:border-gray-800 py-5 px-5 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 items-center'
+  );
+
   return (
-    <div className="animate-slideInTop grid grid-cols-1 grid-cols-4 lg:gap-8 md:gap-4 border-b-2 dark:border-gray-800 py-5 px-5 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 items-center">
+    <div className={containerClasses}>
       <div className="flex">
-        <Typography variant="srOnly">{srTexts[status]}</Typography>
-        <img className="mr-7" alt="" src={icons[status]} />
+        <div className="w-8 mr-7">{icon}</div>
         <Text>{name}</Text>
       </div>
       <Text className="text-center">{fileSize(size)}</Text>
-      <ProgressBar progress={progress} fullWidth />
-      <UploadLink link={link} />
+      {progress !== undefined && <ProgressBar progress={progress} fullWidth />}
+      {actions}
     </div>
   );
 };
