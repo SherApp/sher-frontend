@@ -57,6 +57,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-logical-assignment-operators": "^7.13.8",
     "@types/react-router-dom": "^5.1.7",
     "@types/uuid": "^8.3.0"
   }

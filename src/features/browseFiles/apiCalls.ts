@@ -6,6 +6,7 @@ export interface UserFile {
   originalFileName: string;
   slug: string;
   length: number;
+  isDeleted: boolean;
 }
 
 export const fetchUserUploadedFiles = async (
@@ -20,4 +21,15 @@ export const fetchUserUploadedFiles = async (
     }
   );
   return data;
+};
+
+export const deleteFile = async (fileId: string, accessToken: string) => {
+  await axios.delete(
+    `${config.api.url}${config.api.endpoints.fileUpload}/${fileId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }
+  );
 };

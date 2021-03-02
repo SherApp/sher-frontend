@@ -14,7 +14,7 @@ module.exports = {
         '-10': '-10'
       },
       animation: {
-        slideInTop: 'slideInTop 0.5s forwards ease-in-out'
+        slideInTop: 'slideInTop 0.5s ease-in-out'
       },
       keyframes: {
         slideInTop: {
