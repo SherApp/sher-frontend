@@ -53,6 +53,7 @@ const BrowseFilesRoute = () => {
               <>
                 <UploadLink link={getUploadLink(f.id, f.originalFileName)} />
                 <IconButton
+                  aria-label="delete file"
                   className="ml-2"
                   onClick={() => handleDeleteClick(f.id)}
                 >
