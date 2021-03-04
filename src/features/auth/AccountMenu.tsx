@@ -2,6 +2,7 @@ import userIcon from '../../img/user.svg';
 import { useOktaAuth } from '@okta/okta-react';
 import { useRef } from 'react';
 import { Menu, MenuItem, useMenuVisibility } from '../../components/Menu';
+import { useHistory } from 'react-router-dom';
 
 interface AccountMenuProps {
   className?: string;
@@ -9,9 +10,14 @@ interface AccountMenuProps {
 
 const AccountMenu = ({ className }: AccountMenuProps) => {
   const { oktaAuth, authState } = useOktaAuth();
+  const history = useHistory();
 
   const menuToggleRef = useRef<HTMLButtonElement>(null);
   const { isVisible } = useMenuVisibility(menuToggleRef);
+
+  const handleMyFilesClick = () => {
+    history.push('/browse');
+  };
 
   const handleSignOutClick = async () => {
     await oktaAuth.signOut();
@@ -37,6 +43,7 @@ const AccountMenu = ({ className }: AccountMenuProps) => {
         aria-labelledby="account-menu-button"
         id="account-menu"
       >
+        <MenuItem onClick={handleMyFilesClick}>My files</MenuItem>
         <MenuItem onClick={handleSignOutClick}>Sign out</MenuItem>
       </Menu>
     </div>
