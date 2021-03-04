@@ -1,7 +1,6 @@
 import Handwriting from '../../components/Handwriting';
 import { useEffect, useState } from 'react';
 import { deleteFile, fetchUserUploadedFiles, UserFile } from './apiCalls';
-import { useOktaAuth } from '@okta/okta-react';
 import UploadItem from '../upload/UploadItem';
 import fileIcon from '../../img/file.svg';
 import ecologyIcon from '../../img/ecology.svg';
@@ -12,22 +11,15 @@ import IconButton from '../../components/IconButton';
 type EnhancedFile = UserFile & { hidden?: boolean };
 
 const BrowseFilesRoute = () => {
-  const { authState } = useOktaAuth();
   const [files, setFiles] = useState<EnhancedFile[]>([]);
 
   useEffect(() => {
-    if (!authState.accessToken) return;
-
-    fetchUserUploadedFiles(authState.accessToken.accessToken).then((result) =>
-      setFiles(result)
-    );
-  }, [authState]);
+    fetchUserUploadedFiles().then((result) => setFiles(result));
+  }, []);
 
   const handleDeleteClick = async (fileId: string) => {
-    if (!authState.accessToken) return;
-
     hideFile();
-    await deleteFile(fileId, authState.accessToken?.accessToken);
+    await deleteFile(fileId);
 
     function hideFile() {
       setFiles(

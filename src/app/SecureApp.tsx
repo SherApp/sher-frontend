@@ -7,6 +7,7 @@ import { OktaAuth } from '@okta/okta-auth-js';
 import config from '../utils/config';
 import AccountMenu from '../features/auth/AccountMenu';
 import BrowseFilesRoute from '../features/browseFiles/BrowseFilesRoute';
+import AuthTokenScope from '../features/auth/axios/AuthTokenScope';
 
 const SecureApp = () => {
   const history = useHistory();
@@ -24,13 +25,15 @@ const SecureApp = () => {
 
   return (
     <Security oktaAuth={oktaAuth} onAuthRequired={handleAuthRequired}>
-      <AccountMenu className="absolute right-12 top-10" />
-      <Switch>
-        <SecureRoute exact path="/" component={UploadRoute} />
-        <SecureRoute path="/browse" component={BrowseFilesRoute} />
-        <Route exact path="/signIn/callback" component={LoginCallback} />
-        <Route path="/signIn" component={SignInRoute} />
-      </Switch>
+      <AuthTokenScope>
+        <AccountMenu className="absolute right-12 top-10" />
+        <Switch>
+          <SecureRoute exact path="/" component={UploadRoute} />
+          <SecureRoute path="/browse" component={BrowseFilesRoute} />
+          <Route exact path="/signIn/callback" component={LoginCallback} />
+          <Route path="/signIn" component={SignInRoute} />
+        </Switch>
+      </AuthTokenScope>
     </Security>
   );
 };

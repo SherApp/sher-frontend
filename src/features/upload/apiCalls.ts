@@ -1,24 +1,20 @@
-import axios from 'axios';
 import config from '../../utils/config';
+import apiClient from '../../api/apiClient';
 
 type ProgressCallback = (progress: number) => void;
 
 export const uploadFile = async (
   file: File,
   fileId: string,
-  accessToken: string,
   onProgress?: ProgressCallback
 ) => {
   const formData = new FormData();
   formData.set('id', fileId);
   formData.set('file', file);
-  const { data } = await axios.post(
-    `${config.api.url}${config.api.endpoints.fileUpload}`,
+  const { data } = await apiClient.post(
+    config.api.endpoints.fileUpload,
     formData,
     {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      },
       onUploadProgress: (progressEvent) => {
         if (onProgress) {
           const progress = (progressEvent.loaded / progressEvent.total) * 100;

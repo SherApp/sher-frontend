@@ -2,12 +2,10 @@ import UploadCircle from './UploadCircle';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { uploadFile } from './apiCalls';
-import { useOktaAuth } from '@okta/okta-react';
 import UploadsList from './UploadsList';
 import { Upload } from './types';
 
 const UploadRoute = () => {
-  const { authState } = useOktaAuth();
   const [uploads, setUploads] = useState<Upload[]>([]);
 
   const updateUploadProperty = (
@@ -18,8 +16,6 @@ const UploadRoute = () => {
   };
 
   const handleFilesSelected = (files: FileList) => {
-    if (!authState.accessToken) return;
-
     for (const file of files) {
       const upload: Upload = {
         id: uuidv4(),
@@ -27,12 +23,11 @@ const UploadRoute = () => {
         size: file.size,
         progress: 0
       };
+
       setUploads((p) => [...p, upload]);
-      uploadFile(
-        file,
-        upload.id,
-        authState.accessToken.accessToken,
-        (progress) => onUploadProgress(upload.id, progress)
+
+      uploadFile(file, upload.id, (progress) =>
+        onUploadProgress(upload.id, progress)
       )
         .then(() => onUploadSuccess(upload.id))
         .catch(() => onUploadError(upload.id));

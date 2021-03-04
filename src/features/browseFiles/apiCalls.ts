@@ -1,5 +1,5 @@
-import axios from 'axios';
 import config from '../../utils/config';
+import apiClient from '../../api/apiClient';
 
 export interface UserFile {
   id: string;
@@ -9,27 +9,11 @@ export interface UserFile {
   isDeleted: boolean;
 }
 
-export const fetchUserUploadedFiles = async (
-  accessToken: string
-): Promise<UserFile[]> => {
-  const { data } = await axios.get(
-    `${config.api.url}${config.api.endpoints.fileUpload}`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    }
-  );
+export const fetchUserUploadedFiles = async (): Promise<UserFile[]> => {
+  const { data } = await apiClient.get(config.api.endpoints.fileUpload);
   return data;
 };
 
-export const deleteFile = async (fileId: string, accessToken: string) => {
-  await axios.delete(
-    `${config.api.url}${config.api.endpoints.fileUpload}/${fileId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    }
-  );
+export const deleteFile = async (fileId: string) => {
+  await apiClient.delete(`${config.api.endpoints.fileUpload}/${fileId}`);
 };
