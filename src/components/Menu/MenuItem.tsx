@@ -10,7 +10,7 @@ const MenuItem = ({
     <li>
       <button
         onClick={onClick}
-        className="p-3 tracking-wider hover:bg-gray-100 hover:bg-opacity-50 transition-colors"
+        className="p-3 tracking-wider hover:bg-gray-100 hover:bg-opacity-50 transition-colors w-full"
       >
         {children}
       </button>
