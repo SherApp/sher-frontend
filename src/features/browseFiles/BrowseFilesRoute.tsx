@@ -39,11 +39,11 @@ const BrowseFilesRoute = () => {
           <UploadItem
             icon={<img src={fileIcon} alt="" />}
             key={f.id}
-            name={f.originalFileName}
+            name={f.fileName}
             size={f.length}
             actions={
               <>
-                <UploadLink link={getUploadLink(f.id, f.originalFileName)} />
+                <UploadLink link={getUploadLink(f.id, f.fileName)} />
                 <IconButton
                   aria-label="delete file"
                   className="ml-2"

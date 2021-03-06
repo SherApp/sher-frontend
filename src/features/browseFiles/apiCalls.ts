@@ -3,7 +3,7 @@ import apiClient from '../../api/apiClient';
 
 export interface UserFile {
   id: string;
-  originalFileName: string;
+  fileName: string;
   slug: string;
   length: number;
   isDeleted: boolean;
