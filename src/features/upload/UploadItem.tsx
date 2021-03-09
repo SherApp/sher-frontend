@@ -37,12 +37,6 @@ const UploadItem = ({
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const classes = clsx(
-    'grid',
-    progress !== undefined ? 'grid-cols-4' : 'grid-cols-3',
-    'lg:gap-8 md:gap-4 border-b-2 dark:border-gray-800 py-5 px-5 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 items-center'
-  );
-
   useEffect(() => {
     if (!squash) return;
 
@@ -62,12 +56,10 @@ const UploadItem = ({
       ref={containerRef}
       {...(squash ? { style: { height } } : {})}
     >
-      <div className={classes}>
-        <div className="flex">
-          <div className="w-8 mr-7">{icon}</div>
-          <Text>{name}</Text>
-        </div>
-        <Text className="text-center">{fileSize(size)}</Text>
+      <div className="grid grid-cols-upload lg:gap-8 md:gap-4 gap-2 border-b-2 dark:border-gray-800 py-5 px-5 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 items-center">
+        <div>{icon}</div>
+        <Text>{name}</Text>
+        <Text>{fileSize(size)}</Text>
         {progress !== undefined && (
           <ProgressBar progress={progress} fullWidth />
         )}

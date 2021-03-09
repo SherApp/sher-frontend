@@ -27,6 +27,9 @@ module.exports = {
             opacity: 1
           }
         }
+      },
+      gridTemplateColumns: {
+        upload: '32px repeat(auto-fit, minmax(20px, 1fr))'
       }
     },
     fontFamily: {
