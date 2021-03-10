@@ -7,6 +7,7 @@ import ecologyIcon from '../../img/ecology.svg';
 import UploadLink from '../upload/UploadLink';
 import { getUploadLink } from '../../sharedUtils/getUploadLink';
 import IconButton from '../../components/IconButton';
+import TextInput from '../../components/TextInput';
 
 type EnhancedFile = UserFile & { hidden?: boolean };
 
@@ -33,6 +34,12 @@ const BrowseFilesRoute = () => {
       <Handwriting variant="h2" component="h1">
         Files
       </Handwriting>
+      <TextInput
+        variant="contained"
+        label="Search"
+        fullWidth
+        className="mb-2"
+      />
       {files
         .filter((f) => !f.isDeleted)
         .map((f) => (

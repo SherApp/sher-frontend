@@ -1,20 +1,15 @@
-import clsx from 'clsx';
 import { useState } from 'react';
-import Typography from './Typography';
+import clsx from 'clsx';
+import Typography from '../Typography';
+import { TextInputBaseProps } from './types';
 
-interface TextInputProps extends React.HTMLProps<HTMLInputElement> {
-  fullWidth?: boolean;
-  endAdornment?: JSX.Element;
-  label?: string;
-}
-
-const TextInput = ({
+const UnderlineTextInput = ({
   fullWidth,
   className,
   endAdornment,
   label,
   ...rest
-}: TextInputProps) => {
+}: TextInputBaseProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => {
@@ -33,13 +28,13 @@ const TextInput = ({
     {
       'w-full': fullWidth
     },
-    'py-1 tracking-widest outline-none bg-transparent',
-    className
+    'py-1 tracking-widest outline-none bg-transparent'
   );
 
   const containerClasses = clsx(
     isFocused ? 'border-pink' : 'dark:border-gray-600',
-    'px-2 flex border-b-2  transition-colors'
+    'px-2 flex border-b-2  transition-colors',
+    className
   );
 
   return (
@@ -64,4 +59,4 @@ const TextInput = ({
   );
 };
 
-export default TextInput;
+export default UnderlineTextInput;
