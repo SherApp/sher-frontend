@@ -9,8 +9,16 @@ export interface UserFile {
   isDeleted: boolean;
 }
 
-export const fetchUserUploadedFiles = async (): Promise<UserFile[]> => {
-  const { data } = await apiClient.get(config.api.endpoints.fileUpload);
+export interface FetchFilesCriteria {
+  requiredFileNamePart?: string;
+}
+
+export const fetchUserUploadedFiles = async (
+  criteria?: FetchFilesCriteria
+): Promise<UserFile[]> => {
+  const { data } = await apiClient.get(config.api.endpoints.fileUpload, {
+    params: criteria
+  });
   return data;
 };
 

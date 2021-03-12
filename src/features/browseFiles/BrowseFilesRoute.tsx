@@ -12,11 +12,18 @@ import TextInput from '../../components/TextInput';
 type EnhancedFile = UserFile & { hidden?: boolean };
 
 const BrowseFilesRoute = () => {
+  const [query, setQuery] = useState('');
   const [files, setFiles] = useState<EnhancedFile[]>([]);
 
   useEffect(() => {
-    fetchUserUploadedFiles().then((result) => setFiles(result));
-  }, []);
+    fetchUserUploadedFiles({ requiredFileNamePart: query }).then((result) =>
+      setFiles(result)
+    );
+  }, [query]);
+
+  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  };
 
   const handleDeleteClick = async (fileId: string) => {
     hideFile();
@@ -39,6 +46,8 @@ const BrowseFilesRoute = () => {
         label="Search"
         fullWidth
         className="mb-2"
+        value={query}
+        onChange={handleQueryChange}
       />
       {files
         .filter((f) => !f.isDeleted)
