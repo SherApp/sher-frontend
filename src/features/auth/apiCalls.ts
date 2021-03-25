@@ -8,11 +8,11 @@ interface SignInRequest {
 }
 
 export const signIn = (request: SignInRequest) => {
-  return axios.post(`${config.api.endpoints.signIn}`, request);
+  return axios.post(`${config.api.endpoints.token.new}`, request);
 };
 
 export const signOut = () => {
-  return axios.delete(`${config.api.endpoints.refreshToken}`);
+  return axios.delete(`${config.api.endpoints.token.root}`);
 };
 
 export const getUser = () => {

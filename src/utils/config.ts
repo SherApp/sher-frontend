@@ -6,9 +6,11 @@ const config = {
   api: {
     url: process.env.REACT_APP_API_URL ?? 'http://localhost:5000/',
     endpoints: {
+      token: {
+        root: 'token',
+        new: 'token/new'
+      },
       fileUpload: 'file',
-      signIn: 'token/new',
-      refreshToken: 'token',
       user: 'user'
     }
   },

@@ -11,7 +11,7 @@ export const refreshTokenInterceptor = (
   }
 
   const isRefreshTokenRequest = error.config.url.endsWith(
-    config.api.endpoints.refreshToken
+    config.api.endpoints.token.root
   );
 
   if (isRefreshTokenRequest) {
@@ -19,5 +19,5 @@ export const refreshTokenInterceptor = (
     return;
   }
 
-  await apiClient.post(config.api.endpoints.refreshToken);
+  await apiClient.post(config.api.endpoints.token.root);
 };
