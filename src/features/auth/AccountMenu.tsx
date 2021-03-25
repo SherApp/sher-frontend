@@ -20,6 +20,7 @@ const AccountMenu = ({ className }: AccountMenuProps) => {
 
   const handleSignOutClick = async () => {
     await signOut();
+    history.push('/signIn');
   };
 
   return (
