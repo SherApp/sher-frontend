@@ -4,19 +4,19 @@ import SignInRoute from '../features/auth/SignInRoute';
 import React from 'react';
 import AccountMenu from '../features/auth/AccountMenu';
 import BrowseFilesRoute from '../features/browseFiles/BrowseFilesRoute';
-import AuthTokenScope from '../features/auth/axios/AuthTokenScope';
+import RefreshTokenInterceptorProvider from '../features/auth/axios/RefreshTokenInterceptorProvider';
 import SecureRoute from '../features/auth/SecureRoute';
 
 const SecureApp = () => {
   return (
-    <AuthTokenScope>
+    <RefreshTokenInterceptorProvider>
       <AccountMenu className="absolute right-12 top-10" />
       <Switch>
         <SecureRoute exact path="/" component={UploadRoute} />
         <SecureRoute path="/browse" component={BrowseFilesRoute} />
         <Route path="/signIn" component={SignInRoute} />
       </Switch>
-    </AuthTokenScope>
+    </RefreshTokenInterceptorProvider>
   );
 };
 

@@ -3,7 +3,7 @@ import apiClient from '../../../api/apiClient';
 import { refreshTokenInterceptor } from './refreshTokenInterceptor';
 import { useHistory } from 'react-router-dom';
 
-const AuthTokenScope = ({ children }: React.PropsWithChildren<{}>) => {
+const RefreshTokenInterceptorProvider: React.FC = ({ children }) => {
   const history = useHistory();
   const [interceptorIn, setInterceptorIn] = useState(false);
 
@@ -27,4 +27,4 @@ const AuthTokenScope = ({ children }: React.PropsWithChildren<{}>) => {
   return <>{children}</>;
 };
 
-export default AuthTokenScope;
+export default RefreshTokenInterceptorProvider;
