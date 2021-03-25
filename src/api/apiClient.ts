@@ -1,4 +1,3 @@
 import axios from 'axios';
-import config from '../utils/config';
 
-export default axios.create({ baseURL: config.api.url });
+export default axios.create({ withCredentials: true });

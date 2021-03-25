@@ -1,25 +1,28 @@
-import { useOktaAuth } from '@okta/okta-react';
 import { useEffect, useState } from 'react';
-import { axiosAuthInterceptor } from './axiosAuthInterceptor';
 import apiClient from '../../../api/apiClient';
+import { refreshTokenInterceptor } from './refreshTokenInterceptor';
+import { useHistory } from 'react-router-dom';
 
 const AuthTokenScope = ({ children }: React.PropsWithChildren<{}>) => {
+  const history = useHistory();
   const [interceptorIn, setInterceptorIn] = useState(false);
-  const { authState } = useOktaAuth();
 
   useEffect(() => {
-    if (!authState.accessToken?.accessToken) return;
+    const handleAuthRequired = () => {
+      history.push('/signIn');
+    };
 
-    const interceptorId = apiClient.interceptors.request.use(
-      axiosAuthInterceptor(authState.accessToken.accessToken)
+    const interceptorId = apiClient.interceptors.response.use(
+      (r) => r,
+      refreshTokenInterceptor(handleAuthRequired)
     );
 
     setInterceptorIn(true);
 
-    return () => apiClient.interceptors.request.eject(interceptorId);
-  }, [authState.accessToken?.accessToken]);
+    return () => apiClient.interceptors.response.eject(interceptorId);
+  }, [history]);
 
-  if (!interceptorIn && authState.isAuthenticated) return null;
+  if (!interceptorIn) return null;
 
   return <>{children}</>;
 };

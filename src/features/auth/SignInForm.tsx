@@ -4,35 +4,40 @@ import userIcon from '../../img/user.svg';
 import passwordIcon from '../../img/password.svg';
 import Button from '../../components/Button';
 import { useState } from 'react';
-import { useOktaAuth } from '@okta/okta-react';
 import EllipsisLoading from '../../components/EllipsisLoading';
+import { signIn } from './apiCalls';
+import { useHistory } from 'react-router-dom';
 
-const SignInForm = () => {
-  const { oktaAuth } = useOktaAuth();
-  const [sessionToken, setSessionToken] = useState<string>();
-  const [username, setUsername] = useState('');
+interface Props {
+  returnPath: string;
+}
+
+const SignInForm = ({ returnPath }: Props) => {
+  const history = useHistory();
+
+  const [signingIn, setSigningIn] = useState(false);
+  const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { sessionToken } = await oktaAuth.signInWithCredentials({
-      username,
-      password
-    });
-    setSessionToken(sessionToken);
-    await oktaAuth.signInWithRedirect({ sessionToken });
+    setSigningIn(true);
+
+    await signIn({ emailAddress, password });
+
+    history.push(returnPath);
   };
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
+    setEmailAddress(e.target.value);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  if (sessionToken) {
+  if (signingIn) {
     return (
       <div className="flex items-center justify-center">
         <EllipsisLoading />

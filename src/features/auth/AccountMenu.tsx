@@ -1,15 +1,14 @@
 import userIcon from '../../img/user.svg';
-import { useOktaAuth } from '@okta/okta-react';
 import { useRef } from 'react';
 import { Menu, MenuItem, useMenuVisibility } from '../../components/Menu';
 import { useHistory } from 'react-router-dom';
+import { signOut } from './apiCalls';
 
 interface AccountMenuProps {
   className?: string;
 }
 
 const AccountMenu = ({ className }: AccountMenuProps) => {
-  const { oktaAuth, authState } = useOktaAuth();
   const history = useHistory();
 
   const menuToggleRef = useRef<HTMLButtonElement>(null);
@@ -20,12 +19,8 @@ const AccountMenu = ({ className }: AccountMenuProps) => {
   };
 
   const handleSignOutClick = async () => {
-    await oktaAuth.signOut();
+    await signOut();
   };
-
-  if (!authState.isAuthenticated) {
-    return null;
-  }
 
   return (
     <div className={className}>

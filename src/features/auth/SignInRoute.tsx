@@ -1,13 +1,7 @@
 import Handwriting from '../../components/Handwriting';
 import SignInForm from './SignInForm';
-import { useOktaAuth } from '@okta/okta-react';
-import { Redirect } from 'react-router-dom';
 
 const SignInRoute = () => {
-  const { authState } = useOktaAuth();
-  if (authState.isAuthenticated) {
-    return <Redirect to="/" />;
-  }
   return (
     <div className="w-full justify-center items-center flex flex-col flex-grow">
       <Handwriting variant="h2" component="h1" className="py-4 mb-6">
@@ -19,7 +13,7 @@ const SignInRoute = () => {
           <Handwriting variant="h3" component="h2" className="py-4 mb-6">
             Sign in
           </Handwriting>
-          <SignInForm />
+          <SignInForm returnPath="/" />
         </div>
       </div>
     </div>
