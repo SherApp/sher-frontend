@@ -12,7 +12,7 @@ export const signIn = (request: SignInRequest) => {
 };
 
 export const signOut = () => {
-  return axios.delete(`${config.api.endpoints.signIn}`);
+  return axios.delete(`${config.api.endpoints.refreshToken}`);
 };
 
 export const getUser = () => {
