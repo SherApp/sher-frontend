@@ -1,5 +1,5 @@
 import config from '../../../utils/config';
-import apiClient from '../../../api/apiClient';
+import { refreshToken } from '../apiCalls';
 
 type AuthRequiredCallback = () => void;
 
@@ -19,5 +19,5 @@ export const refreshTokenInterceptor = (
     return;
   }
 
-  await apiClient.post(config.api.endpoints.token.root);
+  await refreshToken();
 };
