@@ -25,6 +25,10 @@ const AccountMenu = ({ className }: AccountMenuProps) => {
     history.push('/signIn');
   };
 
+  const handleAdminClick = () => {
+    history.push('/admin');
+  };
+
   if (!user) return null;
 
   return (
@@ -44,7 +48,9 @@ const AccountMenu = ({ className }: AccountMenuProps) => {
         id="account-menu"
       >
         <MenuItem onClick={handleMyFilesClick}>My files</MenuItem>
-        {user.roles.includes('Admin') && <MenuItem>Admin area</MenuItem>}
+        {user.roles.includes('Admin') && (
+          <MenuItem onClick={handleAdminClick}>Admin area</MenuItem>
+        )}
         <MenuItem onClick={handleSignOutClick}>Sign out</MenuItem>
       </Menu>
     </div>

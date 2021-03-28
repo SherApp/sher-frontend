@@ -1,4 +1,3 @@
-import Handwriting from '../../components/Handwriting';
 import { useEffect, useState } from 'react';
 import { deleteFile, fetchUserUploadedFiles, UserFile } from './apiCalls';
 import UploadItem from '../upload/UploadItem';
@@ -8,6 +7,7 @@ import UploadLink from '../upload/UploadLink';
 import { getUploadLink } from '../../sharedUtils/getUploadLink';
 import IconButton from '../../components/IconButton';
 import TextInput from '../../components/TextInput';
+import NamedContainer from '../../components/NamedContainer';
 
 type EnhancedFile = UserFile & { hidden?: boolean };
 
@@ -37,14 +37,10 @@ const BrowseFilesRoute = () => {
   };
 
   return (
-    <div className="container mt-40">
-      <Handwriting variant="h2" component="h1">
-        Files
-      </Handwriting>
+    <NamedContainer title="Files">
       <TextInput
         variant="contained"
         label="Search"
-        fullWidth
         className="mb-2"
         value={query}
         onChange={handleQueryChange}
@@ -72,7 +68,7 @@ const BrowseFilesRoute = () => {
             squash={f.hidden}
           />
         ))}
-    </div>
+    </NamedContainer>
   );
 };
 

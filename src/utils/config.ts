@@ -4,14 +4,17 @@ const config = {
     clientId: process.env.REACT_APP_OKTA_CLIENT_ID
   },
   api: {
-    url: process.env.REACT_APP_API_URL ?? 'http://localhost:5000/',
     endpoints: {
       token: {
         root: 'token',
         new: 'token/new'
       },
       fileUpload: 'file',
-      user: 'user'
+      user: 'user',
+      platform: {
+        root: 'platform',
+        settings: 'platform/settings'
+      }
     }
   },
   uploads: {

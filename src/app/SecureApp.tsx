@@ -6,6 +6,7 @@ import AccountMenu from '../features/auth/AccountMenu';
 import BrowseFilesRoute from '../features/browseFiles/BrowseFilesRoute';
 import RefreshTokenInterceptorProvider from '../features/auth/axios/RefreshTokenInterceptorProvider';
 import SecureRoute from '../features/auth/SecureRoute';
+import AdminRoute from '../features/manageInstance/AdminRoute';
 
 const SecureApp = () => {
   return (
@@ -14,6 +15,7 @@ const SecureApp = () => {
       <Switch>
         <SecureRoute exact path="/" component={UploadRoute} />
         <SecureRoute path="/browse" component={BrowseFilesRoute} />
+        <SecureRoute path="/admin" component={AdminRoute} />
         <Route path="/signIn" component={SignInRoute} />
       </Switch>
     </RefreshTokenInterceptorProvider>
