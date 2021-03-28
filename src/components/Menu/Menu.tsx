@@ -11,7 +11,7 @@ const Menu = (
 ) => {
   const menuClasses = clsx(
     [!open && 'invisible'],
-    'text-white shadow-xl rounded-xl overflow-hidden bg-gradient-tr-purple-pink absolute b-0 w-max transition-opacity duration-300',
+    'text-white shadow-xl rounded-xl overflow-hidden bg-gradient-tr-purple-pink absolute b-0 w-max transition-opacity duration-300 left-1/2 -translate-x-1/2 transform',
     open ? 'opacity-100' : 'opacity-0',
     className
   );
