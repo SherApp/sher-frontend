@@ -20,6 +20,7 @@ export const signOut = () => {
   return axios.delete(`${config.api.endpoints.token.root}`);
 };
 
-export const getUser = (): Promise<User> => {
-  return apiClient.get(`${config.api.endpoints.user}`);
+export const getUser = async (): Promise<User> => {
+  const { data } = await apiClient.get(`${config.api.endpoints.user}`);
+  return data;
 };
