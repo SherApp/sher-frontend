@@ -8,7 +8,7 @@ const Button = ({
   ...rest
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   const classes = clsx(
-    'bg-gradient-r-purple-pink rounded py-2 text-white shadow-button',
+    'bg-gradient-r-purple-pink rounded py-2 text-white shadow-button px-10',
     className
   );
 
