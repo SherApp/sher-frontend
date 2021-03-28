@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { Menu, MenuItem, useMenuVisibility } from '../../components/Menu';
 import { useHistory } from 'react-router-dom';
 import { signOut } from './apiCalls';
+import { useUser } from './useUser';
 
 interface AccountMenuProps {
   className?: string;
@@ -10,6 +11,7 @@ interface AccountMenuProps {
 
 const AccountMenu = ({ className }: AccountMenuProps) => {
   const history = useHistory();
+  const { user } = useUser();
 
   const menuToggleRef = useRef<HTMLButtonElement>(null);
   const { isVisible } = useMenuVisibility(menuToggleRef);
@@ -22,6 +24,8 @@ const AccountMenu = ({ className }: AccountMenuProps) => {
     await signOut();
     history.push('/signIn');
   };
+
+  if (!user) return null;
 
   return (
     <div className={className}>
@@ -40,6 +44,7 @@ const AccountMenu = ({ className }: AccountMenuProps) => {
         id="account-menu"
       >
         <MenuItem onClick={handleMyFilesClick}>My files</MenuItem>
+        {user.roles.includes('Admin') && <MenuItem>Admin area</MenuItem>}
         <MenuItem onClick={handleSignOutClick}>Sign out</MenuItem>
       </Menu>
     </div>
