@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from '../../utils/config';
 import apiClient from '../../api/apiClient';
+import { User } from './types';
 
 interface SignInRequest {
   emailAddress: string;
@@ -19,6 +20,6 @@ export const signOut = () => {
   return axios.delete(`${config.api.endpoints.token.root}`);
 };
 
-export const getUser = () => {
+export const getUser = (): Promise<User> => {
   return apiClient.get(`${config.api.endpoints.user}`);
 };
