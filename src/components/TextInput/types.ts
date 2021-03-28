@@ -1,5 +1,5 @@
 export interface TextInputBaseProps extends React.HTMLProps<HTMLInputElement> {
-  fullWidth?: boolean;
   label?: string;
+  hint?: string;
   endAdornment?: JSX.Element;
 }

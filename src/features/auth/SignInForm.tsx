@@ -53,7 +53,6 @@ const SignInForm = ({ returnPath }: Props) => {
             <img src={userIcon} alt="" />
           </InputAdornment>
         }
-        fullWidth
         label="Email"
         type="email"
         placeholder="example@example.com"
@@ -65,7 +64,6 @@ const SignInForm = ({ returnPath }: Props) => {
             <img src={passwordIcon} alt="" />
           </InputAdornment>
         }
-        fullWidth
         label="Password"
         type="password"
         onChange={handlePasswordChange}
