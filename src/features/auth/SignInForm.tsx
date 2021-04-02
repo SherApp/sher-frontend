@@ -8,6 +8,7 @@ import EllipsisLoading from '../../components/EllipsisLoading';
 import { signIn } from './apiCalls';
 import { useHistory } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
+import { routes } from '../../utils/config';
 
 interface Props {
   returnPath: string;
@@ -29,6 +30,10 @@ const SignInForm = ({ returnPath }: Props) => {
     await signIn({ emailAddress, password });
 
     history.push(returnPath);
+  };
+
+  const handleSignUpClick = () => {
+    history.push(routes.auth('signUp'));
   };
 
   if (signingIn) {
@@ -73,7 +78,9 @@ const SignInForm = ({ returnPath }: Props) => {
         </div>
         <div className="flex flex-col space-y-4">
           <Button type="submit">Sign in</Button>
-          <Button variant="secondary">Sign up</Button>
+          <Button onClick={handleSignUpClick} variant="secondary">
+            Sign up
+          </Button>
         </div>
       </Form>
     </Formik>
