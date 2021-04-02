@@ -6,11 +6,13 @@ type Variant = 'primary' | 'secondary';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
+  fullWidth?: boolean;
 }
 
 const Button = ({
   className,
   children,
+  fullWidth,
   variant = 'primary',
   ...rest
 }: ButtonProps) => {
@@ -20,6 +22,7 @@ const Button = ({
         'bg-gradient-r-purple-pink shadow-button text-white'
     ],
     [variant === 'secondary' && 'text-pink border-pink border'],
+    [fullWidth && 'w-full'],
     'rounded py-2 px-10',
     className
   );

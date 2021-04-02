@@ -21,31 +21,35 @@ const SignUpForm = () => {
       onSubmit={handleSubmit}
       className="flex px-3 space-y-12 flex-col"
     >
-      <Form>
-        <Field
-          as={TextInput}
-          name="emailAddress"
-          label="Email"
-          type="email"
-          placeholder="example@example.com"
-          endAdornment={
-            <InputAdornment>
-              <img src={userIcon} alt="" />
-            </InputAdornment>
-          }
-        />
-        <Field
-          as={TextInput}
-          name="password"
-          label="Password"
-          type="password"
-          endAdornment={
-            <InputAdornment>
-              <img src={passwordIcon} alt="" />
-            </InputAdornment>
-          }
-        />
-        <Button type="submit">Sign up</Button>
+      <Form className="px-3">
+        <div className="space-y-12 mb-12">
+          <Field
+            as={TextInput}
+            name="emailAddress"
+            label="Email"
+            type="email"
+            placeholder="example@example.com"
+            endAdornment={
+              <InputAdornment>
+                <img src={userIcon} alt="" />
+              </InputAdornment>
+            }
+          />
+          <Field
+            as={TextInput}
+            name="password"
+            label="Password"
+            type="password"
+            endAdornment={
+              <InputAdornment>
+                <img src={passwordIcon} alt="" />
+              </InputAdornment>
+            }
+          />
+        </div>
+        <Button type="submit" fullWidth>
+          Sign up
+        </Button>
       </Form>
     </Formik>
   );
