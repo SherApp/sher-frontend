@@ -4,6 +4,7 @@ import { Menu, MenuItem, useMenuVisibility } from '../../components/Menu';
 import { useHistory } from 'react-router-dom';
 import { signOut } from './apiCalls';
 import { useUser } from './useUser';
+import { routes } from '../../utils/config';
 
 interface AccountMenuProps {
   className?: string;
@@ -22,7 +23,7 @@ const AccountMenu = ({ className }: AccountMenuProps) => {
 
   const handleSignOutClick = async () => {
     await signOut();
-    history.push('/signIn');
+    history.push(routes.auth('signIn'));
   };
 
   const handleAdminClick = () => {

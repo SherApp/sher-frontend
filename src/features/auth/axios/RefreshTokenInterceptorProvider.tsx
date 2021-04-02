@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import apiClient from '../../../api/apiClient';
 import { refreshTokenInterceptor } from './refreshTokenInterceptor';
 import { useHistory } from 'react-router-dom';
+import { routes } from '../../../utils/config';
 
 const RefreshTokenInterceptorProvider: React.FC = ({ children }) => {
   const history = useHistory();
@@ -9,7 +10,7 @@ const RefreshTokenInterceptorProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     const handleAuthRequired = () => {
-      history.push('/signIn');
+      history.push(routes.auth('signIn'));
     };
 
     const interceptorId = apiClient.interceptors.response.use(

@@ -2,6 +2,7 @@ import AccountMenu from './AccountMenu';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { getUser, signOut } from './apiCalls';
 import { useHistory } from 'react-router-dom';
+import { routes } from '../../utils/config';
 
 jest.mock('./apiCalls', () => ({
   signOut: jest.fn(),
@@ -29,7 +30,7 @@ it('signs out on sign out click', async () => {
   await fireEvent.click(getByText(/sign out/i));
 
   expect(signOut).toHaveBeenCalled();
-  expect(useHistory().push).toHaveBeenCalledWith('/signIn');
+  expect(useHistory().push).toHaveBeenCalledWith(routes.auth('signIn'));
 });
 
 it('shows admin route for user with "Admin" role', async () => {
