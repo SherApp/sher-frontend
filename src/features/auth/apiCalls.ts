@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '../../utils/config';
 import apiClient from '../../api/apiClient';
-import { User } from './types';
+import { RegistrationSettings, User } from './types';
 
 interface SignInRequest {
   emailAddress: string;
@@ -22,5 +22,12 @@ export const signOut = () => {
 
 export const getUser = async (): Promise<User> => {
   const { data } = await apiClient.get(`${config.api.endpoints.user}`);
+  return data;
+};
+
+export const getRegistrationSettings = async (): Promise<RegistrationSettings> => {
+  const { data } = await apiClient.get(
+    config.api.endpoints.platform.registrationSettings
+  );
   return data;
 };

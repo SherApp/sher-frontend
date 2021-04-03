@@ -13,7 +13,8 @@ const config = {
       user: '/user',
       platform: {
         root: '/platform',
-        settings: '/platform/settings'
+        settings: '/platform/settings',
+        registrationSettings: '/platform/settings/registration'
       }
     }
   },
