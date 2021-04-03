@@ -7,6 +7,7 @@ const UnderlineTextInput = ({
   className,
   endAdornment,
   label,
+  error,
   hint,
   ...rest
 }: TextInputBaseProps) => {
@@ -32,6 +33,8 @@ const UnderlineTextInput = ({
     className
   );
 
+  const hintClasses = clsx([error && 'text-red-500']);
+
   return (
     <div className="px-2">
       <div className={containerClasses} {...rest}>
@@ -52,7 +55,7 @@ const UnderlineTextInput = ({
         </label>
         {endAdornment}
       </div>
-      <small>{hint}</small>
+      <small className={hintClasses}>{error ?? hint}</small>
     </div>
   );
 };
