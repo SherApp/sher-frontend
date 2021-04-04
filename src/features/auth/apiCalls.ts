@@ -8,6 +8,11 @@ interface SignInRequest {
   password: string;
 }
 
+interface SignUpRequest extends SignInRequest {
+  userId: string;
+  invitationCode?: string;
+}
+
 export const signIn = (request: SignInRequest) => {
   return axios.post(`${config.api.endpoints.token.new}`, request);
 };
@@ -18,6 +23,10 @@ export const refreshToken = () => {
 
 export const signOut = () => {
   return axios.delete(`${config.api.endpoints.token.root}`);
+};
+
+export const signUp = (request: SignUpRequest) => {
+  return axios.post(config.api.endpoints.user, request);
 };
 
 export const getUser = async (): Promise<User> => {

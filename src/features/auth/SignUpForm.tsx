@@ -7,7 +7,9 @@ import Button from '../../components/Button';
 import { Form, Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import { useEffect, useState } from 'react';
-import { getRegistrationSettings } from './apiCalls';
+import { getRegistrationSettings, signUp } from './apiCalls';
+import { v4 as uuidv4 } from 'uuid';
+import EllipsisLoading from '../../components/EllipsisLoading';
 
 const SignUpSchema = Yup.object({
   emailAddress: Yup.string()
@@ -25,6 +27,7 @@ const SignUpSchema = Yup.object({
 interface Values {
   emailAddress: string;
   password: string;
+  invitationCode: string;
 }
 
 const SignUpForm = () => {
@@ -32,6 +35,7 @@ const SignUpForm = () => {
     requiresInvitationCode,
     setRequiredInvitationCode
   ] = useState<boolean>();
+  const [isSigningUp, setIsSigningUp] = useState(false);
 
   useEffect(() => {
     getRegistrationSettings().then((s) =>
@@ -39,9 +43,23 @@ const SignUpForm = () => {
     );
   }, []);
 
-  const handleSubmit = (values: Values) => {
-    console.log(values);
+  const handleSubmit = async ({
+    emailAddress,
+    invitationCode,
+    password
+  }: Values) => {
+    setIsSigningUp(true);
+    await signUp({ userId: uuidv4(), emailAddress, invitationCode, password });
+    setIsSigningUp(false);
   };
+
+  if (isSigningUp) {
+    return (
+      <div className="flex items-center justify-center">
+        <EllipsisLoading />
+      </div>
+    );
+  }
 
   return (
     <Formik
