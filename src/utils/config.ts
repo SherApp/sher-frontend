@@ -24,9 +24,13 @@ const config = {
 };
 
 export const routes = {
-  auth: (place?: 'signIn' | 'signUp') => {
+  auth: (place?: 'signIn' | 'signUp', returnUrl?: string) => {
     if (!place) return '/auth';
-    return `/auth/${place}`;
+    let url = `/auth/${place}`;
+    if (returnUrl) {
+      url += `?returnUrl=${encodeURIComponent(returnUrl)}`;
+    }
+    return url;
   },
   admin: '/admin',
   browseFiles: '/browse'

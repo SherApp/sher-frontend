@@ -6,20 +6,17 @@ import Button from '../../components/Button';
 import { useState } from 'react';
 import EllipsisLoading from '../../components/EllipsisLoading';
 import { signIn } from './apiCalls';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
 import { routes } from '../../utils/config';
-
-interface Props {
-  returnPath: string;
-}
 
 interface Values {
   emailAddress: string;
   password: string;
 }
 
-const SignInForm = ({ returnPath }: Props) => {
+const SignInForm = () => {
+  const { search } = useLocation();
   const history = useHistory();
 
   const [signingIn, setSigningIn] = useState(false);
@@ -29,7 +26,9 @@ const SignInForm = ({ returnPath }: Props) => {
 
     await signIn({ emailAddress, password });
 
-    history.push(returnPath);
+    const searchParams = new URLSearchParams(search);
+    const returnUrl = searchParams.get('returnUrl');
+    history.push(returnUrl ?? '/');
   };
 
   const handleSignUpClick = () => {
