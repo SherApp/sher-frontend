@@ -30,8 +30,8 @@ export const signUp = (request: SignUpRequest) => {
 };
 
 export const getUser = async (): Promise<User> => {
-  const { data } = await apiClient.get(`${config.api.endpoints.user}`);
-  return data;
+  const response = await apiClient.get(`${config.api.endpoints.user}`);
+  return response?.data ?? null;
 };
 
 export const getRegistrationSettings = async (): Promise<RegistrationSettings> => {

@@ -12,7 +12,9 @@ import { routes } from '../utils/config';
 const SecureApp = () => {
   return (
     <RefreshTokenInterceptorProvider>
-      <AccountMenu className="absolute right-12 top-10" />
+      <Route exact path={['/', routes.browseFiles, routes.admin]}>
+        <AccountMenu className="absolute right-12 top-10" />
+      </Route>
       <Switch>
         <SecureRoute exact path="/" component={UploadRoute} />
         <SecureRoute path={routes.browseFiles} component={BrowseFilesRoute} />
