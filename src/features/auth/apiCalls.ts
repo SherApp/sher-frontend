@@ -13,8 +13,10 @@ interface SignUpRequest extends SignInRequest {
   invitationCode?: string;
 }
 
+const anonymousClient = axios.create({ baseURL: config.api.baseUrl });
+
 export const signIn = (request: SignInRequest) => {
-  return axios.post(`${config.api.endpoints.token.new}`, request);
+  return anonymousClient.post(config.api.endpoints.token.new, request);
 };
 
 export const refreshToken = () => {
@@ -22,15 +24,15 @@ export const refreshToken = () => {
 };
 
 export const signOut = () => {
-  return axios.delete(`${config.api.endpoints.token.root}`);
+  return anonymousClient.delete(config.api.endpoints.token.root);
 };
 
 export const signUp = (request: SignUpRequest) => {
-  return axios.post(config.api.endpoints.user, request);
+  return anonymousClient.post(config.api.endpoints.user, request);
 };
 
 export const getUser = async (): Promise<User> => {
-  const response = await apiClient.get(`${config.api.endpoints.user}`);
+  const response = await apiClient.get(config.api.endpoints.user);
   return response?.data ?? null;
 };
 

@@ -1,9 +1,6 @@
 const config = {
-  okta: {
-    domain: process.env.REACT_APP_OKTA_DOMAIN,
-    clientId: process.env.REACT_APP_OKTA_CLIENT_ID
-  },
   api: {
+    baseUrl: '/api',
     endpoints: {
       token: {
         root: '/token',

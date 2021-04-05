@@ -5,9 +5,6 @@ services:
     build:
       context: .
       args:
-        - REACT_APP_OKTA_CLIENT_ID
-        - REACT_APP_OKTA_DOMAIN
-        - REACT_APP_API_URL
         - REACT_APP_UPLOADS_URL
         - ROBOTS_DISALLOW
     ports:
