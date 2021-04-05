@@ -20,8 +20,6 @@ jobs:
       - name: Deploy
         env:
           DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
-          REACT_APP_OKTA_CLIENT_ID: ${{ secrets.OKTA_CLIENT_ID }}
-          REACT_APP_OKTA_DOMAIN: ${{ secrets.OKTA_DOMAIN }}
-          REACT_APP_API_URL: ${{ secrets.API_URL }}
           REACT_APP_UPLOADS_URL: ${{ secrets.UPLOADS_URL }}
+          ROBOTS_DISALLOW: ${{ secrets.ROBOTS_DISALLOW }}
         run: docker-compose -f docker-compose.yml up -d --build
