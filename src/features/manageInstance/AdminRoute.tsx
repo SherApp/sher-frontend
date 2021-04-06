@@ -2,7 +2,7 @@ import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import NamedContainer from '../../components/NamedContainer';
 import { useEffect, useState } from 'react';
-import { PlatformSettings } from './types';
+import { PlatformSettings } from 'sher-shared/manageInstance';
 import { getPlatformSettings, updatePlatformSettings } from './apiCalls';
 
 const AdminRoute = () => {

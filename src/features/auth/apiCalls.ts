@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '../../utils/config';
 import apiClient from '../../api/apiClient';
-import { RegistrationSettings, User } from './types';
+import { RegistrationSettings, User } from 'sher-shared/auth';
 
 interface SignInRequest {
   emailAddress: string;

@@ -1,6 +1,6 @@
 import apiClient from '../../api/apiClient';
 import config from '../../utils/config';
-import { PlatformSettings } from './types';
+import { PlatformSettings } from 'sher-shared/manageInstance';
 
 export const getPlatformSettings = async (): Promise<PlatformSettings> => {
   const { data } = await apiClient.get(config.api.endpoints.platform.settings);
