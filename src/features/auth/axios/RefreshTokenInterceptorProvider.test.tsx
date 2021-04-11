@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import RefreshTokenInterceptorProvider from './RefreshTokenInterceptorProvider';
-import { refreshTokenInterceptor } from './refreshTokenInterceptor';
+import { refreshTokenInterceptor } from '@sherapp/sher-shared/auth';
 import apiClient from '../../../api/apiClient';
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ jest.mock('react-router-dom', () => ({
   useLocation: jest.fn()
 }));
 
-jest.mock('./refreshTokenInterceptor');
+jest.mock('@sherapp/sher-shared/auth');
 
 it('uses refresh token interceptor', () => {
   const interceptor = jest.fn();

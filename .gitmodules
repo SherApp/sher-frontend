@@ -1,3 +1,0 @@
-[submodule "local_modules/sher-shared"]
-	path = local_modules/sher-shared
-	url = git@github.com:SherApp/sher-shared.git

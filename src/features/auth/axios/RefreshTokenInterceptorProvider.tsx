@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import apiClient from '../../../api/apiClient';
-import { refreshTokenInterceptor } from './refreshTokenInterceptor';
+import { refreshTokenInterceptor } from '@sherapp/sher-shared/auth';
 import { useHistory, useLocation } from 'react-router-dom';
-import { routes } from '../../../utils/config';
+import config, { routes } from '../../../utils/config';
+import { refreshToken } from '../apiCalls';
 
 const RefreshTokenInterceptorProvider: React.FC = ({ children }) => {
   const history = useHistory();
@@ -16,7 +17,12 @@ const RefreshTokenInterceptorProvider: React.FC = ({ children }) => {
 
     const interceptorId = apiClient.interceptors.response.use(
       (r) => r,
-      refreshTokenInterceptor(handleAuthRequired)
+      refreshTokenInterceptor(
+        apiClient,
+        handleAuthRequired,
+        refreshToken,
+        config.api.endpoints.token.root
+      )
     );
 
     setInterceptorIn(true);
