@@ -1,4 +1,4 @@
-import { Upload } from 'sher-shared/upload';
+import { Upload } from '@sherapp/sher-shared/upload';
 import UploadItem from './UploadItem';
 import Typography from '../../components/Typography';
 import UploadLink from './UploadLink';

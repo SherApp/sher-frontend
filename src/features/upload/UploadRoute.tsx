@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { uploadFile } from './apiCalls';
 import UploadsList from './UploadsList';
-import { Upload } from 'sher-shared/upload';
+import { Upload } from '@sherapp/sher-shared/upload';
 
 const UploadRoute = () => {
   const [uploads, setUploads] = useState<Upload[]>([]);
