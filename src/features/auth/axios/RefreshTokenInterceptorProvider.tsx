@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import apiClient from '../../../api/apiClient';
-import { refreshTokenInterceptor } from '@sherapp/sher-shared/auth';
+import { refreshTokenInterceptor } from '@sherapp/sher-shared';
 import { useHistory, useLocation } from 'react-router-dom';
 import config, { routes } from '../../../utils/config';
 import { refreshToken } from '../apiCalls';
