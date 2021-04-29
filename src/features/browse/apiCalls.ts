@@ -1,16 +1,13 @@
 import config from '../../utils/config';
 import apiClient from '../../api/apiClient';
+import { FetchFilesCriteria, UserFile } from '@sherapp/sher-shared';
 
-export interface UserFile {
+export interface Directory {
   id: string;
-  fileName: string;
-  slug: string;
-  length: number;
-  isDeleted: boolean;
-}
-
-export interface FetchFilesCriteria {
-  requiredFileNamePart?: string;
+  parentDirectoryId?: string;
+  name: string;
+  files: UserFile[];
+  directories: Directory[];
 }
 
 export const fetchUserUploadedFiles = async (
@@ -24,4 +21,13 @@ export const fetchUserUploadedFiles = async (
 
 export const deleteFile = async (fileId: string) => {
   await apiClient.delete(`${config.api.endpoints.fileUpload}/${fileId}`);
+};
+
+export const listDirectory = async (
+  directoryId?: string
+): Promise<Directory> => {
+  const { data } = await apiClient.get(config.api.endpoints.directory, {
+    params: { directoryId }
+  });
+  return data;
 };

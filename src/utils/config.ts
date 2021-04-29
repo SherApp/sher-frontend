@@ -7,6 +7,7 @@ const config = {
         new: '/token/new'
       },
       fileUpload: '/file',
+      directory: '/directory',
       user: '/user',
       platform: {
         root: '/platform',
