@@ -33,7 +33,7 @@ const ContainedTextInput = ({
   const containerClasses = clsx('relative pt-6', className);
 
   const inputClasses = clsx(
-    'w-full tracking-widest outline-none bg-black bg-opacity-20 px-4 py-2 rounded-full'
+    'w-full tracking-widest outline-none bg-gray-200 dark:bg-gray-800 px-4 py-2 rounded-full'
   );
 
   const labelClasses = clsx(
