@@ -26,8 +26,10 @@ export const deleteFile = async (fileId: string) => {
 export const listDirectory = async (
   directoryId?: string
 ): Promise<Directory> => {
-  const { data } = await apiClient.get(config.api.endpoints.directory, {
-    params: { directoryId }
-  });
+  let url = config.api.endpoints.directory;
+  if (directoryId) {
+    url += `/${directoryId}`;
+  }
+  const { data } = await apiClient.get(url);
   return data;
 };
