@@ -13,7 +13,7 @@ const NamedContainer = ({
 }: React.PropsWithChildren<NamedContainerProps>) => {
   return (
     <div className={clsx('container mt-40', className)}>
-      <Handwriting variant="h2" component="h1">
+      <Handwriting variant="h2" handwriting component="h1">
         {title}
       </Handwriting>
       {children}

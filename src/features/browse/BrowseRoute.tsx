@@ -6,6 +6,9 @@ import React, { useEffect, useState } from 'react';
 import DirectoryFilesList from './DirectoryFilesList';
 import PathBreadcrumbs from './PathBreadcrumbs';
 import useFileSearch from './useFileSearch';
+import Button from '../../components/Button';
+import { FolderPlus } from 'react-feather';
+import CreateFolderDialog from './CreateFolderDialog';
 
 const BrowseRoute = () => {
   const [query, setQuery] = useState('');
@@ -31,6 +34,7 @@ const BrowseRoute = () => {
 
   return (
     <NamedContainer title="Files">
+      <CreateFolderDialog />
       <TextInput
         variant="contained"
         label="Search"
@@ -39,6 +43,7 @@ const BrowseRoute = () => {
         onChange={handleQueryChange}
       />
       <PathBreadcrumbs segments={path} />
+      <Button icon={<FolderPlus />}>Create folder</Button>
       <DirectoryFilesList files={files} />
     </NamedContainer>
   );
