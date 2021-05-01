@@ -71,9 +71,9 @@ const UploadItem = ({
   return (
     <Transition
       show
-      enterFrom="translate-y-8"
-      enter="transition-transform transform duration-500"
-      enterTo="translate-y-0"
+      enterFrom="translate-y-8 opacity-0"
+      enter="transition-all transform duration-500"
+      enterTo="translate-y-0 opacity-100"
     >
       <ParentElement>
         <div className="grid grid-cols-upload lg:gap-8 md:gap-4 gap-2 border-b-2 dark:border-gray-800 py-5 px-5 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 items-center">

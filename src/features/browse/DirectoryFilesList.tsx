@@ -38,6 +38,7 @@ const DirectoryFilesList = ({ files, directories }: Props) => {
     <>
       {directories?.map((d) => (
         <UploadItem
+          key={d.id}
           icon={<Folder />}
           name={d.name}
           onClick={() => handleFolderClick(d.id)}
