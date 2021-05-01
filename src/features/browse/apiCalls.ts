@@ -10,6 +10,12 @@ export interface Directory {
   directories: Directory[];
 }
 
+export interface CreateDirectoryRequest {
+  id: string;
+  name: string;
+  parentDirectoryId?: string;
+}
+
 export const fetchUserUploadedFiles = async (
   criteria?: FetchFilesCriteria
 ): Promise<UserFile[]> => {
@@ -32,4 +38,10 @@ export const listDirectory = async (
   }
   const { data } = await apiClient.get(url);
   return data;
+};
+
+export const createDirectory = async (
+  request: CreateDirectoryRequest
+): Promise<void> => {
+  await apiClient.post(config.api.endpoints.directory, request);
 };

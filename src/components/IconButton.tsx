@@ -1,10 +1,15 @@
 import clsx from 'clsx';
 
-const IconButton = ({
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLButtonElement>) => {
-  const classes = clsx('p-1 bg-gradient-r-purple-pink rounded-lg', className);
+interface Props extends React.HTMLAttributes<HTMLButtonElement> {
+  gradient?: boolean;
+}
+
+const IconButton = ({ gradient, className, ...rest }: Props) => {
+  const classes = clsx(
+    'p-1 rounded-lg transition-colors',
+    gradient ? 'bg-gradient-r-purple-pink' : 'bg-transparent hover:bg-gray-700',
+    className
+  );
   return <button className={classes} {...rest} />;
 };
 

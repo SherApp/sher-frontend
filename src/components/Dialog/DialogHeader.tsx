@@ -1,6 +1,7 @@
 import React from 'react';
 import Typography from '../Typography';
 import { X } from 'react-feather';
+import IconButton from '../IconButton';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   onCloseClick?(): void;
@@ -13,7 +14,9 @@ const DialogHeader = ({ onCloseClick, children, ...rest }: Props) => (
     {...rest}
   >
     <Typography variant="h4">{children}</Typography>
-    <X />
+    <IconButton onClick={onCloseClick}>
+      <X />
+    </IconButton>
   </div>
 );
 

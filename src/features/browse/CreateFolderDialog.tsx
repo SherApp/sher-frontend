@@ -5,16 +5,41 @@ import Dialog, {
 } from '../../components/Dialog';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
+import { useState } from 'react';
 
-const CreateFolderDialog = () => {
+interface Props {
+  onClose?(): void;
+  onOkClick?(name?: string): void;
+  show?: boolean;
+}
+
+const CreateFolderDialog = ({ onClose, onOkClick, show }: Props) => {
+  const [name, setName] = useState<string>();
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+
+  const handleOkClick = () => {
+    onOkClick?.(name);
+  };
+
+  if (!show) return null;
+
   return (
     <Dialog aria-labelledby="folder-dialog-header">
-      <DialogHeader id="folder-dialog-header">Create a folder</DialogHeader>
+      <DialogHeader id="folder-dialog-header" onCloseClick={onClose}>
+        Create a folder
+      </DialogHeader>
       <DialogContent>
-        <TextInput label="Folder name" />
+        <TextInput
+          label="Folder name"
+          value={name}
+          onChange={handleNameChange}
+        />
         <DialogButtons>
-          <Button>Cancel</Button>
-          <Button>OK</Button>
+          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={handleOkClick}>OK</Button>
         </DialogButtons>
       </DialogContent>
     </Dialog>

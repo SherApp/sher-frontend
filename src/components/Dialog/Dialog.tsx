@@ -9,7 +9,7 @@ const Dialog = ({
 }: Props) => {
   return (
     <div
-      className="bg-black bg-opacity-50 fixed left-0 right-0 top-0 bottom-0 flex items-center justify-center"
+      className="bg-black bg-opacity-50 fixed left-0 right-0 top-0 bottom-0 flex items-center justify-center z-20"
       {...rest}
     >
       <div

@@ -1,17 +1,20 @@
+import React from 'react';
 import Typography, { TypographyProps } from '../../components/Typography';
 import fileSize from 'filesize';
 import ProgressBar from '../../components/ProgressBar';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 import { squashAnimation } from '../../sharedUtils/squashAnimation';
+import { Transition } from '@headlessui/react';
 
 interface UploadItemProps {
   icon?: JSX.Element;
   name: string;
-  size: number;
+  size?: number;
   progress?: number;
   actions?: JSX.Element;
   squash?: boolean;
+  onClick?(): void;
 }
 
 const Text = ({ className, ...rest }: TypographyProps) => (
@@ -31,11 +34,12 @@ const UploadItem = ({
   size,
   progress,
   actions,
-  squash
+  squash,
+  onClick
 }: UploadItemProps) => {
   const [height, setHeight] = useState<number>();
 
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (!squash) return;
@@ -50,22 +54,39 @@ const UploadItem = ({
     });
   }, [squash]);
 
+  const classes = clsx('overflow-hidden block', [
+    onClick && 'cursor-pointer text-left w-full'
+  ]);
+
+  const ParentElement: React.FC = ({ children }) => {
+    return React.createElement(onClick ? 'button' : 'div', {
+      className: classes,
+      ref: containerRef,
+      onClick: onClick,
+      children,
+      ...(squash ? { style: { height } } : {})
+    });
+  };
+
   return (
-    <div
-      className="overflow-hidden animate-slideInTop"
-      ref={containerRef}
-      {...(squash ? { style: { height } } : {})}
+    <Transition
+      show
+      enterFrom="translate-y-8"
+      enter="transition-transform transform duration-500"
+      enterTo="translate-y-0"
     >
-      <div className="grid grid-cols-upload lg:gap-8 md:gap-4 gap-2 border-b-2 dark:border-gray-800 py-5 px-5 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 items-center">
-        <div>{icon}</div>
-        <Text>{name}</Text>
-        <Text>{fileSize(size)}</Text>
-        {progress !== undefined && (
-          <ProgressBar progress={progress} fullWidth />
-        )}
-        <div className="flex">{actions}</div>
-      </div>
-    </div>
+      <ParentElement>
+        <div className="grid grid-cols-upload lg:gap-8 md:gap-4 gap-2 border-b-2 dark:border-gray-800 py-5 px-5 transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 items-center">
+          <div>{icon}</div>
+          <Text>{name}</Text>
+          {size && <Text>{fileSize(size)}</Text>}
+          {progress !== undefined && (
+            <ProgressBar progress={progress} fullWidth />
+          )}
+          <div className="flex">{actions}</div>
+        </div>
+      </ParentElement>
+    </Transition>
   );
 };
 
