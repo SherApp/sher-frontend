@@ -7,7 +7,7 @@ import ecologyIcon from '../../img/ecology.svg';
 import React, { useState } from 'react';
 import { deleteFile, Directory } from './apiCalls';
 import { Folder, File } from 'react-feather';
-import { useHistory } from 'react-router-dom';
+import useDirectoryNavigation from './useDirectoryNavigation';
 
 interface Props {
   files?: UserFile[];
@@ -15,7 +15,6 @@ interface Props {
 }
 
 const DirectoryFilesList = ({ files, directories }: Props) => {
-  const history = useHistory();
   const [hiddenIndices, setHiddenIndices] = useState<string[]>([]);
 
   const handleDeleteClick = async (fileId: string) => {
@@ -27,12 +26,7 @@ const DirectoryFilesList = ({ files, directories }: Props) => {
     }
   };
 
-  const handleFolderClick = (folderId: string) => {
-    history.push({
-      pathname: '/browse',
-      search: `?directoryId=${folderId}`
-    });
-  };
+  const { navigateTo } = useDirectoryNavigation();
 
   return (
     <>
@@ -41,7 +35,7 @@ const DirectoryFilesList = ({ files, directories }: Props) => {
           key={d.id}
           icon={<Folder />}
           name={d.name}
-          onClick={() => handleFolderClick(d.id)}
+          onClick={() => navigateTo(d.id)}
         />
       ))}
       {files

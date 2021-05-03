@@ -56,7 +56,7 @@ const BrowseRoute = () => {
         value={query}
         onChange={handleQueryChange}
       />
-      <PathBreadcrumbs segments={path.map((d) => d.name)} />
+      <PathBreadcrumbs history={path} />
       <div className="mb-2">
         <Button onClick={handleCreateFolderClick} icon={<FolderPlus />}>
           Create folder
