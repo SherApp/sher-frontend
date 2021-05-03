@@ -1,7 +1,7 @@
 import { fetchUserUploadedFiles, listDirectory } from './apiCalls';
 import { act, fireEvent, render } from '@testing-library/react';
 import BrowseRoute from './BrowseRoute';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 jest.mock('./apiCalls', () => ({
   listDirectory: jest.fn(),
@@ -9,7 +9,8 @@ jest.mock('./apiCalls', () => ({
 }));
 
 jest.mock('react-router-dom', () => ({
-  useLocation: jest.fn()
+  useLocation: jest.fn(),
+  useHistory: jest.fn()
 }));
 
 beforeEach(() => {
@@ -19,6 +20,7 @@ beforeEach(() => {
     }
   });
   (listDirectory as jest.Mock).mockResolvedValueOnce({});
+  (useHistory as jest.Mock).mockResolvedValue({});
 });
 
 it('lists root directory on mount', async () => {
