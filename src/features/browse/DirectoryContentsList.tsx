@@ -9,7 +9,7 @@ interface Props {
   directories?: Directory[];
 }
 
-const DirectoryFilesList = ({ files, directories }: Props) => {
+const DirectoryContentsList = ({ files, directories }: Props) => {
   const [hiddenIndices, setHiddenIndices] = useState<string[]>([]);
 
   const handleDeleteClick = async (fileId: string) => {
@@ -48,4 +48,4 @@ const DirectoryFilesList = ({ files, directories }: Props) => {
   );
 };
 
-export default DirectoryFilesList;
+export default DirectoryContentsList;

@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import TextInput from '../../components/TextInput';
 import NamedContainer from '../../components/NamedContainer';
 import React, { useState } from 'react';
-import DirectoryFilesList from './DirectoryFilesList';
+import DirectoryContentsList from './DirectoryContentsList';
 import PathBreadcrumbs from './PathBreadcrumbs';
 import useFileSearch from './useFileSearch';
 import Button from '../../components/Button';
@@ -62,7 +62,7 @@ const BrowseRoute = () => {
           Create folder
         </Button>
       </div>
-      <DirectoryFilesList files={files} directories={directories} />
+      <DirectoryContentsList files={files} directories={directories} />
     </NamedContainer>
   );
 };
