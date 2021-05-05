@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import Typography from './Typography';
 
-type Variant = 'primary' | 'contained' | 'secondary';
+type Variant = 'primary' | 'gradient' | 'secondary';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
@@ -20,7 +20,7 @@ const Button = ({
 }: ButtonProps) => {
   const classes = clsx(
     [
-      variant === 'contained' &&
+      variant === 'gradient' &&
         'bg-gradient-r-purple-pink shadow-button text-white'
     ],
     [variant === 'secondary' && 'text-pink border-pink border'],
@@ -29,8 +29,8 @@ const Button = ({
         'transition-colors bg-gray-200 hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700'
     ],
     [fullWidth && 'w-full'],
-    'rounded py-2',
-    variant === 'contained' ? 'px-10' : 'px-4',
+    'rounded py-2 flex justify-center',
+    variant === 'gradient' ? 'px-10' : 'px-4',
     className
   );
 

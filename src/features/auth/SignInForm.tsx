@@ -76,7 +76,9 @@ const SignInForm = () => {
           />
         </div>
         <div className="flex flex-col space-y-4">
-          <Button type="submit">Sign in</Button>
+          <Button variant="gradient" type="submit">
+            Sign in
+          </Button>
           <Button onClick={handleSignUpClick} variant="secondary">
             Sign up
           </Button>

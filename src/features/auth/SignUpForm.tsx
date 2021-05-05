@@ -127,7 +127,7 @@ const SignUpForm = () => {
               />
             )}
           </div>
-          <Button type="submit" fullWidth>
+          <Button variant="gradient" type="submit" fullWidth>
             Sign up
           </Button>
         </Form>
