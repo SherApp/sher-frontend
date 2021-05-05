@@ -9,8 +9,10 @@ import useFileSearch from './useFileSearch';
 import Button from '../../components/Button';
 import { FolderPlus } from 'react-feather';
 import CreateFolderDialog from './CreateFolderDialog';
+import useFilesUpload from '../upload/useFilesUpload';
 
 const BrowseRoute = () => {
+  const { uploadFiles } = useFilesUpload();
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
   const [query, setQuery] = useState('');
 
@@ -35,6 +37,10 @@ const BrowseRoute = () => {
 
     setShowCreateFolderDialog(false);
     await createChildDirectory(name);
+  };
+
+  const handleFilesDropped = (files: FileList, directoryId?: string) => {
+    uploadFiles(files, directoryId);
   };
 
   const results = useFileSearch(query);
@@ -62,7 +68,11 @@ const BrowseRoute = () => {
           Create folder
         </Button>
       </div>
-      <DirectoryContentsList files={files} directories={directories} />
+      <DirectoryContentsList
+        files={files}
+        directories={directories}
+        onFilesDropped={handleFilesDropped}
+      />
     </NamedContainer>
   );
 };

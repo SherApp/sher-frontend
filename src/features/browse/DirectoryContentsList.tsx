@@ -5,13 +5,20 @@ import { deleteFile, Directory } from './apiCalls';
 import useDirectoryNavigation from './useDirectoryNavigation';
 import FileDragArea from '../../components/FileDragArea';
 import clsx from 'clsx';
+import { Upload } from '@sherapp/sher-shared/upload';
 
 interface Props {
   files?: UserFile[];
   directories?: Directory[];
+  uploads?: Upload[];
+  onFilesDropped?(files: FileList, directoryId?: string): void;
 }
 
-const DirectoryContentsList = ({ files, directories }: Props) => {
+const DirectoryContentsList = ({
+  files,
+  directories,
+  onFilesDropped
+}: Props) => {
   const [hiddenIndices, setHiddenIndices] = useState<string[]>([]);
 
   const handleDeleteClick = async (fileId: string) => {
@@ -26,7 +33,7 @@ const DirectoryContentsList = ({ files, directories }: Props) => {
   const { navigateTo } = useDirectoryNavigation();
 
   return (
-    <FileDragArea>
+    <FileDragArea onFilesSelected={onFilesDropped}>
       {(dragIn) => {
         const classes = clsx(
           'border-2 border-dashed transition-colors',
@@ -39,6 +46,7 @@ const DirectoryContentsList = ({ files, directories }: Props) => {
                 key={d.id}
                 name={d.name}
                 onClick={() => navigateTo(d.id)}
+                onFilesDropped={(files) => onFilesDropped?.(files, d.id)}
               />
             ))}
             {files

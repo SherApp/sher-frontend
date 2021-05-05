@@ -7,11 +7,12 @@ import FileDragArea from '../../../components/FileDragArea';
 interface Props {
   name: string;
   onClick?(): void;
+  onFilesDropped?(files: FileList): void;
 }
 
-const DirectoryUploadItem = ({ name, onClick }: Props) => {
+const DirectoryUploadItem = ({ name, onClick, onFilesDropped }: Props) => {
   return (
-    <FileDragArea>
+    <FileDragArea onFilesSelected={onFilesDropped}>
       {(dragIn) => (
         <UploadItemContainer highlight={dragIn}>
           <button
