@@ -15,7 +15,8 @@ const FileDragArea = ({
 }: Props) => {
   const [dragIn, setDragIn] = useState(false);
 
-  const handleDragEnter = () => {
+  const handleDragEnter = (e: React.DragEvent) => {
+    e.stopPropagation();
     setDragIn(true);
   };
 
