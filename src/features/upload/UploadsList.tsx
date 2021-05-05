@@ -1,11 +1,9 @@
 import { Upload } from '@sherapp/sher-shared/upload';
-import UploadItem from './UploadItem';
-import Typography from '../../components/Typography';
-import UploadLink from './UploadLink';
 import uploadingIcon from '../../img/uploading.svg';
 import tickIcon from '../../img/tick.svg';
 import errorIcon from '../../img/error.svg';
-import { getUploadLink } from '../../sharedUtils/getUploadLink';
+import { FileUploadItem } from './UploadItem';
+import Typography from '../../components/Typography';
 
 const icons = {
   pending: uploadingIcon,
@@ -36,7 +34,7 @@ const UploadsList = ({ uploads }: UploadsListProps) => {
   return (
     <div className="flex flex-col my-8 container">
       {uploads.map((u) => (
-        <UploadItem
+        <FileUploadItem
           icon={
             <>
               <Typography variant="srOnly">
@@ -48,7 +46,7 @@ const UploadsList = ({ uploads }: UploadsListProps) => {
           name={u.name}
           size={u.size}
           progress={u.progress}
-          actions={<UploadLink link={getUploadLink(u.id, u.name)} />}
+          fileId={u.id}
         />
       ))}
     </div>
