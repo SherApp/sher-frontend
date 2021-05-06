@@ -19,6 +19,7 @@ const UploadItemContainer = ({ children, squash, highlight }: Props) => {
 
   return (
     <Transition
+      appear
       show
       enterFrom="translate-y-8 opacity-0"
       enter="transition-all transform duration-500"
