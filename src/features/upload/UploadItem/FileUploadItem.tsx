@@ -52,4 +52,4 @@ const FileUploadItem = ({
   );
 };
 
-export default FileUploadItem;
+export default React.memo(FileUploadItem);

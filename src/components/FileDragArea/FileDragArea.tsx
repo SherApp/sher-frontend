@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useFileDragArea } from './FileDragAreaContext';
 
 interface Props {
   as?: string;
@@ -14,6 +15,7 @@ const FileDragArea = ({
   ...rest
 }: Props) => {
   const [dragIn, setDragIn] = useState(false);
+  const { setShowInfo } = useFileDragArea();
 
   const handleDragEnter = (e: React.DragEvent) => {
     e.stopPropagation();
@@ -35,6 +37,10 @@ const FileDragArea = ({
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    setShowInfo?.(dragIn);
+  }, [setShowInfo, dragIn]);
 
   return React.createElement(
     as,

@@ -10,6 +10,10 @@ import Button from '../../components/Button';
 import { FolderPlus } from 'react-feather';
 import CreateFolderDialog from './CreateFolderDialog';
 import useFilesUpload from '../upload/useFilesUpload';
+import {
+  FileDragAreaInfo,
+  FileDragAreaContextProvider
+} from '../../components/FileDragArea';
 
 const BrowseRoute = () => {
   const { uploadFiles } = useFilesUpload();
@@ -49,31 +53,34 @@ const BrowseRoute = () => {
   const directories = results ? [] : directory?.directories;
 
   return (
-    <NamedContainer title="Files">
-      <CreateFolderDialog
-        onOkClick={handleCreateFolder}
-        onClose={() => setShowCreateFolderDialog(false)}
-        show={showCreateFolderDialog}
-      />
-      <TextInput
-        variant="contained"
-        label="Search"
-        className="mb-2"
-        value={query}
-        onChange={handleQueryChange}
-      />
-      <PathBreadcrumbs history={path} />
-      <div className="mb-2">
-        <Button onClick={handleCreateFolderClick} icon={<FolderPlus />}>
-          Create folder
-        </Button>
-      </div>
-      <DirectoryContentsList
-        files={files}
-        directories={directories}
-        onFilesDropped={handleFilesDropped}
-      />
-    </NamedContainer>
+    <FileDragAreaContextProvider>
+      <NamedContainer title="Files">
+        <FileDragAreaInfo />
+        <CreateFolderDialog
+          onOkClick={handleCreateFolder}
+          onClose={() => setShowCreateFolderDialog(false)}
+          show={showCreateFolderDialog}
+        />
+        <TextInput
+          variant="contained"
+          label="Search"
+          className="mb-2"
+          value={query}
+          onChange={handleQueryChange}
+        />
+        <PathBreadcrumbs history={path} />
+        <div className="mb-2">
+          <Button onClick={handleCreateFolderClick} icon={<FolderPlus />}>
+            Create folder
+          </Button>
+        </div>
+        <DirectoryContentsList
+          files={files}
+          directories={directories}
+          onFilesDropped={handleFilesDropped}
+        />
+      </NamedContainer>
+    </FileDragAreaContextProvider>
   );
 };
 
