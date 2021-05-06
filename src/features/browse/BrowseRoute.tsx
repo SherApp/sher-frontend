@@ -14,9 +14,13 @@ import {
   FileDragAreaInfo,
   FileDragAreaContextProvider
 } from '../../components/FileDragArea';
+import useDirectoryNavigation, {
+  DirectoryPathSegment
+} from './useDirectoryNavigation';
 
 const BrowseRoute = () => {
   const { uploadFiles } = useFilesUpload();
+  const { navigateTo, history } = useDirectoryNavigation();
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
   const [query, setQuery] = useState('');
 
@@ -28,7 +32,7 @@ const BrowseRoute = () => {
     'directoryId'
   );
 
-  const { directory, createChildDirectory, path } = useDirectory(
+  const { directory, createChildDirectory } = useDirectory(
     directoryId ?? undefined
   );
 
@@ -45,6 +49,10 @@ const BrowseRoute = () => {
 
   const handleFilesDropped = (files: FileList, directoryId?: string) => {
     uploadFiles(files, directoryId);
+  };
+
+  const handleDirectoryClick = (segment: DirectoryPathSegment) => {
+    navigateTo(segment);
   };
 
   const results = useFileSearch(query);
@@ -68,7 +76,10 @@ const BrowseRoute = () => {
           value={query}
           onChange={handleQueryChange}
         />
-        <PathBreadcrumbs history={path} />
+        <PathBreadcrumbs
+          history={history}
+          onBreadcrumbClick={handleDirectoryClick}
+        />
         <div className="mb-2">
           <Button onClick={handleCreateFolderClick} icon={<FolderPlus />}>
             Create folder
@@ -78,6 +89,7 @@ const BrowseRoute = () => {
           files={files}
           directories={directories}
           onFilesDropped={handleFilesDropped}
+          onDirectoryClick={handleDirectoryClick}
         />
       </NamedContainer>
     </FileDragAreaContextProvider>

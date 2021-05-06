@@ -1,30 +1,28 @@
 import homeDir from '../../img/homeDir.svg';
 import { Transition } from '@headlessui/react';
-import useDirectoryNavigation from './useDirectoryNavigation';
-import { Directory } from './apiCalls';
+import { DirectoryPathSegment } from './useDirectoryNavigation';
 import IconButton from '../../components/IconButton';
 
 interface Props {
-  history: Directory[];
+  history?: DirectoryPathSegment[];
+  onBreadcrumbClick?(segment: DirectoryPathSegment): void;
 }
 
-const PathBreadcrumbs = ({ history }: Props) => {
-  const { navigateTo } = useDirectoryNavigation();
-
-  const handleClick = (directoryId?: string) => {
-    navigateTo(directoryId);
+const PathBreadcrumbs = ({ history, onBreadcrumbClick }: Props) => {
+  const handleClick = (pathSegment: DirectoryPathSegment) => {
+    onBreadcrumbClick?.(pathSegment);
   };
 
   return (
     <div className="flex items-center space-x-2 my-4">
       <IconButton
         aria-label="go to home directory"
-        onClick={() => handleClick()}
+        onClick={() => handleClick({ name: 'Root' })}
       >
         <img src={homeDir} alt="Root directory" />
       </IconButton>
       {history
-        .filter((s) => s.name !== 'Root')
+        ?.filter((s) => s.name !== 'Root')
         .map((segment) => (
           <Transition
             appear={true}
@@ -35,7 +33,7 @@ const PathBreadcrumbs = ({ history }: Props) => {
             enterTo="translate-y-0 opacity-100"
           >
             <button
-              onClick={() => handleClick(segment.id)}
+              onClick={() => handleClick(segment)}
               className="bg-gradient-r-purple-pink rounded-full text-white px-4 py-1.5"
             >
               {segment.name}

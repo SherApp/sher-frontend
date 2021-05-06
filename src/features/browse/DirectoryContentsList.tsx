@@ -2,7 +2,7 @@ import { UserFile } from '@sherapp/sher-shared';
 import { FileUploadItem, DirectoryUploadItem } from '../upload/UploadItem';
 import React, { useCallback, useState } from 'react';
 import { deleteFile, Directory } from './apiCalls';
-import useDirectoryNavigation from './useDirectoryNavigation';
+import { DirectoryPathSegment } from './useDirectoryNavigation';
 import FileDragArea from '../../components/FileDragArea';
 import clsx from 'clsx';
 import { Upload } from '@sherapp/sher-shared/upload';
@@ -12,16 +12,16 @@ interface Props {
   directories?: Directory[];
   uploads?: Upload[];
   onFilesDropped?(files: FileList, directoryId?: string): void;
+  onDirectoryClick?(segment: DirectoryPathSegment): void;
 }
 
 const DirectoryContentsList = ({
   files,
   directories,
-  onFilesDropped
+  onFilesDropped,
+  onDirectoryClick
 }: Props) => {
   const [hiddenIndices, setHiddenIndices] = useState<string[]>([]);
-
-  const { navigateTo } = useDirectoryNavigation();
 
   const FileComponent = ({ file }: { file: UserFile }) => {
     const handleDeleteClick = useCallback(async () => {
@@ -47,7 +47,7 @@ const DirectoryContentsList = ({
 
   const DirectoryComponent = ({ directory }: { directory: Directory }) => {
     const handleClick = useCallback(() => {
-      navigateTo(directory.id);
+      onDirectoryClick?.({ id: directory.id, name: directory.name });
     }, [directory]);
 
     const handleFilesDropped = useCallback(
