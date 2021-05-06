@@ -1,6 +1,6 @@
 import UploadItemContainer from './UploadItemContainer';
 import UploadItemDetails from './UploadItemDetails';
-import { File, Trash } from 'react-feather';
+import { File, Trash2 } from 'react-feather';
 import React from 'react';
 import UploadLink from '../UploadLink';
 import { getUploadLink } from '../../../sharedUtils/getUploadLink';
@@ -42,7 +42,7 @@ const FileUploadItem = ({
                 className="ml-2"
                 onClick={onDeleteClick}
               >
-                <Trash />
+                <Trash2 />
               </IconButton>
             </>
           }
