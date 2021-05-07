@@ -26,12 +26,22 @@ const useDirectory = (directoryId?: string) => {
       name
     });
 
-    directory?.directories.push({
-      id,
-      name,
-      parentDirectoryId: directoryId,
-      files: [],
-      directories: []
+    setDirectory((prev) => {
+      if (!prev?.directories) return prev;
+
+      return {
+        ...prev,
+        directories: [
+          ...prev.directories,
+          {
+            id,
+            name,
+            parentDirectoryId: directoryId,
+            files: [],
+            directories: []
+          }
+        ]
+      };
     });
   };
 
