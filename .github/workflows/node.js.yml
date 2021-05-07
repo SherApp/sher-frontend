@@ -22,6 +22,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: NPM or Yarn install with caching
       uses: bahmutov/npm-install@v1.6.0
-    - run: yarn test
+    - run: yarn test --coverage --watchAll=false
     - name: Codecov
       uses: codecov/codecov-action@v1
