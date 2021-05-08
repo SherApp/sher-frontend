@@ -25,7 +25,11 @@ const Squashable = ({ children, squash }: Props) => {
   }, [squash]);
 
   return (
-    <div ref={ref} {...(squash ? { style: { height } } : {})}>
+    <div
+      className="overflow-hidden"
+      ref={ref}
+      {...(squash ? { style: { height } } : {})}
+    >
       {children}
     </div>
   );
