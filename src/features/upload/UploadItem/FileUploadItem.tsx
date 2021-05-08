@@ -11,7 +11,7 @@ interface Props {
   name: string;
   size: number;
   progress?: number;
-  onDeleteClick?(): void;
+  onDeleteClick?(fileId: string): void;
   squash?: boolean;
   icon?: JSX.Element;
 }
@@ -25,6 +25,10 @@ const FileUploadItem = ({
   squash,
   icon = <File />
 }: Props) => {
+  const handleDeleteClick = () => {
+    onDeleteClick?.(fileId);
+  };
+
   return (
     <UploadItemContainer squash={squash}>
       <div>
@@ -40,7 +44,7 @@ const FileUploadItem = ({
                 gradient
                 aria-label="delete file"
                 className="ml-2"
-                onClick={onDeleteClick}
+                onClick={handleDeleteClick}
               >
                 <Trash2 />
               </IconButton>

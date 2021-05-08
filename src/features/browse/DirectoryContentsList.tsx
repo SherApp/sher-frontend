@@ -2,20 +2,21 @@ import { UserFile } from '@sherapp/sher-shared';
 import { FileUploadItem, DirectoryUploadItem } from '../upload/UploadItem';
 import React, { useCallback, useState } from 'react';
 import { deleteFile, Directory } from './apiCalls';
-import { DirectoryPathSegment } from './useDirectoryNavigation';
 import FileDragArea from '../../components/FileDragArea';
 import clsx from 'clsx';
 import { Upload } from '@sherapp/sher-shared/upload';
 
 interface Props {
+  directoryId: string;
   files?: UserFile[];
   directories?: Directory[];
   uploads?: Upload[];
-  onFilesDropped?(files: FileList, directoryId?: string): void;
-  onDirectoryClick?(segment: DirectoryPathSegment): void;
+  onFilesDropped?(directoryId: string, files: FileList): void;
+  onDirectoryClick?(directoryId: string): void;
 }
 
 const DirectoryContentsList = ({
+  directoryId,
   files,
   directories,
   onFilesDropped,
@@ -23,52 +24,21 @@ const DirectoryContentsList = ({
 }: Props) => {
   const [hiddenIndices, setHiddenIndices] = useState<string[]>([]);
 
-  const FileComponent = ({ file }: { file: UserFile }) => {
-    const handleDeleteClick = useCallback(async () => {
-      hideFile();
-      await deleteFile(file.id);
-
-      function hideFile() {
-        setHiddenIndices((p) => [...p, file.id]);
-      }
-    }, [file]);
-
-    return (
-      <FileUploadItem
-        key={file.id}
-        name={file.fileName}
-        size={file.length}
-        fileId={file.id}
-        squash={hiddenIndices.includes(file.id)}
-        onDeleteClick={handleDeleteClick}
-      />
-    );
+  const handleFilesDropped = (files: FileList) => {
+    onFilesDropped?.(directoryId, files);
   };
 
-  const DirectoryComponent = ({ directory }: { directory: Directory }) => {
-    const handleClick = useCallback(() => {
-      onDirectoryClick?.({ id: directory.id, name: directory.name });
-    }, [directory]);
+  const handleFileDeleteClick = useCallback(async (fileId: string) => {
+    hideFile();
+    await deleteFile(fileId);
 
-    const handleFilesDropped = useCallback(
-      (files: FileList) => {
-        onFilesDropped?.(files, directory.id);
-      },
-      [directory]
-    );
-
-    return (
-      <DirectoryUploadItem
-        key={directory.id}
-        name={directory.name}
-        onClick={handleClick}
-        onFilesDropped={handleFilesDropped}
-      />
-    );
-  };
+    function hideFile() {
+      setHiddenIndices((p) => [...p, fileId]);
+    }
+  }, []);
 
   return (
-    <FileDragArea onFilesSelected={onFilesDropped}>
+    <FileDragArea onFilesSelected={handleFilesDropped}>
       {(dragIn) => {
         const classes = clsx(
           'border-2 border-dashed transition-colors',
@@ -77,12 +47,25 @@ const DirectoryContentsList = ({
         return (
           <div className={classes}>
             {directories?.map((d) => (
-              <DirectoryComponent key={d.id} directory={d} />
+              <DirectoryUploadItem
+                key={d.id}
+                directoryId={d.id}
+                name={d.name}
+                onClick={onDirectoryClick}
+                onFilesDropped={onFilesDropped}
+              />
             ))}
             {files
               ?.filter((f) => !f.isDeleted)
               .map((f) => (
-                <FileComponent key={f.id} file={f} />
+                <FileUploadItem
+                  key={f.id}
+                  name={f.fileName}
+                  size={f.length}
+                  fileId={f.id}
+                  squash={hiddenIndices.includes(f.id)}
+                  onDeleteClick={handleFileDeleteClick}
+                />
               ))}
           </div>
         );

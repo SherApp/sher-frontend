@@ -5,20 +5,34 @@ import React from 'react';
 import FileDragArea from '../../../components/FileDragArea';
 
 interface Props {
+  directoryId: string;
   name: string;
-  onClick?(): void;
-  onFilesDropped?(files: FileList): void;
+  onClick?(directoryId: string): void;
+  onFilesDropped?(directoryId: string, files: FileList): void;
 }
 
-const DirectoryUploadItem = ({ name, onClick, onFilesDropped }: Props) => {
+const DirectoryUploadItem = ({
+  directoryId,
+  name,
+  onClick,
+  onFilesDropped
+}: Props) => {
+  const handleFilesSelected = (files: FileList) => {
+    onFilesDropped?.(directoryId, files);
+  };
+
+  const handleClick = () => {
+    onClick?.(directoryId);
+  };
+
   return (
-    <FileDragArea onFilesSelected={onFilesDropped}>
+    <FileDragArea onFilesSelected={handleFilesSelected}>
       {(dragIn) => (
         <UploadItemContainer highlight={dragIn}>
           <button
             className="w-full block text-left"
             aria-label={`open ${name} directory`}
-            onClick={onClick}
+            onClick={handleClick}
           >
             <UploadItemDetails icon={<Folder />} name={name} />
           </button>
@@ -28,4 +42,4 @@ const DirectoryUploadItem = ({ name, onClick, onFilesDropped }: Props) => {
   );
 };
 
-export default DirectoryUploadItem;
+export default React.memo(DirectoryUploadItem);
