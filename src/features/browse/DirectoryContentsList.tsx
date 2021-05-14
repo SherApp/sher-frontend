@@ -1,7 +1,7 @@
 import { UserFile } from '@sherapp/sher-shared';
 import { FileUploadItem, DirectoryUploadItem } from '../upload/UploadItem';
 import React, { useCallback, useState } from 'react';
-import { deleteFile, Directory } from './apiCalls';
+import { deleteDirectory, deleteFile, Directory } from './apiCalls';
 import FileDragArea from '../../components/FileDragArea';
 import clsx from 'clsx';
 import { Upload } from '@sherapp/sher-shared/upload';
@@ -28,14 +28,25 @@ const DirectoryContentsList = ({
     onFilesDropped?.(directoryId, files);
   };
 
-  const handleFileDeleteClick = useCallback(async (fileId: string) => {
-    hideFile();
-    await deleteFile(fileId);
-
-    function hideFile() {
-      setHiddenIndices((p) => [...p, fileId]);
-    }
+  const hideId = useCallback((id: string) => {
+    setHiddenIndices((p) => [...p, id]);
   }, []);
+
+  const handleFileDeleteClick = useCallback(
+    async (fileId: string) => {
+      hideId(fileId);
+      await deleteFile(fileId);
+    },
+    [hideId]
+  );
+
+  const handleDirectoryDeleteClick = useCallback(
+    async (directoryId: string) => {
+      hideId(directoryId);
+      await deleteDirectory(directoryId);
+    },
+    [hideId]
+  );
 
   return (
     <FileDragArea onFilesSelected={handleFilesDropped}>
@@ -46,15 +57,19 @@ const DirectoryContentsList = ({
         );
         return (
           <div className={classes}>
-            {directories?.map((d) => (
-              <DirectoryUploadItem
-                key={d.id}
-                directoryId={d.id}
-                name={d.name}
-                onClick={onDirectoryClick}
-                onFilesDropped={onFilesDropped}
-              />
-            ))}
+            {directories
+              ?.filter((d) => !d.isDeleted)
+              ?.map((d) => (
+                <DirectoryUploadItem
+                  key={d.id}
+                  directoryId={d.id}
+                  name={d.name}
+                  squash={hiddenIndices.includes(d.id)}
+                  onClick={onDirectoryClick}
+                  onDeleteClick={handleDirectoryDeleteClick}
+                  onFilesDropped={onFilesDropped}
+                />
+              ))}
             {files
               ?.filter((f) => !f.isDeleted)
               .map((f) => (

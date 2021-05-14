@@ -8,6 +8,7 @@ export interface Directory {
   name: string;
   files: UserFile[];
   directories: Directory[];
+  isDeleted?: boolean;
 }
 
 export interface CreateDirectoryRequest {
@@ -44,4 +45,8 @@ export const createDirectory = async (
   request: CreateDirectoryRequest
 ): Promise<void> => {
   await apiClient.post(config.api.endpoints.directory, request);
+};
+
+export const deleteDirectory = async (directoryId: string) => {
+  await apiClient.delete(`${config.api.endpoints.directory}/${directoryId}`);
 };
