@@ -1,46 +1,45 @@
-import { Upload } from '@sherapp/sher-shared/upload';
+import { Upload } from '@sherapp/sher-shared';
 import { v4 as uuidv4 } from 'uuid';
 import { uploadFile } from './apiCalls';
-import { useState } from 'react';
+import { useUploadsInfo } from './UploadsInfoContext';
 
 const useFilesUpload = () => {
-  const [uploads, setUploads] = useState<Upload[]>([]);
+  const { addOrUpdateUpload, uploads } = useUploadsInfo();
 
-  const updateUploadProperty = (
-    id: string,
-    upload: Partial<Omit<Upload, 'id'>>
+  const uploadFiles = (
+    files: FileList,
+    directoryId: string,
+    onFileUploaded?: (upload: Upload) => void
   ) => {
-    setUploads((p) => p.map((u) => (u.id === id ? { ...u, ...upload } : u)));
-  };
-
-  const uploadFiles = (files: FileList, directoryId?: string) => {
     for (const file of files) {
       const upload: Upload = {
         id: uuidv4(),
         name: file.name,
         size: file.size,
-        progress: 0
+        progress: 0,
+        directoryId: directoryId
       };
 
-      setUploads((p) => [...p, upload]);
+      addOrUpdateUpload?.(upload);
 
       uploadFile(file, upload.id, directoryId, (progress) =>
         onUploadProgress(upload.id, progress)
       )
-        .then(() => onUploadSuccess(upload.id))
+        .then(() => onUploadSuccess(upload))
         .catch(() => onUploadError(upload.id));
     }
 
     const onUploadProgress = (uploadId: string, progress: number) => {
-      updateUploadProperty(uploadId, { progress });
+      addOrUpdateUpload?.({ id: uploadId, progress });
     };
 
     const onUploadError = (uploadId: string) => {
-      updateUploadProperty(uploadId, { error: true });
+      addOrUpdateUpload?.({ id: uploadId, error: true });
     };
 
-    const onUploadSuccess = (uploadId: string) => {
-      updateUploadProperty(uploadId, { success: true });
+    const onUploadSuccess = (upload: Upload) => {
+      addOrUpdateUpload?.({ id: upload.id, success: true });
+      onFileUploaded?.(upload);
     };
   };
 

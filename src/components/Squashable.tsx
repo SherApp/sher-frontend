@@ -1,28 +1,45 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { squashAnimation } from '../sharedUtils/squashAnimation';
+import { useInitialValue } from '../utils/useInitialValue';
 
 interface Props {
   children?: JSX.Element;
   squash?: boolean;
+  timeout?: number;
 }
 
-const Squashable = ({ children, squash }: Props) => {
+const Squashable = ({ children, squash, timeout = 0 }: Props) => {
   const [height, setHeight] = useState<number>();
+  const wasSquashedOnInit = useInitialValue(squash);
 
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!squash) return;
+  useLayoutEffect(() => {
+    if (wasSquashedOnInit && squash) {
+      setHeight(0);
+      return;
+    }
 
-    const height = ref.current?.offsetHeight;
-    if (!height) return;
+    const fn = () => {
+      if (!squash) return;
 
-    squashAnimation({
-      baseHeight: height,
-      duration: 150,
-      onAnimationFrame: setHeight
-    });
-  }, [squash]);
+      const height = ref.current?.offsetHeight;
+      if (!height) return;
+
+      squashAnimation({
+        baseHeight: height,
+        duration: 150,
+        onAnimationFrame: setHeight
+      });
+    };
+
+    if (timeout === 0) {
+      fn();
+      return;
+    }
+
+    window.setTimeout(fn, timeout);
+  }, [squash, timeout, wasSquashedOnInit]);
 
   return (
     <div

@@ -15,6 +15,7 @@ import {
   FileDragAreaContextProvider
 } from '../../components/FileDragArea';
 import useDirectoryNavigation from './useDirectoryNavigation';
+import PendingUploads from '../upload/PendingUploads';
 
 const BrowseRoute = () => {
   const { uploadFiles } = useFilesUpload();
@@ -65,6 +66,7 @@ const BrowseRoute = () => {
 
   return (
     <FileDragAreaContextProvider>
+      <PendingUploads />
       <NamedContainer title="Files">
         <FileDragAreaInfo />
         <CreateFolderDialog

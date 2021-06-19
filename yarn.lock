@@ -1507,10 +1507,10 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@sherapp/sher-shared@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@sherapp/sher-shared/-/sher-shared-1.0.7.tgz#c8ec0212e99c768a0dfdb98ffe6c3d18f6482668"
-  integrity sha512-IyWcrmsGX0fHxvSgv/5I6TxHR9Wp/SviGPOE7Z3H0rh+gMZ/d0J+ERgWaBjUtkEiBVxUv7LQcZka5s42Jf7YmA==
+"@sherapp/sher-shared@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@sherapp/sher-shared/-/sher-shared-1.0.8.tgz#0777784c317dacd1319a98997abfccb738566364"
+  integrity sha512-BBW1xb/OME4BShST9n17FxYOmad9kmvgY3LL3/kQKunLad2pBUSo7bXxbk7AU8zfj6WIBv0peaXAQoUlbSc6ZQ==
   dependencies:
     axios "^0.21.1"
 

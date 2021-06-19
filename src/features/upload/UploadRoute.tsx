@@ -1,12 +1,18 @@
 import UploadCircle from './UploadCircle';
 import UploadsList from './UploadsList';
 import useFilesUpload from './useFilesUpload';
+import useDirectory from '../browse/useDirectory';
 
 const UploadRoute = () => {
-  const { uploads, uploadFiles } = useFilesUpload();
+  const { directory } = useDirectory();
+  const { uploads = [], uploadFiles } = useFilesUpload();
 
   const handleFilesSelected = (files: FileList) => {
-    uploadFiles(files);
+    if (!directory) {
+      return;
+    }
+
+    uploadFiles(files, directory?.id);
   };
 
   return (

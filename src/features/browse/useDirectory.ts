@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { createDirectory, Directory, listDirectory } from './apiCalls';
 import { v4 as uuidv4 } from 'uuid';
+import { useUploadsInfo } from '../upload/UploadsInfoContext';
+import { uploadToFile } from './uploadToFile';
 
 const useDirectory = (directoryId?: string) => {
+  const { uploads } = useUploadsInfo();
   const [isLoading, setIsLoading] = useState(true);
   const [directory, setDirectory] = useState<Directory>();
 
@@ -45,8 +48,22 @@ const useDirectory = (directoryId?: string) => {
     });
   };
 
+  let dir = directory;
+
+  if (dir && uploads) {
+    dir = {
+      ...dir,
+      files: [
+        ...dir.files,
+        ...uploads
+          .filter((u) => u.directoryId === dir?.id && u.success)
+          .map(uploadToFile)
+      ]
+    };
+  }
+
   return {
-    directory: isLoading ? undefined : directory,
+    directory: isLoading ? undefined : dir,
     isLoading,
     createChildDirectory
   };

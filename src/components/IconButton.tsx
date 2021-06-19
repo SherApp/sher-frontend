@@ -9,7 +9,7 @@ const IconButton = ({ gradient, className, ...rest }: Props) => {
     'p-1 rounded-lg transition-colors',
     gradient
       ? 'bg-gradient-r-purple-pink text-white'
-      : 'bg-transparent hover:bg-gray-200 dark:hover:bg-gray-700',
+      : 'bg-gray-800 bg-opacity-0 hover:bg-opacity-10 dark:bg-gray-200',
     className
   );
   return <button className={classes} {...rest} />;

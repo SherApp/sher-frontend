@@ -28,6 +28,7 @@ const FileDragArea = ({
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     setDragIn(false);
     if (e.dataTransfer.items.length > 0) {
       onFilesSelected?.(e.dataTransfer.files);

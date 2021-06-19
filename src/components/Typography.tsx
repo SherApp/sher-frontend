@@ -10,6 +10,7 @@ type TypographyVariants =
   | 'h6'
   | 'body'
   | 'caption'
+  | 'sm'
   | 'srOnly';
 
 export interface TypographyProps
@@ -40,6 +41,7 @@ export const typographyVariantsClasses: VariantClassesMap = {
   h6: 'text-xl',
   body: 'text-base',
   caption: 'uppercase tracking-widest',
+  sm: 'text-sm',
   srOnly: 'sr-only'
 };
 
