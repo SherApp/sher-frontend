@@ -17,7 +17,7 @@ const PendingUploadsList = ({ uploads }: Props) => {
           <li className="flex justify-between items-center px-4" key={u.id}>
             <div className="flex items-center flex-grow">
               <ProgressRing value={u.progress} />
-              <div className="py-2 ml-2 border-gray-300 border-b flex-grow flex items-center justify-between">
+              <div className="py-2 ml-2 dark:border-gray-800 border-gray-300 border-b flex-grow flex items-center justify-between">
                 <div>
                   <Typography component="p">{u.name}</Typography>
                   <Typography

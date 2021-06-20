@@ -8,9 +8,15 @@ interface Props {
   onToggleClick?(): void;
 }
 
-const PendingUploadsHeader = ({ isOpen, onToggleClick }: Props) => {
+const PendingUploadsHeader = (
+  { isOpen, onToggleClick }: Props,
+  ref: React.Ref<HTMLDivElement>
+) => {
   return (
-    <div className="text-white bg-gradient-r-purple-pink px-4 py-3 flex justify-between items-center rounded-t">
+    <div
+      ref={ref}
+      className="text-white bg-gradient-r-purple-pink px-4 py-3 flex justify-between items-center rounded-t"
+    >
       <Typography variant="h5">Uploads</Typography>
       <IconButton onClick={onToggleClick}>
         {isOpen ? <ChevronDown /> : <ChevronUp />}
@@ -19,4 +25,4 @@ const PendingUploadsHeader = ({ isOpen, onToggleClick }: Props) => {
   );
 };
 
-export default PendingUploadsHeader;
+export default React.forwardRef(PendingUploadsHeader);
