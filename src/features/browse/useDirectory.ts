@@ -56,7 +56,7 @@ const useDirectory = (directoryId?: string) => {
       files: [
         ...dir.files,
         ...uploads
-          .filter((u) => u.directoryId === dir?.id && u.success)
+          .filter((u) => u.directoryId === dir?.id && u.status === 'success')
           .map(uploadToFile)
       ]
     };

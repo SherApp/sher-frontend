@@ -1,16 +1,20 @@
-import { useUploadsInfo } from '../UploadsInfoContext';
 import PendingUploadsHeader from './PendingUploadsHeader';
 import PendingUploadsList from './PendingUploadsList';
 import { Transition } from '@headlessui/react';
 import { useRef, useState } from 'react';
+import useFilesUpload from '../useFilesUpload';
 
 const PendingUploads = () => {
-  const { uploads } = useUploadsInfo();
+  const { uploads, cancelUpload } = useFilesUpload();
 
   const headerRef = useRef<HTMLDivElement>(null);
   const [collapsed, setCollapsed] = useState(false);
 
   const headerHeight = headerRef?.current?.offsetHeight ?? 0;
+
+  const handleUploadCancelClick = (uploadId: string) => {
+    cancelUpload(uploadId);
+  };
 
   return (
     <div className="fixed right-6 bottom-0">
@@ -33,7 +37,10 @@ const PendingUploads = () => {
             isOpen={!collapsed}
             ref={headerRef}
           />
-          <PendingUploadsList uploads={uploads} />
+          <PendingUploadsList
+            uploads={uploads}
+            onUploadCancelClick={handleUploadCancelClick}
+          />
         </div>
       </Transition>
     </div>

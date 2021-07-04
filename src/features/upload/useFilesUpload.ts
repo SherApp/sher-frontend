@@ -1,6 +1,6 @@
 import { Upload } from '@sherapp/sher-shared';
 import { v4 as uuidv4 } from 'uuid';
-import { uploadFile } from './apiCalls';
+import { uploadFile, cancelUpload as apiCancelUpload } from './apiCalls';
 import { useUploadsInfo } from './UploadsInfoContext';
 
 const useFilesUpload = () => {
@@ -17,7 +17,8 @@ const useFilesUpload = () => {
         name: file.name,
         size: file.size,
         progress: 0,
-        directoryId: directoryId
+        directoryId: directoryId,
+        status: 'uploading'
       };
 
       addOrUpdateUpload?.(upload);
@@ -34,16 +35,22 @@ const useFilesUpload = () => {
     };
 
     const onUploadError = (uploadId: string) => {
-      addOrUpdateUpload?.({ id: uploadId, error: true });
+      addOrUpdateUpload?.({ id: uploadId, status: 'error' });
     };
 
     const onUploadSuccess = (upload: Upload) => {
-      addOrUpdateUpload?.({ id: upload.id, success: true });
+      addOrUpdateUpload?.({ id: upload.id, status: 'success' });
       onFileUploaded?.(upload);
     };
   };
 
-  return { uploadFiles, uploads };
+  const cancelUpload = (uploadId: string) => {
+    apiCancelUpload(uploadId);
+
+    addOrUpdateUpload?.({ id: uploadId, status: 'cancelled' });
+  };
+
+  return { uploadFiles, cancelUpload, uploads };
 };
 
 export default useFilesUpload;
