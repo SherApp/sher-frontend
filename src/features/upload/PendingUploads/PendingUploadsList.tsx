@@ -1,10 +1,10 @@
-import { Upload } from '@sherapp/sher-shared/upload';
 import ProgressRing from '../../../components/ProgressRing';
 import Typography from '../../../components/Typography';
 import fileSize from 'filesize';
 import IconButton from '../../../components/IconButton';
 import { X } from 'react-feather';
 import UploadStatusIcon from '../UploadStatusIcon';
+import { Upload } from '@sherapp/sher-shared';
 
 interface Props {
   uploads?: Upload[];
@@ -16,7 +16,7 @@ const PendingUploadsList = ({ uploads, onUploadCancelClick }: Props) => {
     <div className="bg-gray-200 dark:bg-gray-800">
       <ul>
         {uploads?.map((u) => (
-          <li className="flex justify-between items-center px-4" key={u.id}>
+          <li className="flex justify-between items-center px-4" key={u.key}>
             <div className="flex items-center flex-grow">
               <div className="w-8 flex justify-center">
                 {u.status !== 'uploading' ? (
@@ -38,7 +38,7 @@ const PendingUploadsList = ({ uploads, onUploadCancelClick }: Props) => {
                 </div>
                 {u.status === 'uploading' && (
                   <div>
-                    <IconButton onClick={() => onUploadCancelClick?.(u.id)}>
+                    <IconButton onClick={() => onUploadCancelClick?.(u.key)}>
                       <X />
                     </IconButton>
                   </div>

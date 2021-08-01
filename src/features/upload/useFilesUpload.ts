@@ -13,7 +13,7 @@ const useFilesUpload = () => {
   ) => {
     for (const file of files) {
       const upload: Upload = {
-        id: uuidv4(),
+        key: uuidv4(),
         name: file.name,
         size: file.size,
         progress: 0,
@@ -23,31 +23,36 @@ const useFilesUpload = () => {
 
       addOrUpdateUpload?.(upload);
 
-      uploadFile(file, upload.id, directoryId, (progress) =>
-        onUploadProgress(upload.id, progress)
-      )
-        .then(() => onUploadSuccess(upload))
-        .catch(() => onUploadError(upload.id));
+      uploadFile(upload.key, file, upload.name, directoryId, {
+        onProgress: (url, bytesSent, bytesTotal) =>
+          onUploadProgress(upload.key, url, (bytesSent / bytesTotal) * 100),
+        onSuccess: () => onUploadSuccess(upload),
+        onError: () => onUploadError(upload.key)
+      });
     }
 
-    const onUploadProgress = (uploadId: string, progress: number) => {
-      addOrUpdateUpload?.({ id: uploadId, progress });
+    const onUploadProgress = (
+      uploadKey: string,
+      url: string,
+      progress: number
+    ) => {
+      addOrUpdateUpload?.({ key: uploadKey, progress, url });
     };
 
-    const onUploadError = (uploadId: string) => {
-      addOrUpdateUpload?.({ id: uploadId, status: 'error' });
+    const onUploadError = (uploadKey: string) => {
+      addOrUpdateUpload?.({ key: uploadKey, status: 'error' });
     };
 
     const onUploadSuccess = (upload: Upload) => {
-      addOrUpdateUpload?.({ id: upload.id, status: 'success' });
+      addOrUpdateUpload?.({ key: upload.key, status: 'success' });
       onFileUploaded?.(upload);
     };
   };
 
-  const cancelUpload = (uploadId: string) => {
-    apiCancelUpload(uploadId);
+  const cancelUpload = (uploadKey: string) => {
+    apiCancelUpload(uploadKey);
 
-    addOrUpdateUpload?.({ id: uploadId, status: 'cancelled' });
+    addOrUpdateUpload?.({ key: uploadKey, status: 'cancelled' });
   };
 
   return { uploadFiles, cancelUpload, uploads };

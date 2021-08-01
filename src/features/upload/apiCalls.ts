@@ -1,43 +1,60 @@
 import config from '../../utils/config';
-import apiClient from '../../api/apiClient';
-import axios, { CancelTokenSource } from 'axios';
+import { UploadOptions } from 'tus-js-client';
+import * as tus from 'tus-js-client';
+import { refreshToken } from '../auth/apiCalls';
 
-const cancelTokenSources: { [key: string]: CancelTokenSource } = {};
+const uploads: { [key: string]: tus.Upload } = {};
 
-type ProgressCallback = (progress: number) => void;
-
-export const uploadFile = async (
-  file: File,
-  fileId: string,
-  directoryId?: string,
-  onProgress?: ProgressCallback
-) => {
-  const formData = new FormData();
-  formData.set('id', fileId);
-  if (directoryId) {
-    formData.set('directoryId', directoryId);
-  }
-  formData.set('file', file);
-
-  const cancelToken = axios.CancelToken.source();
-  cancelTokenSources[fileId] = cancelToken;
-
-  const { data } = await apiClient.post(
-    config.api.endpoints.fileUpload,
-    formData,
-    {
-      onUploadProgress: (progressEvent) => {
-        if (onProgress) {
-          const progress = (progressEvent.loaded / progressEvent.total) * 100;
-          onProgress(progress);
-        }
-      },
-      cancelToken: cancelToken.token
-    }
-  );
-  return data;
+export const cancelUpload = async (uploadKey: string) => {
+  await uploads[uploadKey].abort(true);
 };
 
-export const cancelUpload = (fileId: string) => {
-  cancelTokenSources[fileId]?.cancel();
+interface FileUploadOptions
+  extends Pick<UploadOptions, 'onError' | 'onSuccess'> {
+  onProgress(url: string, bytesSent: number, bytesTotal: number): void;
+}
+
+export const uploadFile = async (
+  key: string,
+  file: any,
+  fileName: string,
+  parentDirectoryId?: string,
+  options?: FileUploadOptions
+) => {
+  let shouldRefreshToken = false;
+
+  const metadata = {
+    fileName,
+    ...(parentDirectoryId ? { parentDirectoryId } : {})
+  };
+
+  const upload = new tus.Upload(file, {
+    endpoint: `${config.api.baseUrl}${config.api.endpoints.file()}`,
+    metadata,
+    onBeforeRequest: async (req) => {
+      const xhr: XMLHttpRequest = req.getUnderlyingObject();
+      xhr.withCredentials = true;
+      if (shouldRefreshToken) {
+        await refreshToken();
+      }
+    },
+    onShouldRetry: (err: any) => {
+      const statusCode = err.originalResponse?.getStatus() ?? 0;
+
+      if (statusCode === 401) {
+        shouldRefreshToken = true;
+        return true;
+      }
+
+      return false;
+    },
+    ...options,
+    onProgress: (bytesSent, bytesTotal) => {
+      options?.onProgress?.(upload.url!, bytesSent, bytesTotal);
+    }
+  });
+
+  uploads[key] = upload;
+
+  upload.start();
 };

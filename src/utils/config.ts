@@ -1,13 +1,18 @@
 const config = {
   api: {
+    absoluteUrl:
+      process.env.NODE_ENV === 'production'
+        ? window.location.hostname
+        : 'http://localhost:5000',
     baseUrl: '/api',
     endpoints: {
       token: {
         root: '/token',
         new: '/token/new'
       },
-      fileUpload: '/file',
-      directory: '/directory',
+      file: (fileId?: string) => resourceOfId('file', fileId),
+      directory: (directoryId?: string) =>
+        resourceOfId('directory', directoryId),
       user: '/user',
       platform: {
         root: '/platform',
@@ -15,10 +20,15 @@ const config = {
         registrationSettings: '/platform/settings/registration'
       }
     }
-  },
-  uploads: {
-    url: process.env.REACT_APP_UPLOADS_URL ?? 'http://localhost:5000/u/'
   }
+};
+
+const resourceOfId = (resourceName: string, resourceId?: string) => {
+  let url = `/${resourceName}`;
+  if (resourceId) {
+    url += `/${resourceId}`;
+  }
+  return url;
 };
 
 export const routes = {

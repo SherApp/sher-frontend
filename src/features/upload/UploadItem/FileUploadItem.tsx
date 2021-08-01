@@ -3,13 +3,13 @@ import UploadItemDetails from './UploadItemDetails';
 import { File, Trash2 } from 'react-feather';
 import React, { useState } from 'react';
 import UploadLink from '../UploadLink';
-import { getUploadLink } from '../../../sharedUtils/getUploadLink';
 import IconButton from '../../../components/IconButton';
 import { useMutation } from 'react-query';
 import { deleteFile } from '../../browse/apiCalls';
 
 interface Props {
-  fileId: string;
+  id?: string;
+  url?: string;
   name: string;
   size: number;
   progress?: number;
@@ -17,7 +17,8 @@ interface Props {
 }
 
 const FileUploadItem = ({
-  fileId,
+  id,
+  url,
   name,
   size,
   progress,
@@ -25,7 +26,7 @@ const FileUploadItem = ({
 }: Props) => {
   const [squash, setSquash] = useState(false);
 
-  const deleteMutation = useMutation(() => deleteFile(fileId), {
+  const deleteMutation = useMutation(() => deleteFile(id ?? ''), {
     onSuccess: () => {
       setSquash(true);
     }
@@ -45,15 +46,17 @@ const FileUploadItem = ({
           progress={progress}
           actions={
             <>
-              <UploadLink link={getUploadLink(fileId, name)} />
-              <IconButton
-                gradient
-                aria-label="delete file"
-                className="ml-2"
-                onClick={handleDeleteClick}
-              >
-                <Trash2 />
-              </IconButton>
+              <UploadLink link={url} />
+              {id && (
+                <IconButton
+                  gradient
+                  aria-label="delete file"
+                  className="ml-2"
+                  onClick={handleDeleteClick}
+                >
+                  <Trash2 />
+                </IconButton>
+              )}
             </>
           }
         />

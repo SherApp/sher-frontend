@@ -20,23 +20,20 @@ export interface CreateDirectoryRequest {
 export const fetchUserUploadedFiles = async (
   criteria?: FetchFilesCriteria
 ): Promise<UserFile[]> => {
-  const { data } = await apiClient.get(config.api.endpoints.fileUpload, {
+  const { data } = await apiClient.get(config.api.endpoints.file(), {
     params: criteria
   });
   return data;
 };
 
 export const deleteFile = async (fileId: string) => {
-  await apiClient.delete(`${config.api.endpoints.fileUpload}/${fileId}`);
+  await apiClient.delete(config.api.endpoints.file(fileId));
 };
 
 export const listDirectory = async (
   directoryId?: string
 ): Promise<Directory> => {
-  let url = config.api.endpoints.directory;
-  if (directoryId) {
-    url += `/${directoryId}`;
-  }
+  let url = config.api.endpoints.directory(directoryId);
   const { data } = await apiClient.get(url);
   return data;
 };
@@ -44,7 +41,7 @@ export const listDirectory = async (
 export const createDirectory = async (
   request: CreateDirectoryRequest
 ): Promise<void> => {
-  await apiClient.post(config.api.endpoints.directory, request);
+  await apiClient.post(config.api.endpoints.directory(), request);
 };
 
 export const deleteDirectory = async (directoryId: string) => {

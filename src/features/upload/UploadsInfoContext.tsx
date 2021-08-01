@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Upload } from '@sherapp/sher-shared';
 
-type PartialOrUpload = Pick<Upload, 'id'> & Partial<Omit<Upload, 'id'>>;
+type PartialOrUpload = Pick<Upload, 'key'> & Partial<Omit<Upload, 'key'>>;
 type UploadWithDirectory = Upload & { directoryId: string };
 
 interface UploadsContextType {
@@ -21,7 +21,7 @@ export const UploadsInfoContextProvider = ({
   const addOrUpdateUpload = (upload: PartialOrUpload) => {
     setUploads((prev) => {
       const newUploads = [...prev];
-      const existingUpload = newUploads.find((u) => u.id === upload.id);
+      const existingUpload = newUploads.find((u) => u.key === upload.key);
 
       if (existingUpload) {
         Object.assign(existingUpload, upload);

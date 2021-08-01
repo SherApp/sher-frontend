@@ -4,14 +4,13 @@ import React from 'react';
 import { Directory } from './apiCalls';
 import FileDragArea from '../../components/FileDragArea';
 import clsx from 'clsx';
-import { Upload } from '@sherapp/sher-shared/upload';
 import useFilesUpload from '../upload/useFilesUpload';
+import config from '../../utils/config';
 
 interface Props {
   directoryId: string;
   files?: UserFile[];
   directories?: Directory[];
-  uploads?: Upload[];
 }
 
 const DirectoryContentsList = ({ directoryId, files, directories }: Props) => {
@@ -46,7 +45,8 @@ const DirectoryContentsList = ({ directoryId, files, directories }: Props) => {
                   key={f.id}
                   name={f.fileName}
                   size={f.length}
-                  fileId={f.id}
+                  url={`${config.api.absoluteUrl}/api/file/${f.id}`}
+                  id={f.id}
                 />
               ))}
           </div>
