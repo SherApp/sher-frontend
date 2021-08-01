@@ -9,7 +9,6 @@ import useFileSearch from './useFileSearch';
 import Button from '../../components/Button';
 import { FolderPlus } from 'react-feather';
 import CreateFolderDialog from './CreateFolderDialog';
-import useFilesUpload from '../upload/useFilesUpload';
 import {
   FileDragAreaInfo,
   FileDragAreaContextProvider
@@ -18,7 +17,6 @@ import useDirectoryNavigation from './useDirectoryNavigation';
 import PendingUploads from '../upload/PendingUploads';
 
 const BrowseRoute = () => {
-  const { uploadFiles } = useFilesUpload();
   const { navigateTo, history } = useDirectoryNavigation();
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
   const [query, setQuery] = useState('');
@@ -44,17 +42,6 @@ const BrowseRoute = () => {
 
     setShowCreateFolderDialog(false);
     await createChildDirectory(name);
-  };
-
-  const handleFilesDropped = (directoryId: string, files: FileList) => {
-    uploadFiles(files, directoryId);
-  };
-
-  const handleDirectoryClick = (directoryId: string) => {
-    const dir = directory?.directories.find((d) => d.id === directoryId);
-    if (dir) {
-      navigateTo(dir);
-    }
   };
 
   const results = useFileSearch(query);
@@ -91,8 +78,6 @@ const BrowseRoute = () => {
           directoryId={directory?.id}
           files={files}
           directories={directories}
-          onFilesDropped={handleFilesDropped}
-          onDirectoryClick={handleDirectoryClick}
         />
       </NamedContainer>
     </FileDragAreaContextProvider>

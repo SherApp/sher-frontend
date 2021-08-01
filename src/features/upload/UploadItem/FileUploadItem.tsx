@@ -1,18 +1,18 @@
 import UploadItemContainer from './UploadItemContainer';
 import UploadItemDetails from './UploadItemDetails';
 import { File, Trash2 } from 'react-feather';
-import React from 'react';
+import React, { useState } from 'react';
 import UploadLink from '../UploadLink';
 import { getUploadLink } from '../../../sharedUtils/getUploadLink';
 import IconButton from '../../../components/IconButton';
+import { useMutation } from 'react-query';
+import { deleteFile } from '../../browse/apiCalls';
 
 interface Props {
   fileId: string;
   name: string;
   size: number;
   progress?: number;
-  onDeleteClick?(fileId: string): void;
-  squash?: boolean;
   icon?: JSX.Element;
 }
 
@@ -21,12 +21,18 @@ const FileUploadItem = ({
   name,
   size,
   progress,
-  onDeleteClick,
-  squash,
   icon = <File />
 }: Props) => {
-  const handleDeleteClick = () => {
-    onDeleteClick?.(fileId);
+  const [squash, setSquash] = useState(false);
+
+  const deleteMutation = useMutation(() => deleteFile(fileId), {
+    onSuccess: () => {
+      setSquash(true);
+    }
+  });
+
+  const handleDeleteClick = async () => {
+    await deleteMutation.mutateAsync();
   };
 
   return (

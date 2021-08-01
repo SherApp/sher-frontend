@@ -1,38 +1,42 @@
 import UploadItemContainer from './UploadItemContainer';
 import UploadItemDetails from './UploadItemDetails';
 import { Folder, Trash2 } from 'react-feather';
-import React from 'react';
+import React, { useState } from 'react';
 import FileDragArea from '../../../components/FileDragArea';
 import IconButton from '../../../components/IconButton';
+import { useMutation } from 'react-query';
+import { deleteDirectory } from '../../browse/apiCalls';
+import useDirectoryNavigation from '../../browse/useDirectoryNavigation';
+import useFilesUpload from '../useFilesUpload';
 
 interface Props {
   directoryId: string;
   name: string;
-  squash?: boolean;
-  onClick?(directoryId: string): void;
-  onDeleteClick?(directoryId: string): void;
-  onFilesDropped?(directoryId: string, files: FileList): void;
 }
 
-const DirectoryUploadItem = ({
-  directoryId,
-  name,
-  squash,
-  onClick,
-  onDeleteClick,
-  onFilesDropped
-}: Props) => {
+const DirectoryUploadItem = ({ directoryId, name }: Props) => {
+  const [squash, setSquash] = useState(false);
+
+  const { uploadFiles } = useFilesUpload();
+  const { navigateTo } = useDirectoryNavigation();
+
+  const deleteMutation = useMutation(async () => deleteDirectory(directoryId), {
+    onSuccess: () => {
+      setSquash(true);
+    }
+  });
+
   const handleFilesSelected = (files: FileList) => {
-    onFilesDropped?.(directoryId, files);
+    uploadFiles(files, directoryId);
   };
 
   const handleClick = () => {
-    onClick?.(directoryId);
+    navigateTo({ id: directoryId, name });
   };
 
-  const handleDeleteClick = (e: React.MouseEvent) => {
+  const handleDeleteClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    onDeleteClick?.(directoryId);
+    await deleteMutation.mutateAsync();
   };
 
   return (
