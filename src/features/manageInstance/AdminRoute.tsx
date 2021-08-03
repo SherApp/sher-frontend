@@ -4,6 +4,9 @@ import NamedContainer from '../../components/NamedContainer';
 import { useEffect, useState } from 'react';
 import { PlatformSettings } from '@sherapp/sher-shared/manageInstance';
 import { getPlatformSettings, updatePlatformSettings } from './apiCalls';
+import { useMutation } from 'react-query';
+import { toast } from 'react-toastify';
+import { handleError } from '../../utils/handleError';
 
 const AdminRoute = () => {
   const [settings, setSettings] = useState<PlatformSettings>();
@@ -11,6 +14,16 @@ const AdminRoute = () => {
   useEffect(() => {
     getPlatformSettings().then(setSettings);
   }, []);
+
+  const updatePlatformSettingsMutation = useMutation(
+    (settings: PlatformSettings) => updatePlatformSettings(settings),
+    {
+      onSuccess: () => {
+        toast.success('Successfully updated settings!');
+      },
+      onError: handleError
+    }
+  );
 
   const handleInvitationCodeChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -20,7 +33,7 @@ const AdminRoute = () => {
 
   const handleSaveClick = async () => {
     if (settings) {
-      await updatePlatformSettings(settings);
+      await updatePlatformSettingsMutation.mutateAsync(settings);
     }
   };
 
