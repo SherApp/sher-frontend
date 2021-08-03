@@ -6,10 +6,14 @@ import userAddIcon from '../../img/user_add.svg';
 import Button from '../../components/Button';
 import { Form, Formik, Field } from 'formik';
 import * as Yup from 'yup';
-import { useEffect, useState } from 'react';
 import { getRegistrationSettings, signUp } from './apiCalls';
 import { v4 as uuidv4 } from 'uuid';
 import EllipsisLoading from '../../components/EllipsisLoading';
+import { useMutation, useQuery } from 'react-query';
+import { handleError } from '../../utils/handleError';
+import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
+import { routes } from '../../utils/config';
 
 const SignUpSchema = Yup.object({
   emailAddress: Yup.string()
@@ -31,29 +35,34 @@ interface Values {
 }
 
 const SignUpForm = () => {
-  const [
-    requiresInvitationCode,
-    setRequiredInvitationCode
-  ] = useState<boolean>();
-  const [isSigningUp, setIsSigningUp] = useState(false);
+  const history = useHistory();
 
-  useEffect(() => {
-    getRegistrationSettings().then((s) =>
-      setRequiredInvitationCode(s.requiresInvitationCode)
-    );
-  }, []);
+  const { data } = useQuery('registrationSettings', getRegistrationSettings);
+
+  const { isLoading, ...signInMutation } = useMutation(
+    (values: Values) => signUp({ userId: uuidv4(), ...values }),
+    {
+      onSuccess: () => {
+        toast.success('Registered successfully!');
+        history.push(routes.auth('signIn'));
+      },
+      onError: handleError
+    }
+  );
 
   const handleSubmit = async ({
     emailAddress,
     invitationCode,
     password
   }: Values) => {
-    setIsSigningUp(true);
-    await signUp({ userId: uuidv4(), emailAddress, invitationCode, password });
-    setIsSigningUp(false);
+    await signInMutation.mutateAsync({
+      emailAddress,
+      invitationCode,
+      password
+    });
   };
 
-  if (isSigningUp) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center">
         <EllipsisLoading />
@@ -113,7 +122,7 @@ const SignUpForm = () => {
                 </InputAdornment>
               }
             />
-            {requiresInvitationCode && (
+            {data?.requiresInvitationCode && (
               <Field
                 as={TextInput}
                 error={touched.invitationCode ? errors.invitationCode : null}
