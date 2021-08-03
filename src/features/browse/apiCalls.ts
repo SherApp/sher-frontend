@@ -45,5 +45,5 @@ export const createDirectory = async (
 };
 
 export const deleteDirectory = async (directoryId: string) => {
-  await apiClient.delete(`${config.api.endpoints.directory}/${directoryId}`);
+  await apiClient.delete(config.api.endpoints.directory(directoryId));
 };
