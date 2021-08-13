@@ -1,15 +1,6 @@
 import config from '../../utils/config';
 import apiClient from '../../api/apiClient';
-import { FetchFilesCriteria, UserFile } from '@sherapp/sher-shared';
-
-export interface Directory {
-  id: string;
-  parentDirectoryId?: string;
-  name: string;
-  files: UserFile[];
-  directories: Directory[];
-  isDeleted?: boolean;
-}
+import { FetchFilesCriteria, UserFile, Directory } from '@sherapp/sher-shared';
 
 export interface CreateDirectoryRequest {
   id: string;
