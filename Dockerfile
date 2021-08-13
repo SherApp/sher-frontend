@@ -1,19 +1,14 @@
 FROM node:lts-buster as build
 
-ARG REACT_APP_UPLOADS_URL
-ARG ROBOTS_DISALLOW
-
-ENV REACT_APP_UPLOADS_URL=$REACT_APP_UPLOADS_URL
-
 WORKDIR /app
+
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn install --frozen-lockfile
+
 COPY . /app
 
-# Append a disallow rule to robots.txt to prevent indexing uploads
-ENV ROBOTS_DISALLOW=$ROBOTS_DISALLOW
-RUN echo "Disallow: $ROBOTS_DISALLOW" >> /app/public/robots.txt
-
-ENV PATH /app/node_modules/.bin:$PATH
-RUN yarn
 RUN yarn build
 
 FROM nginx:alpine

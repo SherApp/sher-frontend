@@ -2,10 +2,6 @@ version: '3'
 services:
   webapp:
     container_name: sher-frontend
-    build:
-      context: .
-      args:
-        - REACT_APP_UPLOADS_URL
-        - ROBOTS_DISALLOW
+    build: .
     ports:
       - "9092:80"
