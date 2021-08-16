@@ -1,27 +1,60 @@
 import config from '../../utils/config';
-import apiClient from '../../api/apiClient';
+import { UploadOptions } from 'tus-js-client';
+import * as tus from 'tus-js-client';
+import { refreshToken } from '../auth/apiCalls';
 
-type ProgressCallback = (progress: number) => void;
+const uploads: { [key: string]: tus.Upload } = {};
+
+export const cancelUpload = async (uploadKey: string) => {
+  await uploads[uploadKey].abort(true);
+};
+
+interface FileUploadOptions
+  extends Pick<UploadOptions, 'onError' | 'onSuccess'> {
+  onProgress(url: string, bytesSent: number, bytesTotal: number): void;
+}
 
 export const uploadFile = async (
-  file: File,
-  fileId: string,
-  onProgress?: ProgressCallback
+  key: string,
+  file: any,
+  fileName: string,
+  parentDirectoryId?: string,
+  options?: FileUploadOptions
 ) => {
-  const formData = new FormData();
-  formData.set('id', fileId);
-  formData.set('file', file);
-  const { data } = await apiClient.post(
-    config.api.endpoints.fileUpload,
-    formData,
-    {
-      onUploadProgress: (progressEvent) => {
-        if (onProgress) {
-          const progress = (progressEvent.loaded / progressEvent.total) * 100;
-          onProgress(progress);
-        }
+  let shouldRefreshToken = false;
+
+  const metadata = {
+    fileName,
+    ...(parentDirectoryId ? { parentDirectoryId } : {})
+  };
+
+  const upload = new tus.Upload(file, {
+    endpoint: `${config.api.baseUrl}${config.api.endpoints.file()}`,
+    metadata,
+    onBeforeRequest: async (req) => {
+      const xhr: XMLHttpRequest = req.getUnderlyingObject();
+      xhr.withCredentials = true;
+      if (shouldRefreshToken) {
+        await refreshToken();
       }
+    },
+    onShouldRetry: (err: any) => {
+      const statusCode = err.originalResponse?.getStatus() ?? 0;
+
+      if (statusCode === 401) {
+        shouldRefreshToken = true;
+        return true;
+      }
+
+      return false;
+    },
+    ...options,
+    onProgress: (bytesSent, bytesTotal) => {
+      options?.onProgress?.(upload.url!, bytesSent, bytesTotal);
     }
-  );
-  return data;
+  });
+
+  uploads[key] = upload;
+
+  upload.start();
 };

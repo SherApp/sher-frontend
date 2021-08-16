@@ -10,6 +10,7 @@ type TypographyVariants =
   | 'h6'
   | 'body'
   | 'caption'
+  | 'sm'
   | 'srOnly';
 
 export interface TypographyProps
@@ -26,19 +27,21 @@ export interface TypographyProps
     | 'p'
     | 'span'
     | string;
+  handwriting?: boolean;
 }
 
 type VariantClassesMap = { [key in TypographyVariants]: string };
 
 export const typographyVariantsClasses: VariantClassesMap = {
-  h1: 'font-handwriting text-8xl',
-  h2: 'font-handwriting text-6xl',
-  h3: 'font-handwriting text-4xl',
+  h1: 'text-8xl',
+  h2: 'text-6xl',
+  h3: 'text-4xl',
   h4: 'text-2xl font-medium',
   h5: 'text-xl font-medium',
   h6: 'text-xl',
   body: 'text-base',
   caption: 'uppercase tracking-widest',
+  sm: 'text-sm',
   srOnly: 'sr-only'
 };
 
@@ -46,10 +49,15 @@ const Typography = ({
   variant = 'body',
   component = 'span',
   className,
+  handwriting,
   children,
   ...rest
 }: TypographyProps) => {
-  const classes = clsx(typographyVariantsClasses[variant], className);
+  const classes = clsx(
+    typographyVariantsClasses[variant],
+    [handwriting && 'font-handwriting'],
+    className
+  );
   return React.createElement(component, {
     children,
     className: classes,

@@ -20,6 +20,4 @@ jobs:
       - name: Deploy
         env:
           DOCKER_HOST: ${{ secrets.DOCKER_HOST }}
-          REACT_APP_UPLOADS_URL: ${{ secrets.UPLOADS_URL }}
-          ROBOTS_DISALLOW: ${{ secrets.ROBOTS_DISALLOW }}
         run: docker-compose -f docker-compose.yml up -d --build

@@ -1,5 +1,6 @@
-import clipboardIcon from '../../img/clipboard.svg';
 import { useRef } from 'react';
+import { Clipboard } from 'react-feather';
+import IconButton from '../../components/IconButton';
 
 interface UploadLinkProps {
   link?: string;
@@ -21,13 +22,14 @@ const UploadLink = ({ link }: UploadLinkProps) => {
         readOnly
         value={link}
       />
-      <button
+      <IconButton
+        gradient
         onClick={handleCopyClick}
-        className="bg-gradient-r-purple-pink p-1"
+        className="bg-gradient-r-purple-pink p-1 rounded-r rounded-l-none"
         aria-label="copy to clipboard"
       >
-        <img src={clipboardIcon} alt="" />
-      </button>
+        <Clipboard />
+      </IconButton>
     </div>
   );
 };

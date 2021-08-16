@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '../../utils/config';
 import apiClient from '../../api/apiClient';
-import { RegistrationSettings, User } from './types';
+import { RegistrationSettings, User } from '@sherapp/sher-shared/auth';
 
 interface SignInRequest {
   emailAddress: string;
@@ -20,7 +20,7 @@ export const signIn = (request: SignInRequest) => {
 };
 
 export const refreshToken = () => {
-  return apiClient.post(config.api.endpoints.token.root);
+  return apiClient.post(config.api.endpoints.token.root, {});
 };
 
 export const signOut = () => {
