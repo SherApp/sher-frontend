@@ -1,32 +1,32 @@
-import TextInput from '../../components/TextInput';
-import InputAdornment from '../../components/InputAdornment';
-import userIcon from '../../img/user.svg';
-import passwordIcon from '../../img/password.svg';
 import Button from '../../components/Button';
 import EllipsisLoading from '../../components/EllipsisLoading';
 import { signIn } from './apiCalls';
-import { useHistory, useLocation } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
 import { routes } from '../../utils/config';
 import { useMutation } from 'react-query';
 import { handleError } from '../../utils/handleError';
+import { useRouter } from 'next/router';
+import ContainedTextInput from '../../components/TextInput/ContainedTextInput';
+import Link from 'next/link';
 
 interface Values {
   emailAddress: string;
   password: string;
 }
 
+interface QueryParams {
+  returnUrl?: string;
+}
+
 const SignInForm = () => {
-  const { search } = useLocation();
-  const history = useHistory();
+  const { query, ...router } = useRouter();
+  const { returnUrl } = query as QueryParams;
 
   const { isLoading, ...signInMutation } = useMutation(
     (values: Values) => signIn(values),
     {
       onSuccess: () => {
-        const searchParams = new URLSearchParams(search);
-        const returnUrl = searchParams.get('returnUrl');
-        history.push(returnUrl ?? '/');
+        router.replace(returnUrl ?? '/');
       },
       onError: handleError
     }
@@ -34,10 +34,6 @@ const SignInForm = () => {
 
   const handleSubmit = async (values: Values) => {
     await signInMutation.mutateAsync(values);
-  };
-
-  const handleSignUpClick = () => {
-    history.push(routes.auth('signUp'));
   };
 
   if (isLoading) {
@@ -55,37 +51,26 @@ const SignInForm = () => {
       className="flex px-3 space-y-12 flex-col"
     >
       <Form className="px-3">
-        <div className="space-y-12 mb-12">
+        <div className="space-y-2 mb-12">
           <Field
-            as={TextInput}
+            as={ContainedTextInput}
             name="emailAddress"
             label="Email"
             type="email"
-            placeholder="example@example.com"
-            endAdornment={
-              <InputAdornment>
-                <img src={userIcon} alt="" />
-              </InputAdornment>
-            }
           />
           <Field
-            as={TextInput}
+            as={ContainedTextInput}
             name="password"
             label="Password"
             type="password"
-            endAdornment={
-              <InputAdornment>
-                <img src={passwordIcon} alt="" />
-              </InputAdornment>
-            }
           />
         </div>
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-row justify-between items-center">
+          <Link href={routes.auth('signUp')} passHref>
+            <a className="text-pink uppercase">Sign up</a>
+          </Link>
           <Button variant="gradient" type="submit">
             Sign in
-          </Button>
-          <Button onClick={handleSignUpClick} variant="secondary">
-            Sign up
           </Button>
         </div>
       </Form>

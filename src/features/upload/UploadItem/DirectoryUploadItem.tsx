@@ -6,7 +6,6 @@ import FileDragArea from '../../../components/FileDragArea';
 import IconButton from '../../../components/IconButton';
 import { useMutation } from 'react-query';
 import { deleteDirectory } from '../../browse/apiCalls';
-import useDirectoryNavigation from '../../browse/useDirectoryNavigation';
 import useFilesUpload from '../useFilesUpload';
 
 interface Props {
@@ -18,7 +17,6 @@ const DirectoryUploadItem = ({ directoryId, name }: Props) => {
   const [squash, setSquash] = useState(false);
 
   const { uploadFiles } = useFilesUpload();
-  const { navigateTo } = useDirectoryNavigation();
 
   const deleteMutation = useMutation(async () => deleteDirectory(directoryId), {
     onSuccess: () => {
@@ -30,9 +28,9 @@ const DirectoryUploadItem = ({ directoryId, name }: Props) => {
     uploadFiles(files, directoryId);
   };
 
-  const handleClick = () => {
-    navigateTo({ id: directoryId, name });
-  };
+  // const handleClick = () => {
+  //   navigateTo({ id: directoryId, name });
+  // };
 
   const handleDeleteClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -46,7 +44,7 @@ const DirectoryUploadItem = ({ directoryId, name }: Props) => {
           <button
             className="w-full block text-left"
             aria-label={`open ${name} directory`}
-            onClick={handleClick}
+            // onClick={handleClick}
           >
             <UploadItemDetails
               icon={<Folder />}

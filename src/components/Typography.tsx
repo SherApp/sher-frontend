@@ -40,7 +40,7 @@ export const typographyVariantsClasses: VariantClassesMap = {
   h5: 'text-xl font-medium',
   h6: 'text-xl',
   body: 'text-base',
-  caption: 'uppercase tracking-widest',
+  caption: 'uppercase',
   sm: 'text-sm',
   srOnly: 'sr-only'
 };

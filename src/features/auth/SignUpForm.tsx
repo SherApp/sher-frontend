@@ -1,8 +1,3 @@
-import TextInput from '../../components/TextInput';
-import InputAdornment from '../../components/InputAdornment';
-import userIcon from '../../img/user.svg';
-import passwordIcon from '../../img/password.svg';
-import userAddIcon from '../../img/user_add.svg';
 import Button from '../../components/Button';
 import { Form, Formik, Field } from 'formik';
 import * as Yup from 'yup';
@@ -12,8 +7,10 @@ import EllipsisLoading from '../../components/EllipsisLoading';
 import { useMutation, useQuery } from 'react-query';
 import { handleError } from '../../utils/handleError';
 import { toast } from 'react-toastify';
-import { useHistory } from 'react-router-dom';
 import { routes } from '../../utils/config';
+import ContainedTextInput from '../../components/TextInput/ContainedTextInput';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const SignUpSchema = Yup.object({
   emailAddress: Yup.string()
@@ -35,8 +32,7 @@ interface Values {
 }
 
 const SignUpForm = () => {
-  const history = useHistory();
-
+  const router = useRouter();
   const { data } = useQuery('registrationSettings', getRegistrationSettings);
 
   const { isLoading, ...signInMutation } = useMutation(
@@ -44,7 +40,7 @@ const SignUpForm = () => {
     {
       onSuccess: () => {
         toast.success('Registered successfully!');
-        history.push(routes.auth('signIn'));
+        router.replace(routes.auth('signIn'));
       },
       onError: handleError
     }
@@ -84,61 +80,46 @@ const SignUpForm = () => {
     >
       {({ errors, touched }) => (
         <Form className="px-3">
-          <div className="space-y-12 mb-12">
+          <div className="space-y-2 mb-12">
             <Field
-              as={TextInput}
+              as={ContainedTextInput}
               error={touched.emailAddress ? errors.emailAddress : null}
               name="emailAddress"
               label="Email"
               type="email"
               placeholder="example@example.com"
-              endAdornment={
-                <InputAdornment>
-                  <img src={userIcon} alt="" />
-                </InputAdornment>
-              }
             />
             <Field
-              as={TextInput}
+              as={ContainedTextInput}
               error={touched.password ? errors.password : null}
               name="password"
               label="Password"
               type="password"
-              endAdornment={
-                <InputAdornment>
-                  <img src={passwordIcon} alt="" />
-                </InputAdornment>
-              }
             />
             <Field
-              as={TextInput}
+              as={ContainedTextInput}
               error={touched.confirmPassword ? errors.confirmPassword : null}
               name="confirmPassword"
               label="Confirm password"
               type="password"
-              endAdornment={
-                <InputAdornment>
-                  <img src={passwordIcon} alt="" />
-                </InputAdornment>
-              }
             />
             {data?.requiresInvitationCode && (
               <Field
-                as={TextInput}
+                as={ContainedTextInput}
                 error={touched.invitationCode ? errors.invitationCode : null}
                 name="invitationCode"
                 label="Invitation code"
-                endAdornment={
-                  <InputAdornment>
-                    <img src={userAddIcon} alt="" />
-                  </InputAdornment>
-                }
               />
             )}
           </div>
-          <Button variant="gradient" type="submit" fullWidth>
-            Sign up
-          </Button>
+          <div className="flex flex-row justify-between items-center">
+            <Link href={routes.auth('signIn')} passHref>
+              <a className="text-pink uppercase">Sign in</a>
+            </Link>
+            <Button variant="gradient" type="submit">
+              Sign up
+            </Button>
+          </div>
         </Form>
       )}
     </Formik>

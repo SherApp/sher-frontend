@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react';
 import apiClient from '../../../api/apiClient';
 import { refreshTokenInterceptor } from '@sherapp/sher-shared';
-import { useHistory, useLocation } from 'react-router-dom';
 import config, { routes } from '../../../utils/config';
 import { refreshToken } from '../apiCalls';
+import { useRouter } from 'next/router';
 
 const RefreshTokenInterceptorProvider: React.FC = ({ children }) => {
-  const history = useHistory();
-  const { pathname } = useLocation();
+  const router = useRouter();
   const [interceptorIn, setInterceptorIn] = useState(false);
 
   useEffect(() => {
     const handleAuthRequired = () => {
-      history.push(routes.auth('signIn', pathname));
+      router.replace(routes.auth('signIn', router.pathname));
     };
 
     const interceptorId = apiClient.interceptors.response.use(
@@ -28,7 +27,7 @@ const RefreshTokenInterceptorProvider: React.FC = ({ children }) => {
     setInterceptorIn(true);
 
     return () => apiClient.interceptors.response.eject(interceptorId);
-  }, [history, pathname]);
+  }, [router]);
 
   if (!interceptorIn) return null;
 

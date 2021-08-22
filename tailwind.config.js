@@ -22,7 +22,7 @@ module.exports = {
     },
     fontFamily: {
       handwriting: 'Sacramento',
-      sans: 'Oswald'
+      sans: 'Josefin Sans'
     },
     linearGradientColors: (theme) => ({
       'purple-pink': [theme('colors.purple'), theme('colors.pink')]

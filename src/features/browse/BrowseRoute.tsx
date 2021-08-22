@@ -1,10 +1,8 @@
 import useDirectory from './useDirectory';
-import { useLocation } from 'react-router-dom';
 import TextInput from '../../components/TextInput';
 import NamedContainer from '../../components/NamedContainer';
 import React, { useState } from 'react';
 import DirectoryContentsList from './DirectoryContentsList';
-import PathBreadcrumbs from './PathBreadcrumbs';
 import useFileSearch from './useFileSearch';
 import Button from '../../components/Button';
 import { FolderPlus } from 'react-feather';
@@ -13,11 +11,15 @@ import {
   FileDragAreaInfo,
   FileDragAreaContextProvider
 } from '../../components/FileDragArea';
-import useDirectoryNavigation from './useDirectoryNavigation';
 import PendingUploads from '../upload/PendingUploads';
+import { useRouter } from 'next/router';
+
+interface QueryParams {
+  directoryId?: string;
+}
 
 const BrowseRoute = () => {
-  const { navigateTo, history } = useDirectoryNavigation();
+  // const { navigateTo, history } = useDirectoryNavigation();
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
   const [query, setQuery] = useState('');
 
@@ -25,9 +27,8 @@ const BrowseRoute = () => {
     setQuery(e.target.value);
   };
 
-  const directoryId = new URLSearchParams(useLocation().search).get(
-    'directoryId'
-  );
+  const { query: q } = useRouter();
+  const { directoryId } = q as QueryParams;
 
   const { directory, createChildDirectory } = useDirectory(
     directoryId ?? undefined
@@ -68,7 +69,7 @@ const BrowseRoute = () => {
           value={query}
           onChange={handleQueryChange}
         />
-        <PathBreadcrumbs history={history} onBreadcrumbClick={navigateTo} />
+        {/*<PathBreadcrumbs history={history} onBreadcrumbClick={navigateTo} />*/}
         <div className="mb-2">
           <Button onClick={handleCreateFolderClick} icon={<FolderPlus />}>
             Create folder

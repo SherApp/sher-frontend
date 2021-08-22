@@ -1,5 +1,3 @@
-import './EllipsisLoading.scss';
-
 const EllipsisLoading = () => {
   return (
     <div className="lds-ellipsis">
