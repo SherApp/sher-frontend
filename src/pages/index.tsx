@@ -17,25 +17,12 @@ export const getServerSideProps = withAuth(async (apiClient, { query }) => {
 
   const { directoryId } = query as QueryParams;
 
-  await queryClient.prefetchQuery(['listDirectory', directoryId], async () => {
+  await queryClient.fetchQuery(['listDirectory', directoryId], async () => {
     const { data } = await apiClient.get(
       directoryId ? `/directory/${directoryId}` : '/directory'
     );
     return data;
   });
-
-  const data = queryClient.getQueryData(['listDirectory', directoryId]);
-
-  console.log(data);
-
-  if (!data) {
-    return {
-      redirect: {
-        destination: '/auth/signIn',
-        permanent: false
-      }
-    };
-  }
 
   return {
     props: {

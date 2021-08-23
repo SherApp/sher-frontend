@@ -1,7 +1,11 @@
 import { GetServerSideProps } from 'next';
 import axios, { AxiosInstance } from 'axios';
 import config from '../../../utils/config';
-import { refreshTokenInterceptor } from '@sherapp/sher-shared';
+import {
+  AUTH_REQUIRED_MESSAGE,
+  refreshTokenInterceptor
+} from '@sherapp/sher-shared';
+import setCookie from 'set-cookie-parser';
 
 export type GetServerSidePropsWithApi = GetServerSideProps extends (
   ...a: infer U
@@ -24,17 +28,45 @@ export const withAuth: WithAuth = (
     }
   });
 
-  const refreshToken = () => client.post(config.api.endpoints.token.root, {});
+  const retryInstance = axios.create({
+    baseURL: client.defaults.baseURL
+  });
+
+  const refreshToken = async () => {
+    const { headers } = await client.post(config.api.endpoints.token.root, {});
+    context.res.setHeader('set-cookie', headers['set-cookie']);
+
+    const cookies = setCookie.parse(headers['set-cookie']);
+
+    const jwtCookie = cookies.find((c) => c.name === 'JwtToken');
+
+    retryInstance.defaults.headers = {
+      Authorization: `Bearer ${jwtCookie?.value}`
+    };
+  };
 
   client.interceptors.response.use(
     undefined,
     refreshTokenInterceptor(
-      client,
+      retryInstance,
       () => {},
       refreshToken,
       config.api.endpoints.token.root
     )
   );
 
-  return await getServerSideProps(client, context);
+  try {
+    return await getServerSideProps(client, context);
+  } catch (e) {
+    if (e.message === AUTH_REQUIRED_MESSAGE) {
+      return {
+        redirect: {
+          destination: '/auth/signIn',
+          permanent: false
+        }
+      };
+    }
+
+    throw e;
+  }
 };

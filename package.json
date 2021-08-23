@@ -10,7 +10,7 @@
   "proxy": "http://localhost:5000",
   "dependencies": {
     "@headlessui/react": "^1.1.1",
-    "@sherapp/sher-shared": "^1.1.2",
+    "@sherapp/sher-shared": "^1.1.4",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -31,6 +31,7 @@
     "react-feather": "^2.0.9",
     "react-query": "^3.19.1",
     "react-toastify": "^7.0.4",
+    "set-cookie-parser": "^2.4.8",
     "tailwindcss-gradients": "^3.0.0",
     "tailwindcss-typography": "^3.1.0",
     "tus-js-client": "^2.3.0",
@@ -65,6 +66,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-logical-assignment-operators": "^7.13.8",
     "@types/lodash": "^4.14.168",
+    "@types/set-cookie-parser": "^2.4.1",
     "@types/uuid": "^8.3.0",
     "autoprefixer": "^10.3.2",
     "postcss": "^8.3.6",

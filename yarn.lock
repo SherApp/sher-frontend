@@ -221,10 +221,10 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
-"@sherapp/sher-shared@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@sherapp/sher-shared/-/sher-shared-1.1.2.tgz#05bb1ceb29aa985cd203ad103c58b90d2f01efa3"
-  integrity sha512-5WqqZ8iyN7UFgDqQ5n/DIxK1VhAHDpZHT7iop+KvnJqOCuiD13uxoh0J1l3Igk3QJh53RQfkFkV4fCN5B23rOQ==
+"@sherapp/sher-shared@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@sherapp/sher-shared/-/sher-shared-1.1.4.tgz#edd616861c35f9d027577867ea97525274adc2f3"
+  integrity sha512-t0pBi9nN2vVIJRL4VHj4j3BeMRuFHZSpXYawibS7IuQPz37SiUioQi+JUWahl+7qQNtM8bi0VZ+qfNwVQUAEWQ==
   dependencies:
     axios "^0.21.1"
 
@@ -348,6 +348,13 @@
   version "0.16.1"
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.1.tgz#18845205e86ff0038517aab7a18a62a6b9f71275"
   integrity sha512-EaCxbanVeyxDRTQBkdLb3Bvl/HK7PBK6UJjsSixB0iHKoWxE5uu2Q/DgtpOhPIojN0Zl1whvOd7PoHs2P0s5eA==
+
+"@types/set-cookie-parser@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@types/set-cookie-parser/-/set-cookie-parser-2.4.1.tgz#49403d3150f6f296da8e51b3e9e7e562eaf105b4"
+  integrity sha512-N0IWe4vT1w5IOYdN9c9PNpQniHS+qe25W4tj4vfhJDJ9OkvA/YA55YUhaC+HNmMMeLlOSnBW9UMno0qlt5xu3Q==
+  dependencies:
+    "@types/node" "*"
 
 "@types/testing-library__jest-dom@^5.9.1":
   version "5.9.5"
@@ -3526,6 +3533,11 @@ set-blocking@^2.0.0, set-blocking@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
   integrity sha1-BF+XgtARrppoA93TgrJDkrPYkPc=
+
+set-cookie-parser@^2.4.8:
+  version "2.4.8"
+  resolved "https://registry.yarnpkg.com/set-cookie-parser/-/set-cookie-parser-2.4.8.tgz#d0da0ed388bc8f24e706a391f9c9e252a13c58b2"
+  integrity sha512-edRH8mBKEWNVIVMKejNnuJxleqYE/ZSdcT8/Nem9/mmosx12pctd80s2Oy00KNZzrogMZS5mauK2/ymL1bvlvg==
 
 setimmediate@^1.0.4:
   version "1.0.5"
