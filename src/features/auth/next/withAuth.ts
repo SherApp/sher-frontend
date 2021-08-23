@@ -22,11 +22,14 @@ export const withAuth: WithAuth = (
 ) => async (context) => {
   const client = axios.create({
     baseURL: config.api.absoluteUrl + config.api.baseUrl,
-    withCredentials: true,
-    headers: {
-      cookie: context.req.headers.cookie
-    }
+    withCredentials: true
   });
+
+  if (context.req.headers.cookie) {
+    client.defaults.headers = {
+      cookie: context.req.headers.cookie
+    };
+  }
 
   const retryInstance = axios.create({
     baseURL: client.defaults.baseURL
