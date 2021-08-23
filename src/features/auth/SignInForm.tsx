@@ -8,6 +8,7 @@ import { handleError } from '../../utils/handleError';
 import { useRouter } from 'next/router';
 import ContainedTextInput from '../../components/TextInput/ContainedTextInput';
 import Link from 'next/link';
+import useTranslation from 'next-translate/useTranslation';
 
 interface Values {
   emailAddress: string;
@@ -19,6 +20,8 @@ interface QueryParams {
 }
 
 const SignInForm = () => {
+  const { t } = useTranslation('auth');
+
   const { query, ...router } = useRouter();
   const { returnUrl } = query as QueryParams;
 
@@ -55,22 +58,22 @@ const SignInForm = () => {
           <Field
             as={ContainedTextInput}
             name="emailAddress"
-            label="Email"
+            label={t('email')}
             type="email"
           />
           <Field
             as={ContainedTextInput}
             name="password"
-            label="Password"
+            label={t('password')}
             type="password"
           />
         </div>
         <div className="flex flex-row justify-between items-center">
           <Link href={routes.auth('signUp')} passHref>
-            <a className="text-pink uppercase">Sign up</a>
+            <a className="text-pink uppercase">{t('signUp')}</a>
           </Link>
           <Button variant="gradient" type="submit">
-            Sign in
+            {t('signIn')}
           </Button>
         </div>
       </Form>

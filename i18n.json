@@ -1,0 +1,8 @@
+{
+  "locales": ["pl", "en"],
+  "defaultLocale": "en",
+  "pages": {
+    "/": ["browse"],
+    "rgx:\/auth\/(signIn|signUp)": ["auth"]
+  }
+}

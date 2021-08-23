@@ -1,4 +1,6 @@
-module.exports = {
+const nextTranslate = require('next-translate');
+
+module.exports = nextTranslate({
   async rewrites() {
     return process.env.NODE_ENV !== 'production'
       ? [
@@ -9,4 +11,4 @@ module.exports = {
         ]
       : [];
   }
-};
+});
