@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react';
 import { UserFile } from '@sherapp/sher-shared';
-import { fetchUserUploadedFiles } from './apiCalls';
 import _ from 'lodash';
+import { useApiClient } from '../../api/useApiClient';
 
 const useFileSearch = (requiredFileNamePart: string) => {
+  const apiClient = useApiClient();
+
   const [results, setResults] = useState<UserFile[] | null>(null);
 
   useEffect(() => {
     if (_.isEmpty(requiredFileNamePart)) {
       setResults(null);
     } else {
-      fetchUserUploadedFiles({ requiredFileNamePart }).then(setResults);
+      apiClient
+        .fetchUserUploadedFiles({ requiredFileNamePart })
+        .then(setResults);
     }
   }, [requiredFileNamePart]);
 

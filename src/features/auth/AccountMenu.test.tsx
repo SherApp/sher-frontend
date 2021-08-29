@@ -4,11 +4,6 @@ import { getUser, signOut } from './apiCalls';
 import { useHistory } from 'react-router-dom';
 import { routes } from '../../utils/config';
 
-jest.mock('./apiCalls', () => ({
-  signOut: jest.fn(),
-  getUser: jest.fn()
-}));
-
 jest.mock('react-router-dom', () => ({
   useHistory: jest.fn()
 }));

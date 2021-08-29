@@ -3,20 +3,21 @@ import Button from '../../components/Button';
 import NamedContainer from '../../components/NamedContainer';
 import { useEffect, useState } from 'react';
 import { PlatformSettings } from '@sherapp/sher-shared/manageInstance';
-import { getPlatformSettings, updatePlatformSettings } from './apiCalls';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import { handleError } from '../../utils/handleError';
+import { useApiClient } from '../../api/useApiClient';
 
 const AdminRoute = () => {
+  const apiClient = useApiClient();
   const [settings, setSettings] = useState<PlatformSettings>();
 
   useEffect(() => {
-    getPlatformSettings().then(setSettings);
+    apiClient.getPlatformSettings().then(setSettings);
   }, []);
 
   const updatePlatformSettingsMutation = useMutation(
-    (settings: PlatformSettings) => updatePlatformSettings(settings),
+    (settings: PlatformSettings) => apiClient.updatePlatformSettings(settings),
     {
       onSuccess: () => {
         toast.success('Successfully updated settings!');

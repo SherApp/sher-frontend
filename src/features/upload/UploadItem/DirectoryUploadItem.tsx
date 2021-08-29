@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import FileDragArea from '../../../components/FileDragArea';
 import IconButton from '../../../components/IconButton';
 import { useMutation } from 'react-query';
-import { deleteDirectory } from '../../browse/apiCalls';
 import useFilesUpload from '../useFilesUpload';
+import { useApiClient } from '../../../api/useApiClient';
 
 interface Props {
   directoryId: string;
@@ -14,15 +14,20 @@ interface Props {
 }
 
 const DirectoryUploadItem = ({ directoryId, name }: Props) => {
+  const apiClient = useApiClient();
+
   const [squash, setSquash] = useState(false);
 
   const { uploadFiles } = useFilesUpload();
 
-  const deleteMutation = useMutation(async () => deleteDirectory(directoryId), {
-    onSuccess: () => {
-      setSquash(true);
+  const deleteMutation = useMutation(
+    async () => apiClient.deleteDirectory(directoryId),
+    {
+      onSuccess: () => {
+        setSquash(true);
+      }
     }
-  });
+  );
 
   const handleFilesSelected = (files: FileList) => {
     uploadFiles(files, directoryId);

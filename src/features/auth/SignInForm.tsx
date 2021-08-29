@@ -1,6 +1,5 @@
 import Button from '../../components/Button';
 import EllipsisLoading from '../../components/EllipsisLoading';
-import { signIn } from './apiCalls';
 import { Field, Form, Formik } from 'formik';
 import { routes } from '../../utils/config';
 import { useMutation } from 'react-query';
@@ -9,6 +8,7 @@ import { useRouter } from 'next/router';
 import ContainedTextInput from '../../components/TextInput/ContainedTextInput';
 import Link from 'next/link';
 import useTranslation from 'next-translate/useTranslation';
+import { useApiClient } from '../../api/useApiClient';
 
 interface Values {
   emailAddress: string;
@@ -20,13 +20,14 @@ interface QueryParams {
 }
 
 const SignInForm = () => {
+  const apiClient = useApiClient();
   const { t } = useTranslation('auth');
 
   const { query, ...router } = useRouter();
   const { returnUrl } = query as QueryParams;
 
   const { isLoading, ...signInMutation } = useMutation(
-    (values: Values) => signIn(values),
+    (values: Values) => apiClient.signIn(values),
     {
       onSuccess: () => {
         router.replace(returnUrl ?? '/');

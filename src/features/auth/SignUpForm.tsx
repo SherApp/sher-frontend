@@ -1,7 +1,6 @@
 import Button from '../../components/Button';
 import { Form, Formik, Field } from 'formik';
 import * as Yup from 'yup';
-import { getRegistrationSettings, signUp } from './apiCalls';
 import { v4 as uuidv4 } from 'uuid';
 import EllipsisLoading from '../../components/EllipsisLoading';
 import { useMutation, useQuery } from 'react-query';
@@ -11,6 +10,7 @@ import { routes } from '../../utils/config';
 import ContainedTextInput from '../../components/TextInput/ContainedTextInput';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { useApiClient } from '../../api/useApiClient';
 
 const SignUpSchema = Yup.object({
   emailAddress: Yup.string()
@@ -32,11 +32,16 @@ interface Values {
 }
 
 const SignUpForm = () => {
+  const apiClient = useApiClient();
+
   const router = useRouter();
-  const { data } = useQuery('registrationSettings', getRegistrationSettings);
+  const { data } = useQuery(
+    'registrationSettings',
+    apiClient.getRegistrationSettings
+  );
 
   const { isLoading, ...signInMutation } = useMutation(
-    (values: Values) => signUp({ userId: uuidv4(), ...values }),
+    (values: Values) => apiClient.signUp({ userId: uuidv4(), ...values }),
     {
       onSuccess: () => {
         toast.success('Registered successfully!');

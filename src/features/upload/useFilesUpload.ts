@@ -1,9 +1,10 @@
 import { Upload } from '@sherapp/sher-shared';
 import { v4 as uuidv4 } from 'uuid';
-import { uploadFile, cancelUpload as apiCancelUpload } from './apiCalls';
 import { useUploadsInfo } from './UploadsInfoContext';
+import { useTusClient } from '../../api/useTusClient';
 
 const useFilesUpload = () => {
+  const { uploadFile, cancelUpload: apiCancelUpload } = useTusClient();
   const { addOrUpdateUpload, uploads } = useUploadsInfo();
 
   const uploadFiles = (

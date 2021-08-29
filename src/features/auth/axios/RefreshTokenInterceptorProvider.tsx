@@ -1,32 +1,36 @@
 import { useEffect, useState } from 'react';
-import apiClient from '../../../api/apiClient';
 import { refreshTokenInterceptor } from '@sherapp/sher-shared';
 import config, { routes } from '../../../utils/config';
-import { refreshToken } from '../apiCalls';
+import csrAxiosInstance from '../../../api/csrAxiosInstance';
 import { useRouter } from 'next/router';
+import { useApiClient } from '../../../api/useApiClient';
 
 const RefreshTokenInterceptorProvider: React.FC = ({ children }) => {
   const router = useRouter();
   const [interceptorIn, setInterceptorIn] = useState(false);
 
+  const apiClient = useApiClient();
+
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const handleAuthRequired = () => {
       router.replace(routes.auth('signIn', router.pathname));
     };
 
-    const interceptorId = apiClient.interceptors.response.use(
+    const interceptorId = csrAxiosInstance.interceptors.response.use(
       (r) => r,
       refreshTokenInterceptor(
-        apiClient,
+        csrAxiosInstance,
         handleAuthRequired,
-        refreshToken,
+        apiClient.refreshToken,
         config.api.endpoints.token.root
       )
     );
 
     setInterceptorIn(true);
 
-    return () => apiClient.interceptors.response.eject(interceptorId);
+    return () => csrAxiosInstance.interceptors.response.eject(interceptorId);
   }, [router]);
 
   if (!interceptorIn) return null;

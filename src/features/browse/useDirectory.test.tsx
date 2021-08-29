@@ -1,13 +1,16 @@
 import useDirectory from './useDirectory';
-import { createDirectory, listDirectory } from './apiCalls';
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { QueryClient, QueryClientProvider } from 'react-query';
+// @ts-ignore
+import ApiClient, { mocks } from '../../api/apiClient';
 
 interface Props {
   directoryId?: string;
 }
+
+jest.mock('../../api/apiClient');
 
 const TestComponent = ({ directoryId }: Props) => {
   const [directoryName, setDirectoryName] = useState('');
@@ -35,17 +38,14 @@ const TestComponent = ({ directoryId }: Props) => {
   );
 };
 
-jest.mock('./apiCalls', () => ({
-  listDirectory: jest.fn(),
-  createDirectory: jest.fn()
-}));
 jest.mock('uuid', () => ({
   v4: jest.fn()
 }));
 
 it('lists directory', async () => {
   const directoryName = 'Dir';
-  (listDirectory as jest.Mock).mockResolvedValueOnce({
+
+  (mocks.listDirectory as jest.Mock).mockResolvedValueOnce({
     directories: [],
     name: directoryName
   });
@@ -65,7 +65,7 @@ it('lists directory', async () => {
     });
   });
 
-  expect(listDirectory).toHaveBeenCalledWith(dirId);
+  expect(mocks.listDirectory).toHaveBeenCalledWith(dirId);
 });
 
 it('creates child directory', async () => {
@@ -73,7 +73,9 @@ it('creates child directory', async () => {
   const childDirName = 'Dir';
   const childDirId = '321';
 
-  (listDirectory as jest.Mock).mockResolvedValueOnce({
+  console.log(mocks);
+
+  (mocks.listDirectory as jest.Mock).mockResolvedValueOnce({
     directories: []
   });
   (uuidv4 as jest.Mock).mockReturnValue(childDirId);
@@ -95,7 +97,7 @@ it('creates child directory', async () => {
     fireEvent.click(createBtn);
   });
 
-  expect(createDirectory).toHaveBeenCalledWith({
+  expect(mocks.createDirectory).toHaveBeenCalledWith({
     id: childDirId,
     parentDirectoryId: dirId,
     name: childDirName

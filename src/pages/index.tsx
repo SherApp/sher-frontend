@@ -1,5 +1,4 @@
 import { QueryClient } from 'react-query';
-import { listDirectory } from '../features/browse/apiCalls';
 import { withAuth } from '../features/auth/next/withAuth';
 import { dehydrate } from 'react-query/hydration';
 import BrowseRoute from '../features/browse/BrowseRoute';
@@ -17,12 +16,9 @@ export const getServerSideProps = withAuth(async (apiClient, { query }) => {
 
   const { directoryId } = query as QueryParams;
 
-  await queryClient.fetchQuery(['listDirectory', directoryId], async () => {
-    const { data } = await apiClient.get(
-      directoryId ? `/directory/${directoryId}` : '/directory'
-    );
-    return data;
-  });
+  await queryClient.fetchQuery(['listDirectory', directoryId], () =>
+    apiClient.listDirectory(directoryId)
+  );
 
   return {
     props: {

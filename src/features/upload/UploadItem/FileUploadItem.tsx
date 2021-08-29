@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import UploadLink from '../UploadLink';
 import IconButton from '../../../components/IconButton';
 import { useMutation } from 'react-query';
-import { deleteFile } from '../../browse/apiCalls';
+import { useApiClient } from '../../../api/useApiClient';
 
 interface Props {
   id?: string;
@@ -26,7 +26,9 @@ const FileUploadItem = ({
 }: Props) => {
   const [squash, setSquash] = useState(false);
 
-  const deleteMutation = useMutation(() => deleteFile(id ?? ''), {
+  const apiClient = useApiClient();
+
+  const deleteMutation = useMutation(() => apiClient.deleteFile(id ?? ''), {
     onSuccess: () => {
       setSquash(true);
     }

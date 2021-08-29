@@ -1,16 +1,17 @@
 import { GetServerSideProps } from 'next';
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 import config from '../../../utils/config';
 import {
   AUTH_REQUIRED_MESSAGE,
   refreshTokenInterceptor
 } from '@sherapp/sher-shared';
 import setCookie from 'set-cookie-parser';
+import ApiClient from '../../../api/apiClient';
 
 export type GetServerSidePropsWithApi = GetServerSideProps extends (
   ...a: infer U
 ) => infer R
-  ? (client: AxiosInstance, ...a: U) => R
+  ? (client: ApiClient, ...a: U) => R
   : never;
 
 type WithAuth = (
@@ -58,8 +59,10 @@ export const withAuth: WithAuth = (
     )
   );
 
+  const apiClient = new ApiClient(client);
+
   try {
-    return await getServerSideProps(client, context);
+    return await getServerSideProps(apiClient, context);
   } catch (e) {
     if (e.message === AUTH_REQUIRED_MESSAGE) {
       return {

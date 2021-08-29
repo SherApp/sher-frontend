@@ -1,17 +1,19 @@
-import { createDirectory, listDirectory } from './apiCalls';
 import { v4 as uuidv4 } from 'uuid';
 import { useQuery } from 'react-query';
+import { useApiClient } from '../../api/useApiClient';
 
 const useDirectory = (directoryId?: string) => {
+  const apiClient = useApiClient();
+
   const { data: directory, isLoading, refetch } = useQuery(
     ['listDirectory', directoryId],
-    () => listDirectory(directoryId)
+    () => apiClient.listDirectory(directoryId)
   );
 
   const createChildDirectory = async (name: string) => {
     const id = uuidv4();
 
-    await createDirectory({
+    await apiClient.createDirectory({
       id,
       parentDirectoryId: directoryId,
       name

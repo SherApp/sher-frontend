@@ -2,9 +2,9 @@ import userIcon from '../../img/user.svg';
 import { useRef } from 'react';
 import { Menu, MenuItem, useMenuVisibility } from '../../components/Menu';
 import { useHistory } from 'react-router-dom';
-import { signOut } from './apiCalls';
-import { useUser } from './useUser';
 import { routes } from '../../utils/config';
+import { useQuery } from 'react-query';
+import { useApiClient } from '../../api/useApiClient';
 
 interface AccountMenuProps {
   className?: string;
@@ -12,7 +12,9 @@ interface AccountMenuProps {
 
 const AccountMenu = ({ className }: AccountMenuProps) => {
   const history = useHistory();
-  const { user } = useUser();
+
+  const apiClient = useApiClient();
+  const { data: user } = useQuery('user', apiClient.getUser);
 
   const menuToggleRef = useRef<HTMLButtonElement>(null);
   const { isVisible } = useMenuVisibility(menuToggleRef);
@@ -22,7 +24,7 @@ const AccountMenu = ({ className }: AccountMenuProps) => {
   };
 
   const handleSignOutClick = async () => {
-    await signOut();
+    await apiClient.signOut();
     history.push(routes.auth('signIn'));
   };
 
