@@ -2,7 +2,6 @@ import { Hydrate } from 'react-query/hydration';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { useState } from 'react';
 import { AppProps } from 'next/app';
-import RefreshTokenInterceptorProvider from '../features/auth/axios/RefreshTokenInterceptorProvider';
 import { ToastContainer } from 'react-toastify';
 import clsx from 'clsx';
 import { UploadsInfoContextProvider } from '../features/upload/UploadsInfoContext';
@@ -23,35 +22,33 @@ const App = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <RefreshTokenInterceptorProvider>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <ToastContainer
-            toastClassName={(className) =>
-              clsx(
-                contextClass[className?.type || 'default'],
-                'relative shadow-xl flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer'
-              )
-            }
-            bodyClassName={() => 'p-3 text-white'}
-            position="bottom-center"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
-          <div className="flex min-h-screen min-w-full items-center flex-col dark:bg-gray-900 dark:text-gray-200 bg-gray-50">
-            <UploadsInfoContextProvider>
-              <Component {...pageProps} />
-            </UploadsInfoContextProvider>
-          </div>
-        </Hydrate>
-      </QueryClientProvider>
-    </RefreshTokenInterceptorProvider>
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <ToastContainer
+          toastClassName={(className) =>
+            clsx(
+              contextClass[className?.type || 'default'],
+              'relative shadow-xl flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer'
+            )
+          }
+          bodyClassName={() => 'p-3 text-white'}
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        <div className="flex min-h-screen min-w-full items-center flex-col dark:bg-gray-900 dark:text-gray-200 bg-gray-50">
+          <UploadsInfoContextProvider>
+            <Component {...pageProps} />
+          </UploadsInfoContextProvider>
+        </div>
+      </Hydrate>
+    </QueryClientProvider>
   );
 };
 
