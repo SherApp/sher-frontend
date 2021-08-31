@@ -73,8 +73,6 @@ it('creates child directory', async () => {
   const childDirName = 'Dir';
   const childDirId = '321';
 
-  console.log(mocks);
-
   (mocks.listDirectory as jest.Mock).mockResolvedValueOnce({
     directories: []
   });
