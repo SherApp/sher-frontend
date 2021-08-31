@@ -1,5 +1,5 @@
 import { Upload } from '@sherapp/sher-shared/upload';
-import { FileUploadItem } from './UploadItem';
+import { FileUploadItem } from '../browse/UploadItem';
 import UploadStatusIcon from './UploadStatusIcon';
 import config from '../../utils/config';
 

@@ -2,7 +2,7 @@ import UploadItemContainer from './UploadItemContainer';
 import UploadItemDetails from './UploadItemDetails';
 import { File, Trash2 } from 'react-feather';
 import React, { useState } from 'react';
-import UploadLink from '../UploadLink';
+import UploadLink from '../../upload/UploadLink';
 import IconButton from '../../../components/IconButton';
 import { useMutation } from 'react-query';
 import { useApiClient } from '../../../api/useApiClient';

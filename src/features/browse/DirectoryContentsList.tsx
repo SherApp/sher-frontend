@@ -1,5 +1,5 @@
 import { UserFile, Directory } from '@sherapp/sher-shared';
-import { FileUploadItem, DirectoryUploadItem } from '../upload/UploadItem';
+import { FileUploadItem, DirectoryUploadItem } from './UploadItem';
 import React from 'react';
 import FileDragArea from '../../components/FileDragArea';
 import clsx from 'clsx';

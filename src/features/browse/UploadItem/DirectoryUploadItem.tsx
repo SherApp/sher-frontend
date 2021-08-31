@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import FileDragArea from '../../../components/FileDragArea';
 import IconButton from '../../../components/IconButton';
 import { useMutation } from 'react-query';
-import useFilesUpload from '../useFilesUpload';
+import useFilesUpload from '../../upload/useFilesUpload';
 import { useApiClient } from '../../../api/useApiClient';
 import { useRouter } from 'next/router';
 import { routes } from '../../../utils/config';
