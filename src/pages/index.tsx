@@ -1,28 +1,22 @@
 import { QueryClient } from 'react-query';
 import { withAuth } from '../features/auth/next/withAuth';
-import { dehydrate } from 'react-query/hydration';
 import BrowseRoute from '../features/browse/BrowseRoute';
-
-interface QueryParams {
-  directoryId?: string;
-}
+import { dehydrateState } from '../utils/dehydrateState';
 
 const Browse = () => {
   return <BrowseRoute />;
 };
 
-export const getServerSideProps = withAuth(async (apiClient, { query }) => {
+export const getServerSideProps = withAuth(async (apiClient) => {
   const queryClient = new QueryClient();
 
-  const { directoryId } = query as QueryParams;
-
-  await queryClient.fetchQuery(['listDirectory', directoryId], () =>
-    apiClient.listDirectory(directoryId)
+  await queryClient.fetchQuery(['listDirectory', undefined], () =>
+    apiClient.listDirectory()
   );
 
   return {
     props: {
-      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient)))
+      dehydratedState: dehydrateState(queryClient)
     }
   };
 });

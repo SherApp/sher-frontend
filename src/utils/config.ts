@@ -41,7 +41,8 @@ export const routes = {
     return url;
   },
   admin: '/admin',
-  browseFiles: '/browse'
+  browseFiles: '/browse',
+  directory: (directoryId?: string) => resourceOfId('directory', directoryId)
 };
 
 export default config;

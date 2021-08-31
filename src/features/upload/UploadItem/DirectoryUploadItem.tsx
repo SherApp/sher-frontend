@@ -7,6 +7,8 @@ import IconButton from '../../../components/IconButton';
 import { useMutation } from 'react-query';
 import useFilesUpload from '../useFilesUpload';
 import { useApiClient } from '../../../api/useApiClient';
+import { useRouter } from 'next/router';
+import { routes } from '../../../utils/config';
 
 interface Props {
   directoryId: string;
@@ -14,6 +16,7 @@ interface Props {
 }
 
 const DirectoryUploadItem = ({ directoryId, name }: Props) => {
+  const router = useRouter();
   const apiClient = useApiClient();
 
   const [squash, setSquash] = useState(false);
@@ -33,9 +36,9 @@ const DirectoryUploadItem = ({ directoryId, name }: Props) => {
     uploadFiles(files, directoryId);
   };
 
-  // const handleClick = () => {
-  //   navigateTo({ id: directoryId, name });
-  // };
+  const handleClick = async () => {
+    await router.push(routes.directory(directoryId));
+  };
 
   const handleDeleteClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -49,7 +52,7 @@ const DirectoryUploadItem = ({ directoryId, name }: Props) => {
           <button
             className="w-full block text-left"
             aria-label={`open ${name} directory`}
-            // onClick={handleClick}
+            onClick={handleClick}
           >
             <UploadItemDetails
               icon={<Folder />}

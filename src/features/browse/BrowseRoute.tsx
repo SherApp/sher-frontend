@@ -13,25 +13,20 @@ import {
 } from '../../components/FileDragArea';
 import PendingUploads from '../upload/PendingUploads';
 import { useRouter } from 'next/router';
-
-interface QueryParams {
-  directoryId?: string;
-}
+import PathBreadcrumbs from './PathBreadcrumbs';
 
 const BrowseRoute = () => {
-  // const { navigateTo, history } = useDirectoryNavigation();
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
-  const [query, setQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
+    setSearchQuery(e.target.value);
   };
 
-  const { query: q } = useRouter();
-  const { directoryId } = q as QueryParams;
+  const { query } = useRouter();
 
   const { directory, createChildDirectory } = useDirectory(
-    directoryId ?? undefined
+    (query?.id as string) ?? undefined
   );
 
   const handleCreateFolderClick = () => {
@@ -45,7 +40,7 @@ const BrowseRoute = () => {
     await createChildDirectory(name);
   };
 
-  const results = useFileSearch(query);
+  const results = useFileSearch(searchQuery);
 
   const files = results ?? directory?.files;
   const directories = results ? [] : directory?.directories;
@@ -66,10 +61,10 @@ const BrowseRoute = () => {
           variant="contained"
           label="Search"
           className="mb-2"
-          value={query}
+          value={searchQuery}
           onChange={handleQueryChange}
         />
-        {/*<PathBreadcrumbs history={history} onBreadcrumbClick={navigateTo} />*/}
+        <PathBreadcrumbs path={directory?.path} />
         <div className="mb-2">
           <Button onClick={handleCreateFolderClick} icon={<FolderPlus />}>
             Create folder

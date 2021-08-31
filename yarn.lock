@@ -665,10 +665,10 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
-"@sherapp/sher-shared@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@sherapp/sher-shared/-/sher-shared-1.1.4.tgz#edd616861c35f9d027577867ea97525274adc2f3"
-  integrity sha512-t0pBi9nN2vVIJRL4VHj4j3BeMRuFHZSpXYawibS7IuQPz37SiUioQi+JUWahl+7qQNtM8bi0VZ+qfNwVQUAEWQ==
+"@sherapp/sher-shared@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@sherapp/sher-shared/-/sher-shared-1.1.5.tgz#9b96bb3fc91a89d63c1a07184e98bf4da2367048"
+  integrity sha512-USyweT/fW7lBXjd5gXiHkIqYT2XlmKFo1coGa3zkZy/EJw94W0m4qra/0Tbx8UhfEIJUftHpDCL+iy41iysRdA==
   dependencies:
     axios "^0.21.1"
 
