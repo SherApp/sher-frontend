@@ -1,17 +1,18 @@
-import userIcon from '../../img/user.svg';
 import { useRef } from 'react';
 import { Menu, MenuItem, useMenuVisibility } from '../../components/Menu';
-import { useHistory } from 'react-router-dom';
 import { routes } from '../../utils/config';
 import { useQuery } from 'react-query';
 import { useApiClient } from '../../api/useApiClient';
+import { useRouter } from 'next/router';
+import { User } from 'react-feather';
+import Link from 'next/link';
 
 interface AccountMenuProps {
   className?: string;
 }
 
 const AccountMenu = ({ className }: AccountMenuProps) => {
-  const history = useHistory();
+  const router = useRouter();
 
   const apiClient = useApiClient();
   const { data: user } = useQuery('user', apiClient.getUser);
@@ -19,17 +20,9 @@ const AccountMenu = ({ className }: AccountMenuProps) => {
   const menuToggleRef = useRef<HTMLButtonElement>(null);
   const { isVisible } = useMenuVisibility(menuToggleRef);
 
-  const handleMyFilesClick = () => {
-    history.push('/browse');
-  };
-
   const handleSignOutClick = async () => {
     await apiClient.signOut();
-    history.push(routes.auth('signIn'));
-  };
-
-  const handleAdminClick = () => {
-    history.push('/admin');
+    await router.push(routes.auth('signIn'));
   };
 
   if (!user) return null;
@@ -43,16 +36,17 @@ const AccountMenu = ({ className }: AccountMenuProps) => {
         aria-controls="account-menu"
         aria-label="account menu"
       >
-        <img className="w-12" src={userIcon} alt="" />
+        <User />
       </button>
       <Menu
         open={isVisible}
         aria-labelledby="account-menu-button"
         id="account-menu"
       >
-        <MenuItem onClick={handleMyFilesClick}>My files</MenuItem>
         {user.roles.includes('Admin') && (
-          <MenuItem onClick={handleAdminClick}>Admin area</MenuItem>
+          <Link href={routes.admin}>
+            <MenuItem>Admin area</MenuItem>
+          </Link>
         )}
         <MenuItem onClick={handleSignOutClick}>Sign out</MenuItem>
       </Menu>

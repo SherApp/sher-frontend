@@ -1,37 +1,53 @@
 import AccountMenu from './AccountMenu';
 import { fireEvent, render, waitFor } from '@testing-library/react';
-import { getUser, signOut } from './apiCalls';
-import { useHistory } from 'react-router-dom';
 import { routes } from '../../utils/config';
+import { useRouter } from 'next/router';
+// @ts-ignore
+import { mocks } from '../../api/apiClient';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
-jest.mock('react-router-dom', () => ({
-  useHistory: jest.fn()
+jest.mock('../../api/apiClient');
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn()
 }));
 
 beforeEach(() => {
-  (useHistory as jest.Mock).mockReturnValue({
+  (useRouter as jest.Mock).mockReturnValue({
     push: jest.fn()
   });
 });
 
 it('signs out on sign out click', async () => {
-  (getUser as jest.Mock).mockResolvedValue({ roles: [] });
+  (mocks.getUser as jest.Mock).mockResolvedValue({ roles: [] });
 
-  const { getByLabelText, getByText } = render(<AccountMenu />);
+  const queryClient = new QueryClient();
+
+  const { getByLabelText, getByText } = render(
+    <QueryClientProvider client={queryClient}>
+      <AccountMenu />
+    </QueryClientProvider>
+  );
 
   await waitFor(() => {
     fireEvent.click(getByLabelText(/account menu/i));
   });
   await fireEvent.click(getByText(/sign out/i));
 
-  expect(signOut).toHaveBeenCalled();
-  expect(useHistory().push).toHaveBeenCalledWith(routes.auth('signIn'));
+  expect(mocks.signOut).toHaveBeenCalled();
+  expect(useRouter().push).toHaveBeenCalledWith(routes.auth('signIn'));
 });
 
 it('shows admin route for user with "Admin" role', async () => {
-  (getUser as jest.Mock).mockResolvedValue({ roles: ['Admin'] });
+  (mocks.getUser as jest.Mock).mockResolvedValue({ roles: ['Admin'] });
 
-  const { getByText } = render(<AccountMenu />);
+  const queryClient = new QueryClient();
+
+  const { getByText } = render(
+    <QueryClientProvider client={queryClient}>
+      <AccountMenu />
+    </QueryClientProvider>
+  );
 
   await waitFor(() => {
     expect(getByText(/admin area/i)).toBeInTheDocument();
