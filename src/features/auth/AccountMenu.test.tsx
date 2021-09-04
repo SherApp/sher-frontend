@@ -18,28 +18,10 @@ beforeEach(() => {
   });
 });
 
+const emailAddress = 'test@example.com';
+
 it('signs out on sign out click', async () => {
-  (mocks.getUser as jest.Mock).mockResolvedValue({ roles: [] });
-
-  const queryClient = new QueryClient();
-
-  const { getByLabelText, getByText } = render(
-    <QueryClientProvider client={queryClient}>
-      <AccountMenu />
-    </QueryClientProvider>
-  );
-
-  await waitFor(() => {
-    fireEvent.click(getByLabelText(/account menu/i));
-  });
-  await fireEvent.click(getByText(/sign out/i));
-
-  expect(mocks.signOut).toHaveBeenCalled();
-  expect(useRouter().push).toHaveBeenCalledWith(routes.auth('signIn'));
-});
-
-it('shows admin route for user with "Admin" role', async () => {
-  (mocks.getUser as jest.Mock).mockResolvedValue({ roles: ['Admin'] });
+  (mocks.getUser as jest.Mock).mockResolvedValue({ roles: [], emailAddress });
 
   const queryClient = new QueryClient();
 
@@ -50,6 +32,33 @@ it('shows admin route for user with "Admin" role', async () => {
   );
 
   await waitFor(() => {
-    expect(getByText(/admin area/i)).toBeInTheDocument();
+    fireEvent.click(getByText(emailAddress));
+  });
+  await fireEvent.click(getByText(/Sign out/i));
+
+  expect(mocks.signOut).toHaveBeenCalled();
+  expect(useRouter().push).toHaveBeenCalledWith(routes.auth('signIn'));
+});
+
+it('shows admin route for user with "Admin" role', async () => {
+  (mocks.getUser as jest.Mock).mockResolvedValue({
+    roles: ['Admin'],
+    emailAddress
+  });
+
+  const queryClient = new QueryClient();
+
+  const { getByText } = render(
+    <QueryClientProvider client={queryClient}>
+      <AccountMenu />
+    </QueryClientProvider>
+  );
+
+  await waitFor(() => {
+    fireEvent.click(getByText(emailAddress));
+  });
+
+  await waitFor(() => {
+    expect(getByText(/Admin/i)).toBeInTheDocument();
   });
 });

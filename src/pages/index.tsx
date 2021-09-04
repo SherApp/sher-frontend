@@ -10,6 +10,8 @@ const Browse = () => {
 export const getServerSideProps = withAuth(async (apiClient) => {
   const queryClient = new QueryClient();
 
+  await queryClient.fetchQuery('user', () => apiClient.getUser());
+
   await queryClient.fetchQuery(['listDirectory', undefined], () =>
     apiClient.listDirectory()
   );

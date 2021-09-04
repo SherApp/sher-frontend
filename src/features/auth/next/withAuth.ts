@@ -63,7 +63,7 @@ export const withAuth: WithAuth = (
 
   try {
     return await getServerSideProps(apiClient, context);
-  } catch (e) {
+  } catch (e: any) {
     if (e.message === AUTH_REQUIRED_MESSAGE) {
       return {
         redirect: {

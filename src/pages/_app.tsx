@@ -42,7 +42,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           draggable
           pauseOnHover
         />
-        <div className="flex min-h-screen min-w-full items-center flex-col dark:bg-gray-900 dark:text-gray-200 bg-gray-50">
+        <div className="min-h-screen min-w-full dark:bg-gray-900 dark:text-gray-200 bg-gray-50">
           <UploadsInfoContextProvider>
             <Component {...pageProps} />
           </UploadsInfoContextProvider>

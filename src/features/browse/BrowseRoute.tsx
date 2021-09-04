@@ -14,6 +14,7 @@ import {
 import PendingUploads from '../upload/PendingUploads';
 import { useRouter } from 'next/router';
 import PathBreadcrumbs from './PathBreadcrumbs';
+import Header from '../../components/Header/Header';
 
 const BrowseRoute = () => {
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
@@ -50,6 +51,7 @@ const BrowseRoute = () => {
   return (
     <FileDragAreaContextProvider>
       <PendingUploads />
+      <Header />
       <NamedContainer title="Files">
         <FileDragAreaInfo />
         <CreateFolderDialog

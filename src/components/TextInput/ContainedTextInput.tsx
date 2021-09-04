@@ -3,16 +3,21 @@ import { useMemo, useState } from 'react';
 import _ from 'lodash';
 import clsx from 'clsx';
 
+interface Props extends Exclude<TextInputBaseProps, 'label'> {
+  pill?: boolean;
+}
+
 const ContainedTextInput = ({
   label,
   id,
+  pill,
   onFocus,
   onBlur,
   onChange,
   className,
   value = '',
   ...rest
-}: Exclude<TextInputBaseProps, 'label'>) => {
+}: Props) => {
   const [internalValue, setInternalValue] = useState(value);
   const [focus, setFocus] = useState(false);
 
@@ -31,10 +36,11 @@ const ContainedTextInput = ({
     onChange?.(e);
   };
 
-  const containerClasses = clsx('relative pt-6', className);
+  const containerClasses = clsx('relative', [label && 'pt-6'], className);
 
   const inputClasses = clsx(
-    'w-full tracking-widest outline-none border border-gray-200 dark:border-gray-800 px-4 py-2 rounded bg-white dark:bg-gray-700'
+    'w-full outline-none border border-gray-200 dark:border-gray-800 px-4 py-2 bg-white dark:bg-gray-700',
+    pill ? 'rounded-full' : 'rounded'
   );
 
   const labelClasses = clsx(
@@ -57,9 +63,11 @@ const ContainedTextInput = ({
         value={internalValue}
         {...rest}
       />
-      <label className={labelClasses} htmlFor={renderedId}>
-        {label}
-      </label>
+      {label && (
+        <label className={labelClasses} htmlFor={renderedId}>
+          {label}
+        </label>
+      )}
     </div>
   );
 };

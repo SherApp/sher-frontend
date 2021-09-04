@@ -16,6 +16,8 @@ export const getServerSideProps = withAuth(async (apiClient, { query }) => {
     apiClient.listDirectory(id as string)
   );
 
+  await queryClient.fetchQuery('user', () => apiClient.getUser());
+
   return {
     props: {
       dehydratedState: dehydrateState(queryClient)
