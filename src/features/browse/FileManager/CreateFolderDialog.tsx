@@ -2,9 +2,9 @@ import Dialog, {
   DialogButtons,
   DialogContent,
   DialogHeader
-} from '../../components/Dialog';
-import TextInput from '../../components/TextInput';
-import Button from '../../components/Button';
+} from '../../../components/Dialog';
+import TextInput from '../../../components/TextInput';
+import Button from '../../../components/Button';
 import { useState } from 'react';
 
 interface Props {

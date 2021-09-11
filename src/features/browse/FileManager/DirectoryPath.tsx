@@ -1,4 +1,4 @@
-import { routes } from '../../utils/config';
+import { routes } from '../../../utils/config';
 import { DirectorySummary } from '@sherapp/sher-shared';
 import { Fragment } from 'react';
 import Link from 'next/link';

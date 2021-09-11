@@ -1,5 +1,5 @@
-import CreateFolderDialog from '../CreateFolderDialog';
-import DirectoryPath from '../DirectoryPath';
+import CreateFolderDialog from './CreateFolderDialog';
+import DirectoryPath from './DirectoryPath';
 import Button from '../../../components/Button';
 import { FolderPlus } from 'react-feather';
 import DirectoryContentsTable from './DirectoryContentsTable';
