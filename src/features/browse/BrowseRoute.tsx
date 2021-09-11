@@ -13,7 +13,7 @@ const BrowseRoute = () => {
     <FileDragAreaContextProvider>
       <PendingUploads />
       <FileDragAreaInfo />
-      <div className="px-8 flex">
+      <div className="px-8 flex space-x-10">
         <Bookmarks className="w-60" />
         <FileManager className="flex-grow" />
         <ItemInfo className="w-60" name="ok" />
