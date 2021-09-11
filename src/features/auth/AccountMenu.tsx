@@ -21,7 +21,7 @@ const AccountMenu = ({ className }: AccountMenuProps) => {
   const router = useRouter();
 
   const apiClient = useApiClient();
-  const { data: user } = useQuery('user', apiClient.getUser);
+  const { data: user } = useQuery('user', () => apiClient.getUser());
 
   const handleSignOutClick = async () => {
     await apiClient.signOut();
