@@ -7,7 +7,10 @@ const useDirectory = (directoryId?: string) => {
 
   const { data: directory, isLoading, refetch } = useQuery(
     ['listDirectory', directoryId],
-    () => apiClient.listDirectory(directoryId)
+    () => apiClient.listDirectory(directoryId),
+    {
+      refetchOnWindowFocus: false
+    }
   );
 
   const createChildDirectory = async (name: string) => {
