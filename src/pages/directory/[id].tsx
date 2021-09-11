@@ -2,9 +2,16 @@ import { QueryClient } from 'react-query';
 import { withAuth } from '../../features/auth/next/withAuth';
 import BrowseRoute from '../../features/browse/BrowseRoute';
 import { dehydrateState } from '../../utils/dehydrateState';
+import Header from '../../components/Header';
+import React from 'react';
 
 const Browse = () => {
-  return <BrowseRoute />;
+  return (
+    <>
+      <Header />
+      <BrowseRoute />
+    </>
+  );
 };
 
 export const getServerSideProps = withAuth(async (apiClient, { query }) => {

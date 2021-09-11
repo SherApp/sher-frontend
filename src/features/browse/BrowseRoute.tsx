@@ -1,9 +1,5 @@
 import useDirectory from './useDirectory';
-import TextInput from '../../components/TextInput';
-import NamedContainer from '../../components/NamedContainer';
 import React, { useState } from 'react';
-import DirectoryContentsList from './DirectoryContentsList';
-import useFileSearch from './useFileSearch';
 import Button from '../../components/Button';
 import { FolderPlus } from 'react-feather';
 import CreateFolderDialog from './CreateFolderDialog';
@@ -14,15 +10,12 @@ import {
 import PendingUploads from '../upload/PendingUploads';
 import { useRouter } from 'next/router';
 import PathBreadcrumbs from './PathBreadcrumbs';
-import Header from '../../components/Header/Header';
+import DirectoryContentsTable from './DirectoryContentsTable';
+import Bookmarks from './Bookmarks';
+import ItemInfo from './ItemInfo';
 
 const BrowseRoute = () => {
   const [showCreateFolderDialog, setShowCreateFolderDialog] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  };
 
   const { query } = useRouter();
 
@@ -41,43 +34,33 @@ const BrowseRoute = () => {
     await createChildDirectory(name);
   };
 
-  const results = useFileSearch(searchQuery);
-
-  const files = results ?? directory?.files;
-  const directories = results ? [] : directory?.directories;
-
   if (!directory) return null;
+
+  const files = directory?.files;
+  const directories = directory?.directories;
 
   return (
     <FileDragAreaContextProvider>
       <PendingUploads />
-      <Header />
-      <NamedContainer title="Files">
-        <FileDragAreaInfo />
-        <CreateFolderDialog
-          onOkClick={handleCreateFolder}
-          onClose={() => setShowCreateFolderDialog(false)}
-          show={showCreateFolderDialog}
-        />
-        <TextInput
-          variant="contained"
-          label="Search"
-          className="mb-2"
-          value={searchQuery}
-          onChange={handleQueryChange}
-        />
-        <PathBreadcrumbs path={directory?.path} />
-        <div className="mb-2">
-          <Button onClick={handleCreateFolderClick} icon={<FolderPlus />}>
-            Create folder
-          </Button>
+      <FileDragAreaInfo />
+      <div className="px-8 flex">
+        <Bookmarks className="w-60" />
+        <div className="flex-grow">
+          <CreateFolderDialog
+            onOkClick={handleCreateFolder}
+            onClose={() => setShowCreateFolderDialog(false)}
+            show={showCreateFolderDialog}
+          />
+          <PathBreadcrumbs path={directory?.path} />
+          <div className="mb-2">
+            <Button onClick={handleCreateFolderClick} icon={<FolderPlus />}>
+              Create folder
+            </Button>
+          </div>
+          <DirectoryContentsTable data={[...files, ...directories]} />
         </div>
-        <DirectoryContentsList
-          directoryId={directory?.id}
-          files={files}
-          directories={directories}
-        />
-      </NamedContainer>
+        <ItemInfo className="w-60" name="ok" />
+      </div>
     </FileDragAreaContextProvider>
   );
 };

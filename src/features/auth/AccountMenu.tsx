@@ -13,7 +13,7 @@ interface AccountMenuProps {
 }
 
 const itemClassNames = (active: boolean) =>
-  clsx('flex items-center px-2 py-2 w-full rounded-md', [
+  clsx('flex data-center px-2 py-2 w-full rounded-md', [
     active && 'bg-gray-100 dark:bg-gray-700'
   ]);
 
