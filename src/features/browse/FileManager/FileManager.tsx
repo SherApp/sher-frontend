@@ -1,5 +1,5 @@
 import CreateFolderDialog from '../CreateFolderDialog';
-import PathBreadcrumbs from '../PathBreadcrumbs';
+import DirectoryPath from '../DirectoryPath';
 import Button from '../../../components/Button';
 import { FolderPlus } from 'react-feather';
 import DirectoryContentsTable from './DirectoryContentsTable';
@@ -43,7 +43,7 @@ const FileManager = ({ className }: Props) => {
         onClose={() => setShowCreateFolderDialog(false)}
         show={showCreateFolderDialog}
       />
-      <PathBreadcrumbs path={directory?.path} />
+      <DirectoryPath path={directory?.path} />
       <div className="mb-2">
         <Button onClick={handleCreateFolderClick} icon={<FolderPlus />}>
           Create folder
