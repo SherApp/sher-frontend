@@ -1,6 +1,14 @@
 import { Directory, UserFile } from '@sherapp/sher-shared';
-import { useMemo } from 'react';
-import { Column, useFlexLayout, useSortBy, useTable } from 'react-table';
+import React, { useMemo } from 'react';
+import {
+  Column,
+  Row,
+  useFlexLayout,
+  useRowSelect,
+  useSortBy,
+  useTable
+} from 'react-table';
+import IndeterminateCheckbox from '../../../components/IndeterminateCheckbox';
 
 type DirectoryOrFile = Directory | UserFile;
 
@@ -33,7 +41,27 @@ const DirectoryContentsTable = ({ data }: Props) => {
   } = useTable<DirectoryOrFile>(
     { data: data, columns },
     useFlexLayout,
-    useSortBy
+    useSortBy,
+    useRowSelect,
+    (hooks) => {
+      hooks.visibleColumns.push((columns) => [
+        {
+          id: 'selection',
+          Header: ({ getToggleAllRowsSelectedProps }) => (
+            <div>
+              <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+            </div>
+          ),
+          Cell: ({ row }: { row: Row<DirectoryOrFile> }) => (
+            <div>
+              <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+            </div>
+          ),
+          width: 50
+        },
+        ...columns
+      ]);
+    }
   );
 
   return (
