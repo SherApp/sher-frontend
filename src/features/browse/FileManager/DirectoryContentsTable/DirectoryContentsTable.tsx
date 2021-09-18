@@ -1,5 +1,5 @@
 import { Directory, UserFile } from '@sherapp/sher-shared';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Column,
   Row,
@@ -8,7 +8,12 @@ import {
   useSortBy,
   useTable
 } from 'react-table';
-import IndeterminateCheckbox from '../../../components/IndeterminateCheckbox';
+import IndeterminateCheckbox from '../../../../components/IndeterminateCheckbox';
+import {
+  withControlDownPolicy,
+  withoutModifierPolicy,
+  withShiftDownPolicy
+} from './selectionPolicies';
 
 type DirectoryOrFile = Directory | UserFile;
 
@@ -17,6 +22,7 @@ interface Props {
 }
 
 const DirectoryContentsTable = ({ data }: Props) => {
+  const [lastClickedId, setLastClickedId] = useState(0);
   const columns: Column<DirectoryOrFile>[] = useMemo(
     () => [
       {
@@ -37,7 +43,8 @@ const DirectoryContentsTable = ({ data }: Props) => {
     getTableBodyProps,
     headerGroups,
     rows,
-    prepareRow
+    prepareRow,
+    toggleRowSelected
   } = useTable<DirectoryOrFile>(
     { data: data, columns },
     useFlexLayout,
@@ -63,6 +70,27 @@ const DirectoryContentsTable = ({ data }: Props) => {
       ]);
     }
   );
+
+  const getSelectionPolicy = (e: React.MouseEvent<HTMLTableRowElement>) => {
+    if (e.shiftKey) return withShiftDownPolicy;
+    if (e.ctrlKey) return withControlDownPolicy;
+    return withoutModifierPolicy;
+  };
+
+  const handleRowClick = (
+    e: React.MouseEvent<HTMLTableRowElement>,
+    id: string
+  ) => {
+    const selectionState = rows.map((r) => r.isSelected);
+    const policy = getSelectionPolicy(e);
+    const newState = policy(selectionState, +id, lastClickedId);
+
+    for (let i = 0; i < newState.length; i++) {
+      toggleRowSelected(i.toString(), newState[i]);
+    }
+
+    setLastClickedId(+id);
+  };
 
   return (
     <div className="rounded overflow-hidden border dark:border-gray-600">
@@ -99,7 +127,8 @@ const DirectoryContentsTable = ({ data }: Props) => {
             prepareRow(row);
             return (
               <tr
-                className="bg-white dark:bg-gray-800 p-4"
+                className="bg-white dark:bg-gray-800 p-4 select-none"
+                onClick={(e) => handleRowClick(e, row.id)}
                 {...row.getRowProps()}
               >
                 {row.cells.map((cell) => {
