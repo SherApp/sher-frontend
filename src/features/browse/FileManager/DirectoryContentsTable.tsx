@@ -65,12 +65,12 @@ const DirectoryContentsTable = ({ data }: Props) => {
   );
 
   return (
-    <div className="rounded overflow-hidden border">
+    <div className="rounded overflow-hidden border dark:border-gray-600">
       <table className="w-full" {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr
-              className="bg-white border-b-2 p-4"
+              className="bg-white dark:bg-gray-800 border-b-2 dark:border-gray-600 p-4"
               {...headerGroup.getHeaderGroupProps()}
             >
               {headerGroup.headers.map((column) => (
@@ -91,11 +91,17 @@ const DirectoryContentsTable = ({ data }: Props) => {
             </tr>
           ))}
         </thead>
-        <tbody {...getTableBodyProps()} className="divide-y">
+        <tbody
+          {...getTableBodyProps()}
+          className="divide-y dark:divide-gray-600"
+        >
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <tr className="bg-white p-4" {...row.getRowProps()}>
+              <tr
+                className="bg-white dark:bg-gray-800 p-4"
+                {...row.getRowProps()}
+              >
                 {row.cells.map((cell) => {
                   return (
                     <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
