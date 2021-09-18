@@ -49,7 +49,7 @@ const FileManager = ({ className }: Props) => {
           Create folder
         </Button>
       </div>
-      <DirectoryContentsTable data={[...files, ...directories]} />
+      <DirectoryContentsTable files={files} directories={directories} />
     </div>
   );
 };

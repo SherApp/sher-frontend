@@ -14,25 +14,38 @@ import {
   withoutModifierPolicy,
   withShiftDownPolicy
 } from './selectionPolicies';
+import { useRouter } from 'next/router';
+import { routes } from '../../../../utils/config';
 
-type DirectoryOrFile = Directory | UserFile;
+type DirectoryOrFile =
+  | (UserFile & { dataType: 'file' })
+  | (Directory & { dataType: 'directory' });
 
 interface Props {
-  data: DirectoryOrFile[];
+  directories: Directory[];
+  files: UserFile[];
 }
 
-const DirectoryContentsTable = ({ data }: Props) => {
+const DirectoryContentsTable = ({ directories, files }: Props) => {
   const [lastClickedId, setLastClickedId] = useState(0);
+
+  const data = useMemo(() => {
+    return [
+      ...files.map((f) => ({ ...f, dataType: 'file' })),
+      ...directories.map((d) => ({ ...d, dataType: 'directory' }))
+    ] as DirectoryOrFile[];
+  }, [files, directories]);
+
   const columns: Column<DirectoryOrFile>[] = useMemo(
     () => [
       {
         Header: 'Name',
-        accessor: (i) => ('name' in i ? i.name : i.fileName),
+        accessor: (i) => (i.dataType === 'directory' ? i.name : i.fileName),
         width: 600
       },
       {
         Header: 'Size',
-        accessor: (i) => ('length' in i ? i.length : '-')
+        accessor: (i) => (i.dataType === 'file' ? i.length : '-')
       }
     ],
     []
@@ -71,6 +84,8 @@ const DirectoryContentsTable = ({ data }: Props) => {
     }
   );
 
+  const router = useRouter();
+
   const getSelectionPolicy = (e: React.MouseEvent<HTMLTableRowElement>) => {
     if (e.shiftKey) return withShiftDownPolicy;
     if (e.ctrlKey) return withControlDownPolicy;
@@ -90,6 +105,12 @@ const DirectoryContentsTable = ({ data }: Props) => {
     }
 
     setLastClickedId(+id);
+  };
+
+  const handleRowDoubleClick = async (row: Row<DirectoryOrFile>) => {
+    if (row.original.dataType === 'directory') {
+      await router.push(routes.directory(row.original.id));
+    }
   };
 
   return (
@@ -129,6 +150,7 @@ const DirectoryContentsTable = ({ data }: Props) => {
               <tr
                 className="bg-white dark:bg-gray-800 p-4 select-none"
                 onClick={(e) => handleRowClick(e, row.id)}
+                onDoubleClick={() => handleRowDoubleClick(row)}
                 {...row.getRowProps()}
               >
                 {row.cells.map((cell) => {
